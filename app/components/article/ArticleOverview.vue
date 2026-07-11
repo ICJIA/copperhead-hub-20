@@ -27,11 +27,18 @@ const authorLine = computed(() => {
         Authors: {{ authorLine }}
       </p>
     </div>
-    <img
+    <!-- LCP element: same-origin optimized, eager, high priority. -->
+    <NuxtImg
       v-if="article.splash"
       :src="article.splash.url"
       :alt="article.splash.alternativeText"
+      width="1200"
+      height="420"
+      fit="cover"
+      densities="x1"
       class="max-h-[420px] w-full object-cover"
-    >
+      loading="eager"
+      fetchpriority="high"
+    />
   </div>
 </template>

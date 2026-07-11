@@ -4,6 +4,23 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.13.0] - 2026-07-11
+
+Accessibility walkthrough (executed + clean) and live-deploy fixes.
+
+### Added
+
+- **Manual accessibility walkthrough executed** via a repeatable driven-browser script (`scripts/a11y-walkthrough.mjs`): 9 templates × 2 color schemes — keyboard walks with visible-focus assertions and trap detection, landmark/heading structure, 320px reflow with offender attribution, live regions, accordion operability. Findings memo: `docs/a11y-walkthrough-2026-07-11.md`. Final state: **clean**
+- Global `prefers-reduced-motion` guard
+
+### Fixed
+
+- **320px reflow (WCAG 1.4.10)** failures found by the walkthrough: header section-nav now wraps/scrolls; detail-page grids gained a base `grid-cols-1` template (wide tables could force the implicit column past the viewport); CMS markdown tables scroll within their own box; the app "Launch" button label no longer overflows (full title moved to `aria-label`)
+- **Live deploy: card images 400** — on Netlify, `@nuxt/image` auto-switched to Netlify's runtime Image CDN (unauthorized remote domain); provider pinned to `ipxStatic` so the deployed artifact is byte-identical to the tested one
+- **Live deploy: CSP violation from `api.iconify.design`** — icon CDN fallback disabled (`fallbackToApi: false`); the color-mode toggle's dynamically-bound sun/moon icons pinned into the client bundle
+- Article/app hero images now served as same-origin optimized assets with high fetch priority — removes live-CMS latency from the LCP path (article detail: deterministic 0.96, was swinging to 0.84 on slow CMS responses)
+- Verified in a fresh profile: **light mode is the default** for new visitors; dark is a persisted per-user toggle choice; zero external requests on page load
+
 ## [0.12.0] - 2026-07-11
 
 Phase 5 — hardening: template performance budgets, security headers, keyboard tests, dependency posture, and the operations runbook.

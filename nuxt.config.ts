@@ -102,10 +102,27 @@ export default defineNuxtConfig({
     },
   },
 
+  icon: {
+    // Icons ship in the bundle or not at all — the runtime iconify-API
+    // fallback violates the CSP (connect-src) and adds a CDN dependency.
+    // Dynamically-bound names (the color-mode toggle) evade the source
+    // scan, so they are pinned explicitly.
+    clientBundle: {
+      scan: true,
+      icons: ['lucide:sun', 'lucide:moon'],
+    },
+    fallbackToApi: false,
+  },
+
   image: {
     // Build-time optimization: prerendered pages reference same-origin
     // /_ipx assets (webp, sized) instead of cross-origin CMS originals —
     // no connection-setup penalty on the LCP path, roughly half the bytes.
+    // provider is PINNED to static generation: on Netlify the module would
+    // otherwise auto-switch to Netlify's runtime Image CDN, whose requests
+    // 400 without remote-image authorization — and the deployed artifact
+    // must be identical to the locally tested one (ADR 0001).
+    provider: 'ipxStatic',
     domains: [new URL(hub.cms.origin).host],
     format: ['webp'],
     quality: 75,

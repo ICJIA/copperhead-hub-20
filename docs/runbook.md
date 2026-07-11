@@ -59,7 +59,9 @@ optional read-only `NUXT_STRAPI_TOKEN`). All critical values:
 
 ## Manual accessibility pass (before launch; repeat quarterly)
 
-Automated axe runs every PR; a human still verifies, per template
+Executed 2026-07-11 via `node scripts/a11y-walkthrough.mjs` (repeatable;
+findings + fixes in `docs/a11y-walkthrough-2026-07-11.md`) — clean.
+Remaining human step: a live screen-reader session (below). Per template
 (home, listing grid+list, article, dataset, app, search):
 
 - Keyboard-only walkthrough: reach and operate every control; no traps; visible focus everywhere (skip link is auto-tested).

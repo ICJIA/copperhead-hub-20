@@ -32,6 +32,19 @@
   --ui-primary: var(--ui-color-primary-300);
 }
 
+/* Motion is decorative everywhere on this site (card shadows, accordion,
+ * smooth scroll) — honor the user's reduced-motion preference globally. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Rendered CMS markdown (articles). One typography block, token-driven. */
 .article-body {
   font-size: 1.0625rem;
@@ -77,7 +90,11 @@
 }
 
 .article-body table {
+  /* Block + internal scroll: CMS tables wider than small viewports must
+   * scroll inside their own box, never the page (WCAG 1.4.10 reflow). */
+  display: block;
   width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
   margin: 1.5em 0;
   font-size: 0.9375rem;

@@ -93,13 +93,14 @@ const contributorLine = computed(() => {
             icon="i-lucide-external-link"
             trailing
             label="Launch"
+            :aria-label="`Launch ${app.title}`"
           />
         </div>
       </div>
     </div>
 
     <div class="mx-auto max-w-7xl px-4 pb-16">
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div>
           <!-- Overview band + preview image -->
           <div class="overflow-hidden rounded-lg border border-default">
@@ -114,12 +115,18 @@ const contributorLine = computed(() => {
                 Contributors: {{ contributorLine }}
               </p>
             </div>
-            <img
+            <NuxtImg
               v-if="app.image"
               :src="app.image.url"
               :alt="app.image.alternativeText"
+              width="1200"
+              height="420"
+              fit="cover"
+              densities="x1"
               class="max-h-[420px] w-full object-cover"
-            >
+              loading="eager"
+              fetchpriority="high"
+            />
           </div>
 
           <!-- Summary -->
@@ -162,7 +169,8 @@ const contributorLine = computed(() => {
               color="primary"
               icon="i-lucide-external-link"
               trailing
-              :label="`Launch ${app.title}`"
+              label="Launch dashboard"
+              :aria-label="`Launch ${app.title}`"
             />
           </div>
 

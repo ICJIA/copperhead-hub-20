@@ -74,7 +74,7 @@ useHead({
     </div>
 
     <div class="mx-auto max-w-7xl px-4 pb-16">
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div>
           <p
             v-if="project.subtitle"

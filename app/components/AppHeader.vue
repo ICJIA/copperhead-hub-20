@@ -119,9 +119,10 @@ const sectionNav = [
     <div class="border-b border-default bg-default">
       <nav
         aria-label="Research Hub sections"
-        class="mx-auto flex max-w-7xl items-center justify-between px-4"
+        class="mx-auto flex max-w-7xl flex-wrap items-center justify-between px-4"
       >
-        <div class="flex items-center">
+        <!-- Horizontal scroll at narrow widths (WCAG 1.4.10 reflow) -->
+        <div class="flex max-w-full items-center overflow-x-auto">
           <NuxtLink
             v-for="item in sectionNav"
             :key="item.to"
@@ -132,7 +133,7 @@ const sectionNav = [
             {{ item.label }}
           </NuxtLink>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex shrink-0 items-center gap-2">
           <UButton
             to="/search"
             icon="i-lucide-search"
