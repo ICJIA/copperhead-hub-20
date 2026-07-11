@@ -4,6 +4,15 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.18.3] - 2026-07-11
+
+Two client-side-rendering bugs surfaced by the now-working in-place Load More.
+
+### Fixed
+
+- **Thumbnails on Load More pages 404ed**: `ipxStatic` only emits optimized image variants for markup rendered at build time — the first 42 cards. Cards revealed client-side requested `/_ipx/` URLs that don't exist in the static output. Article cards now use a plain `<img>` pointing directly at the CMS (already permitted by the `img-src` CSP, and already preferring Strapi's ~500px `small` format); the always-prerendered detail hero and dataset/app cards keep ipx optimization. Verified: 84 cards, zero broken images, zero `_ipx` requests
+- **The loading spinner icon was CSP-blocked**: `lucide:loader-circle` (Nuxt UI's button spinner) only renders in the dynamic loading state, which the build-time icon scan can't see, so the client fell back to the iconify API — blocked by `connect-src`. The icon is now pinned into the client bundle alongside sun/moon; zero iconify network requests after load
+
 ## [0.18.2] - 2026-07-11
 
 Load More jump made impossible rather than merely unlikely, after it persisted in one environment through 0.18.1's passive pinning.

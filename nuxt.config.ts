@@ -109,7 +109,9 @@ export default defineNuxtConfig({
     // scan, so they are pinned explicitly.
     clientBundle: {
       scan: true,
-      icons: ['lucide:sun', 'lucide:moon'],
+      // loader-circle is Nuxt UI's button loading spinner — it only renders
+      // in the dynamic loading state, which the scan can't see.
+      icons: ['lucide:sun', 'lucide:moon', 'lucide:loader-circle'],
     },
     fallbackToApi: false,
   },

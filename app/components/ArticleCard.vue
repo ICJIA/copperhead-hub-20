@@ -28,18 +28,20 @@ const image = computed(() => {
 <template>
   <article class="relative flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm transition-shadow focus-within:ring-2 focus-within:ring-primary hover:shadow-md">
     <div class="aspect-[16/9] w-full bg-elevated">
-      <NuxtImg
+      <!-- Plain img, not NuxtImg: ipxStatic only emits variants for images
+           rendered at build time, so cards revealed by Load More would 404
+           on /_ipx/ URLs. The CMS origin is allowed by the img-src CSP. -->
+      <img
         v-if="image"
         :src="image.src"
         :alt="image.alt"
-        width="400"
-        height="225"
-        fit="cover"
-        densities="x1"
+        :width="image.width"
+        :height="image.height"
         class="h-full w-full object-cover"
+        decoding="async"
         :loading="eager ? 'eager' : 'lazy'"
         :fetchpriority="eager ? 'high' : undefined"
-      />
+      >
       <div
         v-else
         class="flex h-full w-full items-center justify-center"
