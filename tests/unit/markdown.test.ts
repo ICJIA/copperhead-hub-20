@@ -37,6 +37,12 @@ describe('renderMarkdown', () => {
     expect(html).toContain('footnote')
   })
 
+  it('wraps tables in a full-width scroll container', () => {
+    const { html } = renderMarkdown('| a | b |\n|---|---|\n| 1 | 2 |')
+    expect(html).toContain('<div class="table-wrap"><table>')
+    expect(html).toContain('</table></div>')
+  })
+
   it('absolutizes CMS-relative /uploads media against the CMS origin', () => {
     const { html } = renderMarkdown('![chart](/uploads/chart_abc123.png)\n\n[report](/uploads/report.pdf)')
     expect(html).toContain('src="https://v2.hub.icjia-api.cloud/uploads/chart_abc123.png"')

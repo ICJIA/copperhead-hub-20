@@ -204,7 +204,7 @@ const totalCount = computed(() =>
           </NuxtLink>
         </h2>
         <p
-          class="mt-1.5 text-sm text-muted [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
+          class="mt-1.5 text-sm text-muted [overflow-wrap:anywhere] [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
           v-html="group.excerptHtml"
         />
         <ul
@@ -224,7 +224,7 @@ const totalCount = computed(() =>
               Match inside {{ attachment.fileType }} document
             </p>
             <p
-              class="mt-0.5 text-sm text-muted [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
+              class="mt-0.5 text-sm text-muted [overflow-wrap:anywhere] [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
               v-html="attachment.excerptHtml"
             />
           </li>
@@ -253,7 +253,7 @@ const totalCount = computed(() =>
           </NuxtLink>
         </h2>
         <p
-          class="mt-1.5 text-sm text-muted [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
+          class="mt-1.5 text-sm text-muted [overflow-wrap:anywhere] [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
           v-html="attachment.excerptHtml"
         />
       </li>

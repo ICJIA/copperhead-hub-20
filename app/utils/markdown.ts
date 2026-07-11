@@ -32,6 +32,20 @@ function slugifyHeading(text: string): string {
     .replace(/^-|-$/g, '')
 }
 
+// Tables get a scroll wrapper: full container width for narrow tables,
+// internal horizontal scroll (never page overflow) for wide ones —
+// `display:block` alone shrinks tables to content width.
+DOMPurify.addHook('afterSanitizeElements', (node) => {
+  if (node.nodeType !== 1 || !node.ownerDocument) return
+  const el = node as Element
+  if (el.tagName === 'TABLE' && el.parentElement?.className !== 'table-wrap') {
+    const wrapper = node.ownerDocument.createElement('div')
+    wrapper.className = 'table-wrap'
+    el.parentNode?.insertBefore(wrapper, el)
+    wrapper.appendChild(el)
+  }
+})
+
 // External links opened in a new tab must not leak an opener handle, and
 // CMS-relative media paths (/uploads/…) must be absolutized against the
 // CMS origin — served from this site they would 404 (and images would

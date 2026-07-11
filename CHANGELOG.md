@@ -4,6 +4,23 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.17.0] - 2026-07-11
+
+Table presentation pass: zebra striping and full-container-width tables across articles and datasets.
+
+### Added
+
+- **Zebra-striped tables** everywhere tabular content renders: CMS markdown tables in article/dataset bodies (token-driven `nth-child` striping that adapts to both color schemes) and the dataset variables table (`even:bg-elevated`), with header rows on the accented background token
+
+### Changed
+
+- **Markdown tables now span the full container width** regardless of column count — small two-column tables no longer shrink to content width. The markdown pipeline wraps every table in a `.table-wrap` scroll container (unit-tested), so wide tables scroll internally instead of overflowing the page, preserving the WCAG 1.4.10 reflow guarantee at 320px; tables are explicitly left-aligned
+
+### Fixed
+
+- Dataset variables table: the Type column's muted text fell below 4.5:1 AA contrast on the new striped rows (12 nodes flagged by axe); switched to the toned text token — the full 30-check axe suite passes again
+- Search result excerpts containing long unbreakable tokens (file names, URLs) could overflow the viewport at 320px (surfaced by the regenerated search index during the walkthrough); excerpts now break anywhere (`overflow-wrap: anywhere`)
+
 ## [0.16.0] - 2026-07-11
 
 Security review of the CSP + a body-image bug it surfaced; credential rotation; first-draft docs refreshed.

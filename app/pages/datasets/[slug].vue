@@ -207,7 +207,7 @@ const timeperiodLabel = computed(() => {
             <div class="mt-3 overflow-x-auto rounded-lg border border-default">
               <table class="w-full text-sm">
                 <thead>
-                  <tr class="bg-elevated text-left">
+                  <tr class="bg-accented text-left">
                     <th class="px-4 py-2.5 font-semibold text-highlighted">
                       Name
                     </th>
@@ -223,12 +223,12 @@ const timeperiodLabel = computed(() => {
                   <tr
                     v-for="variable in dataset.variables"
                     :key="variable.name"
-                    class="border-t border-default align-top"
+                    class="border-t border-default align-top even:bg-elevated"
                   >
                     <td class="px-4 py-2.5 font-medium text-highlighted">
                       {{ variable.name }}
                     </td>
-                    <td class="px-4 py-2.5 text-muted capitalize">
+                    <td class="px-4 py-2.5 text-toned capitalize">
                       {{ variable.type }}
                     </td>
                     <td class="px-4 py-2.5 text-toned">

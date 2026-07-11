@@ -89,15 +89,21 @@
   color: var(--ui-text-muted);
 }
 
-.article-body table {
-  /* Block + internal scroll: CMS tables wider than small viewports must
-   * scroll inside their own box, never the page (WCAG 1.4.10 reflow). */
-  display: block;
-  width: 100%;
+/* The markdown pipeline wraps every table in .table-wrap: full container
+ * width always (even small two-column tables), with internal horizontal
+ * scroll for wide tables — never page overflow (WCAG 1.4.10 reflow). */
+.article-body .table-wrap {
   overflow-x: auto;
-  border-collapse: collapse;
   margin: 1.5em 0;
+}
+
+.article-body table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
   font-size: 0.9375rem;
+  text-align: left;
 }
 
 .article-body th,
@@ -109,8 +115,13 @@
 }
 
 .article-body th {
-  background: var(--ui-bg-elevated);
+  background: var(--ui-bg-accented);
   font-weight: 600;
+}
+
+/* Zebra striping — token-based so both themes keep AA text contrast. */
+.article-body tbody tr:nth-child(even) {
+  background: var(--ui-bg-elevated);
 }
 
 .article-body img {
