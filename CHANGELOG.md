@@ -4,6 +4,22 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.14.0] - 2026-07-11
+
+Design polish pass against the shared Figma frames.
+
+### Added
+
+- `PageHero` — the design's navy hero band on section landings, live on `/centers` and `/projects` (title + intro from their CMS `pages` entries; the projects entry retitled to "Projects" in Strapi to match the frame)
+- Centers cards per the frame: branded navy image panel with the center name overlaid, director line, description (the CMS center type has no media field yet — a real-image upgrade is a content-model decision, noted in-file)
+- Project tiles: icon chip + white-outline "Learn More" affordance per the frame (visual only; the stretched link keeps the accessible name)
+- Icon-chip section headings ("Centers in Research & Analysis", "Major Projects in R&A") on both landings
+- Articles listing sort control (`?sort=` Most Recent / Oldest / Title A–Z), URL-synced like every other filter
+
+### Notes
+
+- Remaining design deltas deliberately deferred: "See Archives" button (needs a target decision), working newsletter email form (needs a subscription backend — Phase 4 decision), homepage photo hero (awaits the hub-home CMS entry's image), carousel arrows on the projects band (grid chosen for accessibility), data-page center/author filters (5 datasets / 13 apps don't warrant them yet)
+
 ## [0.13.0] - 2026-07-11
 
 Accessibility walkthrough (executed + clean) and live-deploy fixes.

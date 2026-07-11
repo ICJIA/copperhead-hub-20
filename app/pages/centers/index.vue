@@ -31,50 +31,61 @@ const { data: copy } = await usePageCopy('centers', {
 </script>
 
 <template>
-  <div class="mx-auto max-w-7xl px-4 py-10">
-    <h1 class="text-3xl font-bold text-highlighted">
-      {{ copy?.title }}
-    </h1>
-    <p class="mt-3 max-w-3xl text-sm leading-relaxed text-toned">
-      {{ copy?.summary }}
-    </p>
-    <div
-      v-if="copy?.bodyHtml"
-      class="article-body mt-6 max-w-3xl"
-      v-html="copy.bodyHtml"
+  <div v-if="copy">
+    <PageHero
+      :title="copy.title"
+      :summary="copy.summary"
     />
-    <ul
-      class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      role="list"
-    >
-      <li
-        v-for="center in list"
-        :key="center.documentId"
+
+    <div class="mx-auto max-w-7xl px-4 py-12">
+      <HomeSectionHeading
+        icon="i-lucide-building-2"
+        title="Centers in Research & Analysis"
+        subtitle="Quality criminal justice research and analytics"
+        heading-id="centers-grid-heading"
+      />
+      <ul
+        class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        role="list"
       >
-        <article class="flex h-full flex-col rounded-lg border border-default bg-default p-6 shadow-sm">
-          <span
-            class="flex size-10 items-center justify-center rounded-md bg-icjia-800"
-            aria-hidden="true"
-          >
-            <UIcon
-              name="i-lucide-building-2"
-              class="size-5 text-white"
-            />
-          </span>
-          <h2 class="mt-4 text-lg font-bold text-highlighted">
-            {{ center.title }}
-          </h2>
-          <p
-            v-if="center.author"
-            class="mt-1 text-xs font-semibold tracking-wide text-muted uppercase"
-          >
-            Director: {{ center.author }}
-          </p>
-          <p class="mt-3 text-sm leading-relaxed text-toned">
-            {{ center.description }}
-          </p>
-        </article>
-      </li>
-    </ul>
+        <li
+          v-for="center in list"
+          :key="center.documentId"
+        >
+          <article class="flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm">
+            <!-- Figma shows imagery per center; the CMS center type has no
+                 media field yet, so a branded panel stands in (authors get
+                 real images once the field exists — content decision). -->
+            <div class="relative flex aspect-[16/8] items-end bg-gradient-to-br from-icjia-700 to-icjia-950 p-4">
+              <UIcon
+                name="i-lucide-building-2"
+                class="absolute top-4 right-4 size-7 text-white/30"
+                aria-hidden="true"
+              />
+              <h3 class="text-lg leading-snug font-bold text-white">
+                {{ center.title }}
+              </h3>
+            </div>
+            <div class="flex flex-1 flex-col gap-2 p-4">
+              <p
+                v-if="center.author"
+                class="text-xs font-semibold tracking-wide text-muted uppercase"
+              >
+                Director: {{ center.author }}
+              </p>
+              <p class="text-sm leading-relaxed text-toned">
+                {{ center.description }}
+              </p>
+            </div>
+          </article>
+        </li>
+      </ul>
+
+      <div
+        v-if="copy.bodyHtml"
+        class="article-body mt-12 max-w-3xl"
+        v-html="copy.bodyHtml"
+      />
+    </div>
   </div>
 </template>

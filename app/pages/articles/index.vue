@@ -111,9 +111,23 @@ const topicModel = selectModel(selectedTopic, 'All Topics')
 const authorModel = selectModel(selectedAuthor, 'All Authors')
 const yearModel = selectModel(selectedYear, 'All Years')
 
+// Sort (Figma: "Sort by" control). Data arrives newest-first from the CMS.
+const selectedSort = useQueryFilter('sort')
+const sortModel = computed<string>({
+  get: () => selectedSort.value || 'newest',
+  set: (value) => {
+    selectedSort.value = value === 'newest' ? '' : value
+  },
+})
+const sortOptions = [
+  { label: 'Sort: Most Recent', value: 'newest' },
+  { label: 'Sort: Oldest', value: 'oldest' },
+  { label: 'Sort: Title A–Z', value: 'title' },
+]
+
 const filtered = computed(() => {
   const term = search.value.trim().toLowerCase()
-  return (articles.value ?? []).filter((article) => {
+  const rows = (articles.value ?? []).filter((article) => {
     if (selectedType.value && article.type !== selectedType.value) return false
     if (selectedTopic.value && !article.categories.includes(selectedTopic.value)) return false
     if (selectedAuthor.value && !article.authors.some(a => a.name === selectedAuthor.value)) return false
@@ -121,6 +135,9 @@ const filtered = computed(() => {
     if (term && !(`${article.title} ${article.abstract}`.toLowerCase().includes(term))) return false
     return true
   })
+  if (sortModel.value === 'oldest') return [...rows].reverse()
+  if (sortModel.value === 'title') return [...rows].sort((a, b) => a.title.localeCompare(b.title))
+  return rows
 })
 
 // Hub 1.0 parity: incremental loading, 42 per page.
@@ -217,6 +234,12 @@ function clearFilters(): void {
           :items="yearOptions"
           class="w-32"
           aria-label="Filter by year"
+        />
+        <USelect
+          v-model="sortModel"
+          :items="sortOptions"
+          class="w-44"
+          aria-label="Sort articles"
         />
         <UButton
           v-if="hasActiveFilters"
