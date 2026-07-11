@@ -4,6 +4,18 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.19.0] - 2026-07-11
+
+Footnotes: a site-wide rendering fix and a new in-place reading experience.
+
+### Fixed
+
+- **Footnotes were broken on 52 articles**: CMS footnote definitions are often hand-wrapped (a citation spilling onto flush-left continuation lines) or indented 1–3 spaces — after one such definition, marked-footnote stopped recognizing every later `[^n]:` line, so the reported article rendered only 5 of its 59 footnotes and leaked the rest as literal `[^6]` text. The pipeline now normalizes definitions before parsing (dedent to column 0, blank-line-separate, join continuation lines; fence-aware and unit-tested). 42 of the 52 affected articles now render all footnotes; the remaining 10 have genuinely corrupted markers in the CMS source (e.g. `[^2018]:` fused mid-sentence into a date) — a content-team item, listed in the commit
+
+### Added
+
+- **Footnote toast**: clicking a footnote reference now pops a Nuxt UI toast with the citation instead of jumping to the bottom of the page — the reader stays exactly where they are. Links inside the footnote surface as action buttons (opening in a new tab with `noopener`); the toast persists long enough to read (2 minutes, no progress bar), is replaced when another reference is clicked, and is dismissible via its Close button. The full footnotes list still renders at the end of the article for print, no-JS, and linear screen-reader reading. Verified WCAG 2.1 AA contrast in both color schemes (light ≥8:1, dark ≥6.7:1 on every toast element); toast icons pinned into the client bundle (CSP)
+
 ## [0.18.3] - 2026-07-11
 
 Two client-side-rendering bugs surfaced by the now-working in-place Load More.

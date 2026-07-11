@@ -109,9 +109,17 @@ export default defineNuxtConfig({
     // scan, so they are pinned explicitly.
     clientBundle: {
       scan: true,
-      // loader-circle is Nuxt UI's button loading spinner — it only renders
-      // in the dynamic loading state, which the scan can't see.
-      icons: ['lucide:sun', 'lucide:moon', 'lucide:loader-circle'],
+      // loader-circle is Nuxt UI's button loading spinner; x, book-open and
+      // external-link render inside programmatic toasts — none appear in
+      // static templates, which is all the scan can see.
+      icons: [
+        'lucide:sun',
+        'lucide:moon',
+        'lucide:loader-circle',
+        'lucide:x',
+        'lucide:book-open',
+        'lucide:external-link',
+      ],
     },
     fallbackToApi: false,
   },

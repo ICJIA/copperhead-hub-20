@@ -86,10 +86,9 @@ const relatedItems = computed(() => [
         <div>
           <ArticleOverview :article="article" />
           <ArticleSummarySection :abstract="article.abstract" />
-          <div
+          <ArticleBody
             v-if="data.html"
-            class="article-body mt-8"
-            v-html="data.html"
+            :html="data.html"
           />
           <ArticleCitationSection
             :citation-html="data.citationHtml"

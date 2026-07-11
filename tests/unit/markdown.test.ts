@@ -37,6 +37,23 @@ describe('renderMarkdown', () => {
     expect(html).toContain('footnote')
   })
 
+  it('survives hand-wrapped footnote definitions (CMS content shape)', () => {
+    // Definition 1 wraps onto a flush-left continuation line; without
+    // normalization every later definition dies and its refs leak literally.
+    const md = 'A.[^1] B.[^2]\n\n[^1]: First citation\nhttps://example.gov/report\n[^2]: Second citation'
+    const { html } = renderMarkdown(md)
+    expect(html).not.toContain('[^')
+    expect(html).toContain('id="footnote-1"')
+    expect(html).toContain('id="footnote-2"')
+    expect(html).toContain('https://example.gov/report')
+  })
+
+  it('leaves footnote-like lines inside code fences alone', () => {
+    const md = 'Text.\n\n```\n[^1]: not a footnote\n```\n'
+    const { html } = renderMarkdown(md)
+    expect(html).toContain('[^1]: not a footnote')
+  })
+
   it('wraps tables in a full-width scroll container', () => {
     const { html } = renderMarkdown('| a | b |\n|---|---|\n| 1 | 2 |')
     expect(html).toContain('<div class="table-wrap"><table>')

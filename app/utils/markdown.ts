@@ -20,6 +20,47 @@ export interface RenderedMarkdown {
   toc: TocEntry[]
 }
 
+/**
+ * CMS footnote definitions are often hand-wrapped: a definition's citation
+ * spills onto flush-left continuation lines. After such a lazy continuation,
+ * marked-footnote stops recognizing every later `[^n]:` line — one wrapped
+ * definition silently killed footnotes 6–59 on a real article. Definitions
+ * also appear indented 1–3 spaces (legal block start, but the extension only
+ * matches column 0). Normalize: dedent each definition to column 0,
+ * blank-line-separate it, and join its continuation lines in.
+ */
+function normalizeFootnoteDefinitions(markdown: string): string {
+  if (!markdown.includes('[^')) return markdown
+  const out: string[] = []
+  let inFence = false
+  let prevWasDefinition = false
+  for (const line of markdown.split('\n')) {
+    if (/^\s*(```|~~~)/.test(line)) {
+      inFence = !inFence
+      out.push(line)
+      prevWasDefinition = false
+      continue
+    }
+    if (inFence) {
+      out.push(line)
+      continue
+    }
+    if (/^ {0,3}\[\^[^\]]+\]:/.test(line)) {
+      if (out.length && out[out.length - 1]!.trim() !== '') out.push('')
+      out.push(line.trimStart())
+      prevWasDefinition = true
+      continue
+    }
+    if (prevWasDefinition && line.trim() !== '' && !/^\s{4,}/.test(line)) {
+      out[out.length - 1] += ` ${line.trim()}`
+      continue
+    }
+    prevWasDefinition = false
+    out.push(line)
+  }
+  return out.join('\n')
+}
+
 /** Heading text → URL-safe id. Collision-proofed by the caller's counter. */
 function slugifyHeading(text: string): string {
   return text
@@ -87,7 +128,7 @@ export function renderMarkdown(markdown: string): RenderedMarkdown {
     },
   })
 
-  const rendered = marked.parse(markdown, { async: false })
+  const rendered = marked.parse(normalizeFootnoteDefinitions(markdown), { async: false })
 
   const html = DOMPurify.sanitize(rendered, {
     ADD_ATTR: ['target'],

@@ -1,6 +1,6 @@
 {
   "name": "copperhead-hub-20",
-  "version": "0.18.3",
+  "version": "0.19.0",
   "private": true,
   "type": "module",
   "description": "Copperhead \u2014 ICJIA Research Hub 2.0 public frontend (Nuxt 4, Nuxt UI 4, static generation)",
