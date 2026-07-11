@@ -50,7 +50,7 @@ export default defineNuxtConfig({
       // click-time (correct) rather than fail the build (Phase 4's link
       // audit reports them to the content team).
       crawlLinks: false,
-      routes: ['/', '/articles'],
+      routes: ['/', '/articles', '/datasets', '/apps'],
       // A registered page that fails to render must fail the build.
       failOnError: true,
     },
@@ -61,22 +61,29 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    // Register every article route explicitly — listings paginate client-side
+    // Register every content route explicitly — listings paginate client-side
     // past the first page, so link-crawling alone would miss the tail.
     async 'prerender:routes'(ctx) {
-      let page = 1
-      for (;;) {
-        const res = await fetch(
-          `${hub.cms.origin}/api/articles?fields[0]=slug&pagination[pageSize]=100&pagination[page]=${page}`,
-        )
-        if (!res.ok) throw new Error(`Article slug fetch failed: HTTP ${res.status}`)
-        const json = await res.json() as {
-          data: { slug: string }[]
-          meta: { pagination: { pageCount: number } }
+      const collections: [string, string][] = [
+        ['articles', '/articles'],
+        ['datasets', '/datasets'],
+        ['apps', '/apps'],
+      ]
+      for (const [collection, prefix] of collections) {
+        let page = 1
+        for (;;) {
+          const res = await fetch(
+            `${hub.cms.origin}/api/${collection}?fields[0]=slug&pagination[pageSize]=100&pagination[page]=${page}`,
+          )
+          if (!res.ok) throw new Error(`${collection} slug fetch failed: HTTP ${res.status}`)
+          const json = await res.json() as {
+            data: { slug: string }[]
+            meta: { pagination: { pageCount: number } }
+          }
+          for (const row of json.data) ctx.routes.add(`${prefix}/${row.slug}`)
+          if (page >= json.meta.pagination.pageCount) break
+          page++
         }
-        for (const row of json.data) ctx.routes.add(`/articles/${row.slug}`)
-        if (page >= json.meta.pagination.pageCount) break
-        page++
       }
     },
   },

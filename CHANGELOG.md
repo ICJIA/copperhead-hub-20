@@ -4,6 +4,19 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.6.0] - 2026-07-11
+
+Phase 2, milestone 2 — the datasets and apps sections; every Hub 1.0 content type now renders as static pages.
+
+### Added
+
+- `/datasets/` and `/apps/` listings styled as the design's "Analytics and Data" page — Datasets/Apps pill toggle (links, preserving the URL contract), search, count, card grids with archived markers
+- `/datasets/[slug]`: title band with unit + time-period meta, navy Overview band, data-file download button, sources, full Name/Type/Definition variables table, notes, citation, keyword chips, `Dataset` JSON-LD + canonical
+- `/apps/[slug]`: title band with prominent Launch button (external dashboards), Overview band with contributors, preview image, summary, launch callout, citation, keyword chips, canonical
+- Related Content rail cards live on articles, datasets, and apps — cross-links between all three content types (deferred from M1 until targets existed)
+- "Data" added to the section nav; Analytics & Data breadcrumbs
+- Prerender registration generalized across all three collections — **518 routes** generated; a11y suite now audits 8 routes × 2 color schemes (16 checks)
+
 ## [0.5.0] - 2026-07-11
 
 Phase 2, milestone 1 — design tokens from Figma, site chrome, and the articles section as real static pages.

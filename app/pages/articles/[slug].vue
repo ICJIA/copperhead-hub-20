@@ -255,6 +255,12 @@ const doiHref = computed(() => {
           class="space-y-6 lg:pt-0"
           aria-label="Article context"
         >
+          <RelatedContentCard
+            :items="[
+              ...article.relatedApps.map(ref => ({ ...ref, to: `/apps/${ref.slug}` })),
+              ...article.relatedDatasets.map(ref => ({ ...ref, to: `/datasets/${ref.slug}` })),
+            ]"
+          />
           <nav
             v-if="data?.toc?.length"
             aria-labelledby="toc-heading"

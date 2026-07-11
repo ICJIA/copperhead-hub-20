@@ -1,0 +1,78 @@
+<script setup lang="ts">
+useSeoMeta({
+  title: 'Analytics and Data — Apps — ICJIA Research Hub',
+  description: 'Interactive criminal justice data dashboards published by the Illinois Criminal Justice Information Authority.',
+})
+
+const { data: apps, error } = await useAsyncData('apps-index', () => fetchAllApps())
+
+if (error.value) {
+  throw createError({
+    statusCode: 500,
+    statusMessage: `Apps listing fetch failed: ${error.value.message}`,
+    fatal: true,
+  })
+}
+
+const search = ref('')
+
+const filtered = computed(() => {
+  const term = search.value.trim().toLowerCase()
+  if (!term) return apps.value ?? []
+  return (apps.value ?? []).filter(app =>
+    `${app.title} ${app.description}`.toLowerCase().includes(term),
+  )
+})
+</script>
+
+<template>
+  <div class="mx-auto max-w-7xl px-4 py-10">
+    <h1 class="text-3xl font-bold text-highlighted">
+      Analytics and Data
+    </h1>
+
+    <div class="mt-6 flex flex-wrap items-center gap-4">
+      <DataSectionTabs active="apps" />
+      <UInput
+        v-model="search"
+        icon="i-lucide-search"
+        placeholder="Search apps…"
+        class="w-full sm:w-72"
+        aria-label="Search apps"
+      />
+      <p
+        class="ml-auto text-sm text-muted"
+        aria-live="polite"
+      >
+        {{ filtered.length }} of {{ apps?.length }} apps
+      </p>
+    </div>
+
+    <ul
+      class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      role="list"
+    >
+      <li
+        v-for="app in filtered"
+        :key="app.documentId"
+      >
+        <DataCard
+          :title="app.title"
+          :to="`/apps/${app.slug}`"
+          :date="app.date"
+          :description="app.description"
+          :categories="app.categories"
+          :image="app.image"
+          :archived="app.status === 'archived'"
+        />
+      </li>
+    </ul>
+
+    <p
+      v-if="!filtered.length"
+      class="mt-10 text-center text-muted"
+    >
+      No apps match the current search.
+    </p>
+  </div>
+</template>
