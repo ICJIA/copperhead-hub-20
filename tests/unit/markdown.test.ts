@@ -37,6 +37,12 @@ describe('renderMarkdown', () => {
     expect(html).toContain('footnote')
   })
 
+  it('absolutizes CMS-relative /uploads media against the CMS origin', () => {
+    const { html } = renderMarkdown('![chart](/uploads/chart_abc123.png)\n\n[report](/uploads/report.pdf)')
+    expect(html).toContain('src="https://v2.hub.icjia-api.cloud/uploads/chart_abc123.png"')
+    expect(html).toContain('href="https://v2.hub.icjia-api.cloud/uploads/report.pdf"')
+  })
+
   it('returns empty output for empty input', () => {
     expect(renderMarkdown('')).toEqual({ html: '', toc: [] })
   })

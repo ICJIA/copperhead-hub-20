@@ -7,6 +7,7 @@
 import { Marked } from 'marked'
 import markedFootnote from 'marked-footnote'
 import DOMPurify from 'isomorphic-dompurify'
+import { hub } from '../../hub.config.mjs'
 
 export interface TocEntry {
   id: string
@@ -31,10 +32,19 @@ function slugifyHeading(text: string): string {
     .replace(/^-|-$/g, '')
 }
 
-// External links opened in a new tab must not leak an opener handle.
+// External links opened in a new tab must not leak an opener handle, and
+// CMS-relative media paths (/uploads/…) must be absolutized against the
+// CMS origin — served from this site they would 404 (and images would
+// violate the CSP once broken references were "fixed" by hand).
 DOMPurify.addHook('afterSanitizeAttributes', (node) => {
   if (node.tagName === 'A' && node.getAttribute('target') === '_blank') {
     node.setAttribute('rel', 'noopener noreferrer')
+  }
+  for (const attr of ['src', 'href'] as const) {
+    const value = node.getAttribute?.(attr)
+    if (value?.startsWith('/uploads/')) {
+      node.setAttribute(attr, `${hub.cms.origin}${value}`)
+    }
   }
 })
 

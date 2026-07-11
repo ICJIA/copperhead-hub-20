@@ -4,6 +4,23 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.16.0] - 2026-07-11
+
+Security review of the CSP + a body-image bug it surfaced; credential rotation; first-draft docs refreshed.
+
+### Fixed
+
+- **151 article pages had broken inline images**: CMS markdown embeds media as relative `/uploads/…` paths, which resolved against this site's origin (404s). The sanitization boundary now absolutizes `src`/`href` uploads paths against the CMS origin (unit-tested); all 151 pages verified fixed in the generated output
+
+### Security
+
+- CSP hardened: `object-src 'none'`, `frame-src 'none'` added; `Strict-Transport-Security` header added; policy re-verified live with zero violations across templates including document search
+- **CMS credential rotated**: the exposed full-access token replaced by a read-only token (verified: authenticates 200, write attempts 403); stored in Netlify as a **masked secret** for production/preview contexts only (the previous copy was plaintext-readable via API); local `.env` updated by the operator. Old token deletion in Strapi pending operator action
+
+### Changed
+
+- Rewrite plan + README refreshed: first-draft status now records the executed-and-clean accessibility walkthrough, the design-fidelity passes, the link-integrity sweep, and the security hardening
+
 ## [0.15.0] - 2026-07-11
 
 Fidelity pass 2 against the Figma frames + link-integrity sweep of the site chrome.
