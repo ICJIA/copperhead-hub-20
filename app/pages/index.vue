@@ -1,77 +1,125 @@
 <script setup lang="ts">
 import { hub as hubConfig } from '../../hub.config.mjs'
+import {
+  HOMEPAGE_COPY,
+  PLACEHOLDER_CENTERS,
+  PLACEHOLDER_PROJECTS,
+} from '../content/homepage-placeholders'
 
 useSeoMeta({
   title: hubConfig.site.name,
   description: hubConfig.site.description,
 })
 
-// Fetched at build time and embedded in the prerendered payload — the
-// static HTML contains this content (predecessor defect P3 was fetching
-// client-side only, shipping spinners to search engines).
-const { data: latest, error } = await useAsyncData(
-  'latest-articles',
-  () => fetchLatestArticles(hubConfig.content.homeLatestCount),
-)
+useHead({
+  link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}` }],
+})
 
-// Fail loud: a home page without content must fail the prerender, not ship
-// silently hollow (the predecessor hid fetch failures behind v-if).
-if (error.value) {
+// Live content anchors the page (articles fail loud — they exist and must
+// render). Centers/projects fall back to typed placeholders until content
+// authors populate those collections; the swap is automatic. Hero/welcome/
+// topics copy comes from the hub-home page entry once it is authored
+// (fetch attempted; placeholder until then).
+const { data, error } = await useAsyncData('homepage', async () => {
+  const [latest, centers, projects] = await Promise.all([
+    fetchLatestArticles(6),
+    fetchAllCenters().catch(() => []),
+    fetchAllProjects().catch(() => []),
+  ])
+  const page = await fetchPageBySlug('hub-home').catch(() => null)
+  return {
+    latest,
+    centers: centers.length ? centers : PLACEHOLDER_CENTERS,
+    projects: projects.length ? projects : PLACEHOLDER_PROJECTS,
+    hero: page
+      ? { title: page.title, lede: page.summary ?? HOMEPAGE_COPY.hero.lede }
+      : HOMEPAGE_COPY.hero,
+  }
+})
+
+if (error.value || !data.value?.latest?.length) {
   throw createError({
     statusCode: 500,
-    statusMessage: `Home content fetch failed: ${error.value.message}`,
+    statusMessage: `Homepage content fetch failed: ${error.value?.message ?? 'no articles returned'}`,
     fatal: true,
   })
 }
 </script>
 
 <template>
-  <div class="space-y-8">
-    <h1 class="text-3xl font-bold text-highlighted">
-      ICJIA Research Hub
-    </h1>
-    <p class="max-w-prose text-lg text-muted">
-      Research articles, datasets, and data dashboards from the Illinois
-      Criminal Justice Information Authority.
-    </p>
-    <UAlert
-      color="primary"
-      variant="subtle"
-      title="Copperhead preview build — Phase 1"
-      description="This preview now renders live content from the migrated Strapi 5 CMS at build time. Full article, dataset, and dashboard pages arrive in Phase 2; the live Research Hub is unaffected."
-      icon="i-lucide-construction"
+  <div v-if="data">
+    <HomeHero
+      :title="data.hero.title"
+      :lede="data.hero.lede"
     />
+
+    <!-- Research and Analysis Unit -->
     <section
-      v-if="latest?.length"
-      aria-labelledby="latest-heading"
+      aria-labelledby="welcome-heading"
+      class="mx-auto max-w-7xl px-4 pt-12"
     >
-      <h2
-        id="latest-heading"
-        class="mb-4 text-xl font-semibold text-highlighted"
-      >
-        Latest publications
-      </h2>
-      <ul class="space-y-3">
-        <li
-          v-for="article in latest"
-          :key="article.documentId"
-          class="border-l-2 border-primary pl-4"
-        >
-          <p class="font-medium text-highlighted">
-            {{ article.title }}
-          </p>
-          <p class="text-sm text-muted">
-            {{ formatDate(article.date) }}
-            <template v-if="article.authors.length">
-              · {{ article.authors.map(a => a.name).join(', ') }}
-            </template>
-          </p>
-        </li>
-      </ul>
-      <p class="mt-4 text-sm text-muted">
-        Article pages open here in Phase 2 — these titles are live CMS data,
-        rendered into the static build.
+      <HomeSectionHeading
+        icon="i-lucide-flask-conical"
+        :title="HOMEPAGE_COPY.welcome.title"
+        :subtitle="HOMEPAGE_COPY.welcome.subtitle"
+        heading-id="welcome-heading"
+      />
+      <p class="mt-4 max-w-4xl text-sm leading-relaxed text-toned">
+        {{ HOMEPAGE_COPY.welcome.body }}
       </p>
     </section>
+
+    <HomeCenters
+      :centers="data.centers"
+      :intro="HOMEPAGE_COPY.centersIntro"
+    />
+
+    <!-- Latest Articles (live) -->
+    <section
+      aria-labelledby="latest-heading"
+      class="border-t border-default bg-elevated/40"
+    >
+      <div class="mx-auto max-w-7xl px-4 py-12">
+        <h2
+          id="latest-heading"
+          class="text-2xl font-bold text-highlighted"
+        >
+          Latest Articles
+        </h2>
+        <ul
+          class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          role="list"
+        >
+          <li
+            v-for="article in data.latest"
+            :key="article.documentId"
+          >
+            <ArticleCard :article="article" />
+          </li>
+        </ul>
+        <div class="mt-8 text-center">
+          <UButton
+            to="/articles"
+            color="primary"
+            size="lg"
+            label="Load More Articles"
+            trailing-icon="i-lucide-arrow-right"
+          />
+        </div>
+      </div>
+    </section>
+
+    <HomeTopics
+      :title="HOMEPAGE_COPY.topics.title"
+      :intro="HOMEPAGE_COPY.topics.intro"
+      :focus-areas="HOMEPAGE_COPY.topics.focusAreas"
+    />
+
+    <HomeResources />
+
+    <HomeProjects
+      :projects="data.projects"
+      :intro="HOMEPAGE_COPY.projectsIntro"
+    />
   </div>
 </template>

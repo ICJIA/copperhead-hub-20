@@ -9,7 +9,7 @@ const primaryCategory = computed(() => props.article.categories[0])
 </script>
 
 <template>
-  <article class="flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm">
+  <article class="relative flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm transition-shadow focus-within:ring-2 focus-within:ring-primary hover:shadow-md">
     <div class="aspect-[16/9] w-full bg-elevated">
       <img
         v-if="article.thumbnail"
@@ -38,9 +38,11 @@ const primaryCategory = computed(() => props.article.categories[0])
         <span class="text-xs text-muted">{{ formatDate(article.date) }}</span>
       </div>
       <h3 class="font-semibold text-highlighted">
+        <!-- Stretched link: the title is the card's single link (descriptive
+             text for SEO/AT); after:inset-0 makes the whole card clickable. -->
         <NuxtLink
           :to="`/articles/${article.slug}`"
-          class="hover:text-primary hover:underline"
+          class="after:absolute after:inset-0 hover:text-primary focus:outline-none"
         >
           {{ article.title }}
         </NuxtLink>
@@ -48,14 +50,11 @@ const primaryCategory = computed(() => props.article.categories[0])
       <p class="line-clamp-3 text-sm text-muted">
         {{ article.abstract }}
       </p>
-      <div class="mt-auto pt-1">
-        <NuxtLink
-          :to="`/articles/${article.slug}`"
-          class="text-sm font-semibold text-primary hover:underline"
-          :aria-label="`Read more: ${article.title}`"
-        >
-          Read More
-        </NuxtLink>
+      <div
+        class="mt-auto pt-1 text-sm font-semibold text-primary"
+        aria-hidden="true"
+      >
+        Read More
       </div>
     </div>
   </article>

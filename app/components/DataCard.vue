@@ -15,7 +15,7 @@ const primaryCategory = computed(() => props.categories[0])
 </script>
 
 <template>
-  <article class="flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm">
+  <article class="relative flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm transition-shadow focus-within:ring-2 focus-within:ring-primary hover:shadow-md">
     <div class="aspect-[16/9] w-full bg-elevated">
       <img
         v-if="image"
@@ -50,9 +50,10 @@ const primaryCategory = computed(() => props.categories[0])
         <span class="text-xs text-muted">{{ formatDate(date) }}</span>
       </div>
       <h3 class="font-semibold text-highlighted">
+        <!-- Stretched link — see ArticleCard. -->
         <NuxtLink
           :to="to"
-          class="hover:text-primary hover:underline"
+          class="after:absolute after:inset-0 hover:text-primary focus:outline-none"
         >
           {{ title }}
         </NuxtLink>
@@ -60,14 +61,11 @@ const primaryCategory = computed(() => props.categories[0])
       <p class="line-clamp-3 text-sm text-muted">
         {{ description }}
       </p>
-      <div class="mt-auto pt-1">
-        <NuxtLink
-          :to="to"
-          class="text-sm font-semibold text-primary hover:underline"
-          :aria-label="`Read more: ${title}`"
-        >
-          Read More
-        </NuxtLink>
+      <div
+        class="mt-auto pt-1 text-sm font-semibold text-primary"
+        aria-hidden="true"
+      >
+        Read More
       </div>
     </div>
   </article>

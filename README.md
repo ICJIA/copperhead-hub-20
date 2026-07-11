@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Status: Phase 2 (Parity pages) — in progress; milestones 1–2 shipped.** All three Hub content types render as static pages: **236 articles, 5 datasets, and 13 apps (518 routes)** with the Figma design system, canonical URLs, and JSON-LD. Cross-type Related Content links are live. All gates green in CI (16 a11y checks across 8 routes × 2 color schemes); continuous deploys from `main`: **https://copperhead-hub-20.netlify.app/researchhub/** (crawling blocked until launch). Next milestones: hub home per design (needs hub-home/hub-overview/dicra authored in Strapi), centers/projects, newsletter band, search (Phase 3). Last updated: July 11, 2026.
+> **Status: Phase 2 (Parity pages) — in progress; milestones 1–2 shipped.** All three Hub content types render as static pages: **236 articles, 5 datasets, and 13 apps (518 routes)** with the Figma design system, canonical URLs, and JSON-LD. Cross-type Related Content links are live. All gates green in CI (16 a11y checks across 8 routes × 2 color schemes); continuous deploys from `main`: **https://copperhead-hub-20.netlify.app/researchhub/** (crawling blocked until launch). The homepage renders per the design — live articles/centers/projects from Strapi, with typed placeholders (`app/content/homepage-placeholders.ts`) standing in for the not-yet-authored `hub-home` copy and auto-swapping when authors add it. Next milestones: generic CMS page route + publications/staff, centers/projects detail pages, newsletter band, search (Phase 3). Last updated: July 11, 2026.
 
 ## TL;DR — the 30-second version
 

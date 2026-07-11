@@ -4,6 +4,17 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] - 2026-07-11
+
+Phase 2, milestone 3 — the homepage per the Figma design, anchored on live content with author-swappable placeholders.
+
+### Added
+
+- Homepage sections per the design: navy hero, Research & Analysis Unit welcome, Centers accordion, Latest Articles grid (live, 6 newest), Topics/Key Focus Areas band, Latest Resources shortcut cards, Major Projects band (navy/red/green tiles)
+- Content strategy: articles/datasets/apps anchor the page from the live CMS; **centers and projects render live from Strapi when their collections have entries** (they do today) and fall back to typed placeholders in `app/content/homepage-placeholders.ts` otherwise; hero/welcome/topics copy comes from the `hub-home` page entry the moment authors create it (placeholder until then) — every placeholder block documents its CMS home
+- Stretched-link card pattern: each card is one link named by its title ("Read More" is decorative) — fixes Lighthouse's generic-link-text audit and improves screen-reader link lists; whole card is clickable with a focus ring
+- Project tiles use a fixed contrast-safe header palette by position; CMS `headerBg` class strings remain quarantined (never bound)
+
 ## [0.6.0] - 2026-07-11
 
 Phase 2, milestone 2 — the datasets and apps sections; every Hub 1.0 content type now renders as static pages.
