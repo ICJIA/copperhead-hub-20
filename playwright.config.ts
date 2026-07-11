@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { hub } from './hub.config.mjs'
 
 // Accessibility suite. Runs against the statically generated site in
 // .output/public — the exact artifact Netlify serves — never against a
@@ -26,7 +27,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npx http-server .output/public -p 4173 --silent',
-    url: 'http://localhost:4173/researchhub/',
+    url: `http://localhost:4173${hub.site.baseURL}`,
     reuseExistingServer: !process.env.CI,
   },
 })

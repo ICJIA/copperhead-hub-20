@@ -8,8 +8,9 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { hub } from '../hub.config.mjs'
 
-const BASE = process.env.NUXT_PUBLIC_STRAPI_URL || 'https://v2.hub.icjia-api.cloud'
+const BASE = process.env.NUXT_PUBLIC_STRAPI_URL || hub.cms.origin
 const outDir = fileURLToPath(new URL('../tests/fixtures/', import.meta.url))
 mkdirSync(outDir, { recursive: true })
 

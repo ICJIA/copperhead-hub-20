@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import { hub as hubConfig } from '../../hub.config.mjs'
+
 useSeoMeta({
-  title: 'ICJIA Research Hub',
-  description:
-    'Research articles, datasets, and data dashboards published by the Illinois Criminal Justice Information Authority.',
+  title: hubConfig.site.name,
+  description: hubConfig.site.description,
 })
 
 // Fetched at build time and embedded in the prerendered payload — the
 // static HTML contains this content (predecessor defect P3 was fetching
 // client-side only, shipping spinners to search engines).
-const { data: latest, error } = await useAsyncData('latest-articles', () => fetchLatestArticles(3))
+const { data: latest, error } = await useAsyncData(
+  'latest-articles',
+  () => fetchLatestArticles(hubConfig.content.homeLatestCount),
+)
 
 // Fail loud: a home page without content must fail the prerender, not ship
 // silently hollow (the predecessor hid fetch failures behind v-if).

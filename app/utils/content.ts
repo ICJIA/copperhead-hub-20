@@ -13,9 +13,10 @@
  * (before any await) and threads it through — calling it after an await
  * throws "composable called outside of a plugin" during prerender.
  */
+import { hub } from '../../hub.config.mjs'
 import type { App, Article, Center, Dataset, Page, Project } from '../types/content'
 
-const PAGE_SIZE = 100
+const PAGE_SIZE = hub.cms.pageSize
 
 interface StrapiListResponse {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -43,8 +44,8 @@ async function fetchPage(cms: CmsConfig, path: string, query: Record<string, str
   return await $fetch<StrapiListResponse>(`${cms.origin}/api/${path}`, {
     query,
     headers: cms.headers,
-    retry: 2,
-    retryDelay: 500,
+    retry: hub.cms.retries,
+    retryDelay: hub.cms.retryDelayMs,
   })
 }
 

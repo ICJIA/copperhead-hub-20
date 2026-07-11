@@ -1,26 +1,32 @@
 // Copperhead — ICJIA Research Hub 2.0 public frontend.
 // Architecture baseline: docs/adr/0001-phase-0-architecture-baseline.md
+// Critical values come from hub.config.mjs — the single source of truth.
+import { hub } from './hub.config.mjs'
+
 export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@nuxt/eslint'],
 
   devtools: { enabled: true },
 
   app: {
-    // URL-parity contract: every route lives under /researchhub/, exactly as
-    // on the live hub. The main website proxies /researchhub/* to this site.
-    baseURL: '/researchhub/',
+    baseURL: hub.site.baseURL,
     head: {
       htmlAttrs: { lang: 'en' },
       // Default title is baked into every generated document — including the
       // SPA-fallback 404 shell, which must not ship an empty <title>.
-      title: 'ICJIA Research Hub',
+      title: hub.site.name,
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/researchhub/favicon.svg' },
+        { rel: 'icon', type: 'image/svg+xml', href: `${hub.site.baseURL}favicon.svg` },
       ],
     },
   },
 
   css: ['~/assets/css/main.css'],
+
+  colorMode: {
+    preference: hub.colorMode.preference,
+    fallback: hub.colorMode.fallback,
+  },
 
   runtimeConfig: {
     // Optional read-only CMS token (NUXT_STRAPI_TOKEN). Server-only; the
@@ -30,7 +36,7 @@ export default defineNuxtConfig({
     strapiToken: '',
     public: {
       // Override with NUXT_PUBLIC_STRAPI_URL if the CMS moves.
-      strapiUrl: 'https://v2.hub.icjia-api.cloud',
+      strapiUrl: hub.cms.origin,
     },
   },
 

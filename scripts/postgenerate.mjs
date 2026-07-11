@@ -13,16 +13,17 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, renameSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { hub } from '../hub.config.mjs'
 
 const publicDir = fileURLToPath(new URL('../.output/public/', import.meta.url))
-const target = join(publicDir, 'researchhub')
+const target = join(publicDir, hub.site.basePath)
 
 if (existsSync(join(target, 'index.html'))) {
   console.log('✓ postgenerate: output already restructured, nothing to do')
   process.exit(0)
 }
 
-const KEEP_AT_ROOT = new Set(['robots.txt', 'researchhub'])
+const KEEP_AT_ROOT = new Set(['robots.txt', hub.site.basePath])
 
 mkdirSync(target, { recursive: true })
 
@@ -37,4 +38,4 @@ for (const entry of readdirSync(publicDir)) {
 // asset URLs (/researchhub/_nuxt/...) still resolve after the move.
 copyFileSync(join(target, '404.html'), join(publicDir, '404.html'))
 
-console.log(`✓ postgenerate: moved ${moved} entries under /researchhub/, root 404.html in place`)
+console.log(`✓ postgenerate: moved ${moved} entries under ${hub.site.baseURL}, root 404.html in place`)
