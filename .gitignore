@@ -1,0 +1,38 @@
+# Nuxt
+.nuxt
+.output
+.data
+.nitro
+.cache
+dist
+
+# Dependencies
+node_modules
+
+# Env — never commit real values; use *.example files
+.env
+.env.*
+!.env.example
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Build artifacts that scripts may write into the source tree
+public/search-index.json
+public/file-parents.json
+public/pagefind
+
+# Testing
+coverage
+.eslintcache
+
+# Netlify
+.netlify
+
+# Editors & OS
+.vscode
+.idea
+.DS_Store
