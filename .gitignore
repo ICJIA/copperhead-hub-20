@@ -28,6 +28,9 @@ public/pagefind
 # Testing
 coverage
 .eslintcache
+test-results
+playwright-report
+.lighthouseci
 
 # Netlify
 .netlify

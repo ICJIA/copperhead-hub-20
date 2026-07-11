@@ -1,0 +1,50 @@
+{
+  "name": "copperhead-hub-20",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Copperhead — ICJIA Research Hub 2.0 public frontend (Nuxt 4, Nuxt UI 4, static generation)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate && node scripts/postgenerate.mjs",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:a11y": "playwright test",
+    "lhci": "lhci autorun"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^4.9.0",
+    "nuxt": "~4.4.8",
+    "tailwindcss": "^4.3.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@lhci/cli": "^0.15.1",
+    "@nuxt/eslint": "^1.16.0",
+    "@playwright/test": "^1.61.1",
+    "eslint": "^10.7.0",
+    "http-server": "^14.1.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10",
+    "vue-tsc": "^3.3.7"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "unrs-resolver",
+      "vue-demi"
+    ]
+  },
+  "packageManager": "pnpm@10.33.4"
+}

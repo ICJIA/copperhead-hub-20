@@ -1,0 +1,5 @@
+# Preview builds must not compete with the live Research Hub in search.
+# This flips to allow-all (plus sitemap reference) at launch — Phase 4 of
+# the roadmap owns that change.
+User-agent: *
+Disallow: /

@@ -1,0 +1,19 @@
+# Copperhead — standalone Netlify site. The main icjia.illinois.gov site
+# proxies /researchhub/* here at cutover (plan, Section 8).
+#
+# No environment variables are required to build in Phase 0. When the
+# Strapi 5 content layer lands (Phase 1), the ONLY secret is a read-only
+# build-time token — set in the Netlify UI, never in this file.
+
+[build]
+  command = "pnpm generate"
+  publish = ".output/public"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Convenience on the bare preview domain: / -> /researchhub/
+[[redirects]]
+  from = "/"
+  to = "/researchhub/"
+  status = 302

@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Status: planning (pre-development).** This repository currently holds the Copperhead rewrite plan and its reference material. Application code lands here beginning with Phase 0 of the roadmap. Last updated: July 11, 2026.
+> **Status: Phase 0 (Foundations) — scaffolded, all quality gates green.** The Nuxt 4.4.x application shell is in place with CI-enforced gates (lint, typecheck, unit, axe WCAG 2.1 A/AA in light *and* dark mode, Lighthouse budgets). Next: connect the Netlify site, then Phase 1 (content layer). Last updated: July 11, 2026.
 
 ## TL;DR — the 30-second version
 
@@ -25,12 +25,33 @@
 ## What's in this repository today
 
 ```
+app/                  Nuxt 4 application (baseURL /researchhub/, TypeScript strict)
+  layouts/ pages/     accessible shell: skip link, landmarks, error/404 pages
+  utils/              first typed utilities (with unit tests)
 docs/
-├── ICJIA-Hub-20-rewrite-copperhead.md     the rewrite plan (canonical)
-├── ICJIA-Hub-20-rewrite-copperhead.docx   Word copy for circulation (no fields/links → no Word warning)
-└── icjia-hub-frontend-8a5edab282632443.txt   snapshot of the unfinished hub-frontend repo (assessment basis)
-CHANGELOG.md · LICENSE (MIT) · .nvmrc (Node 22) · .gitignore
+  ICJIA-Hub-20-rewrite-copperhead.md/.docx   the rewrite plan (canonical)
+  icjia-hub-frontend-….txt                   snapshot of the unfinished predecessor (assessment basis)
+  adr/                                       architecture decision records
+tests/unit/           Vitest · tests/a11y/  axe-core WCAG 2.1 A/AA (Playwright, light + dark)
+scripts/              postgenerate restructure for /researchhub/ subpath hosting
+.github/workflows/    CI: lint · typecheck · unit · a11y · Lighthouse budgets
+netlify.toml · lighthouserc.cjs · CHANGELOG.md · LICENSE (MIT) · .nvmrc (Node 22)
 ```
+
+## Development
+
+```bash
+pnpm install        # Node 22 (.nvmrc), pnpm
+pnpm dev            # dev server at http://localhost:3000/researchhub/
+pnpm lint           # ESLint
+pnpm typecheck      # vue-tsc (TypeScript strict)
+pnpm test           # unit tests (Vitest)
+pnpm generate       # static build → .output/public (subpath-restructured)
+pnpm test:a11y      # axe WCAG 2.1 A/AA against the generated site (run generate first)
+pnpm lhci           # Lighthouse budgets against the generated site
+```
+
+No environment variables are needed to build. All six commands must pass before merging — CI enforces the same gates on every PR.
 
 ## Planned architecture (summary)
 

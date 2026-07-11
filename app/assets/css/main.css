@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/*
+ * Design tokens land here in Phase 2 (from Figma) as a Tailwind v4 @theme
+ * block. Until then the app runs on Nuxt UI's semantic tokens only —
+ * no hardcoded colors anywhere in components (see plan, Appendix A, Q2).
+ */
+
+:root {
+  /* WCAG 2.1 AA floor: the default primary shade (500) fails 4.5:1 as text
+   * on tinted backgrounds and behind white labels; 600 passes both. Token-
+   * level override — components stay palette-agnostic. */
+  --ui-primary: var(--ui-color-primary-600);
+}
+
+.dark {
+  /* Dark surfaces need the lighter shade — 600 fails 4.5:1 on dark tints.
+   * The a11y suite audits both color schemes; this pairing keeps both AA. */
+  --ui-primary: var(--ui-color-primary-400);
+}
