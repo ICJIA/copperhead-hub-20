@@ -20,6 +20,10 @@ const ROUTES = [
   { name: 'dataset detail', path: `${hub.site.baseURL}datasets/${DATASET_SLUG}/` },
   { name: 'apps listing', path: `${hub.site.baseURL}apps/` },
   { name: 'app detail', path: `${hub.site.baseURL}apps/${APP_SLUG}/` },
+  { name: 'centers', path: `${hub.site.baseURL}centers/` },
+  { name: 'projects listing', path: `${hub.site.baseURL}projects/` },
+  { name: 'publications', path: `${hub.site.baseURL}publications/` },
+  { name: 'staff', path: `${hub.site.baseURL}hub-staff/` },
   // The prerendered 404 page is served by Netlify for unknown paths.
   { name: '404 page', path: `${hub.site.baseURL}404.html` },
 ]

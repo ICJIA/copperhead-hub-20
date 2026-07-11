@@ -50,7 +50,7 @@ export default defineNuxtConfig({
       // click-time (correct) rather than fail the build (Phase 4's link
       // audit reports them to the content team).
       crawlLinks: false,
-      routes: ['/', '/articles', '/datasets', '/apps'],
+      routes: ['/', '/articles', '/datasets', '/apps', '/centers', '/projects', '/publications', '/hub-staff'],
       // A registered page that fails to render must fail the build.
       failOnError: true,
     },
@@ -68,6 +68,10 @@ export default defineNuxtConfig({
         ['articles', '/articles'],
         ['datasets', '/datasets'],
         ['apps', '/apps'],
+        ['projects', '/projects'],
+        // Generic CMS pages (hub-overview, dicra, hub-home, …) render at
+        // /:slug — every authored page entry gets a route automatically.
+        ['pages', ''],
       ]
       for (const [collection, prefix] of collections) {
         let page = 1

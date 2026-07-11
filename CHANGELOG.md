@@ -4,6 +4,25 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.8.0] - 2026-07-11
+
+Phase 2, milestone 4 — the remaining URL-contract routes, Hub 1.0 parity details, and design-change-resilient article views.
+
+### Added
+
+- Generic CMS page route `/[slug]` — every entry in the Strapi `pages` collection renders automatically (hub-overview, dicra, hub-home when authored); page slugs join the prerender registration
+- `/centers` — live centers grid (placeholder fallback, same swap mechanism)
+- `/projects` and `/projects/[slug]` — tiles per the design plus detail pages (body markdown, focus areas, project manager + contact); project slugs prerendered
+- `/publications` and `/hub-staff` — URL-contract placeholder pages linking current agency sources; content source is a Phase 4 decision (documented in-file)
+- "Stay Informed" newsletter band on the articles listing — links to the agency's existing signup (no fake form; a real subscription backend is a Phase 4 integration decision)
+- Articles listing grid/list toggle synced to `?view=list` (Hub 1.0 parity; shareable, back/forward-safe)
+- Section nav grown to the design's five items (Research Hub, Centers, Articles, Data, Projects); breadcrumbs cover the new sections
+
+### Changed
+
+- **Article views decomposed for design flexibility**: the detail page is now a thin orchestrator over single-purpose components (`app/components/article/` — title band, overview, summary, citation, TOC card, file card) each mapping to one Figma block; grid/list card variants are `ArticleCard`/`ArticleListRow`; `KeywordsSection` and `FundingCard` shared across all detail pages. A Figma revision now means editing one component or reordering sections — not page surgery.
+- 538 routes prerendered; a11y suite covers 12 routes × 2 color schemes (24 checks)
+
 ## [0.7.0] - 2026-07-11
 
 Phase 2, milestone 3 — the homepage per the Figma design, anchored on live content with author-swappable placeholders.

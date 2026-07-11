@@ -184,23 +184,7 @@ const contributorLine = computed(() => {
             />
           </section>
 
-          <!-- Keywords -->
-          <section
-            v-if="app.categories.length || app.tags.length"
-            class="mt-8"
-            aria-label="Keywords and tags"
-          >
-            <h2 class="inline text-base font-bold text-highlighted">
-              Keywords &amp; Tags:
-            </h2>
-            <span class="ml-2 inline-flex flex-wrap gap-2 align-middle">
-              <CategoryChip
-                v-for="term in [...app.categories, ...app.tags]"
-                :key="term"
-                :label="term"
-              />
-            </span>
-          </section>
+          <KeywordsSection :terms="[...app.categories, ...app.tags]" />
         </div>
 
         <!-- Right rail -->
@@ -214,18 +198,7 @@ const contributorLine = computed(() => {
               ...app.relatedArticles.map(ref => ({ ...ref, to: `/articles/${ref.slug}` })),
             ]"
           />
-          <div
-            v-if="data?.fundingHtml"
-            class="rounded-lg bg-icjia-50 p-5 dark:bg-icjia-950"
-          >
-            <h2 class="text-sm font-bold tracking-wide text-highlighted uppercase">
-              Funding Acknowledgement
-            </h2>
-            <div
-              class="mt-2 text-sm leading-relaxed text-toned"
-              v-html="data.fundingHtml"
-            />
-          </div>
+          <FundingCard :html="data?.fundingHtml ?? ''" />
         </aside>
       </div>
     </div>

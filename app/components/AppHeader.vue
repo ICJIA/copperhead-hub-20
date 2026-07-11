@@ -14,6 +14,12 @@ const crumbs = computed(() => {
   else if (route.path.startsWith('/datasets') || route.path.startsWith('/apps')) {
     trail.push({ label: 'Analytics & Data', to: '/datasets' })
   }
+  else if (route.path.startsWith('/centers')) {
+    trail.push({ label: 'Centers', to: '/centers' })
+  }
+  else if (route.path.startsWith('/projects')) {
+    trail.push({ label: 'Projects', to: '/projects' })
+  }
   else {
     trail.push({ label: 'Research Hub', to: '/' })
   }
@@ -29,8 +35,10 @@ const agencyNav = [
 
 const sectionNav = [
   { label: 'Research Hub', to: '/' },
+  { label: 'Centers', to: '/centers' },
   { label: 'Articles', to: '/articles' },
   { label: 'Data', to: '/datasets' },
+  { label: 'Projects', to: '/projects' },
 ]
 </script>
 

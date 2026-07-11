@@ -137,6 +137,11 @@ export async function fetchAppBySlug(slug: string): Promise<App> {
   return normalizeApp(await fetchBySlug(cms, 'apps', slug), cms.origin)
 }
 
+export async function fetchProjectBySlug(slug: string): Promise<Project> {
+  const cms = cmsConfig()
+  return normalizeProject(await fetchBySlug(cms, 'projects', slug))
+}
+
 export async function fetchAllProjects(): Promise<Project[]> {
   const cms = cmsConfig()
   const rows = await fetchAll(cms, 'projects', { populate: '*', sort: 'order:asc' })
