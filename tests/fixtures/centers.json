@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": 5,
+      "documentId": "ipmm8t5udeduzrqtz3f71t0j",
+      "Title": "Center for Community Corrections Research",
+      "Author": "Vacant",
+      "Description": "The Center for Community Corrections Research conducts research and evaluation projects on interventions designed to divert individuals from prison; and, to improve re-entry for persons returning to their communities after incarceration. The goal is to expand the use of effective community interventions using evaluation, research, and implementation science. Center staff collect and analyze a variety of data including administrative, qualitative and quantitative. Research and evaluation reports are designed to influence Illinois policies regarding the use of interventions such as problem-solvi",
+      "createdAt": "2026-06-25T05:42:35.289Z",
+      "updatedAt": "2026-06-25T05:54:12.871Z",
+      "publishedAt": "2026-06-25T05:54:12.892Z"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 1,
+      "pageCount": 6,
+      "total": 6
+    }
+  }
+}

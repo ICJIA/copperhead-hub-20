@@ -1,0 +1,58 @@
+import { describe, expect, it } from 'vitest'
+import { renderMarkdown, sanitizeHtml } from '../../app/utils/markdown'
+
+describe('renderMarkdown', () => {
+  it('renders headings with stable ids and returns an h2 TOC', () => {
+    const { html, toc } = renderMarkdown('## Key Findings\n\ntext\n\n## Methodology')
+    expect(html).toContain('<h2 id="key-findings">')
+    expect(toc).toEqual([
+      { id: 'key-findings', text: 'Key Findings', depth: 2 },
+      { id: 'methodology', text: 'Methodology', depth: 2 },
+    ])
+  })
+
+  it('de-duplicates colliding heading ids', () => {
+    const { toc } = renderMarkdown('## Results\n\n## Results')
+    expect(toc.map(t => t.id)).toEqual(['results', 'results-2'])
+  })
+
+  it('strips script tags and event-handler attributes (stored XSS)', () => {
+    const { html } = renderMarkdown('hello <script>alert(1)</script> <img src="x" onerror="alert(1)">')
+    expect(html).not.toContain('<script')
+    expect(html).not.toContain('onerror')
+  })
+
+  it('neutralizes javascript: links', () => {
+    const { html } = renderMarkdown('[click](javascript:alert(1))')
+    expect(html).not.toContain('javascript:')
+  })
+
+  it('adds rel="noopener noreferrer" to target=_blank links', () => {
+    const { html } = sanitizeAndWrap('<a href="https://example.gov" target="_blank">x</a>')
+    expect(html).toContain('noopener')
+  })
+
+  it('renders footnotes', () => {
+    const { html } = renderMarkdown('Claim.[^1]\n\n[^1]: Source note.')
+    expect(html).toContain('footnote')
+  })
+
+  it('returns empty output for empty input', () => {
+    expect(renderMarkdown('')).toEqual({ html: '', toc: [] })
+  })
+})
+
+function sanitizeAndWrap(fragment: string) {
+  return { html: sanitizeHtml(fragment) }
+}
+
+describe('sanitizeHtml', () => {
+  it('keeps benign inline markup (citations use <em>)', () => {
+    expect(sanitizeHtml('Research and Analysis Unit. <em>ICJIA Update</em>.'))
+      .toContain('<em>ICJIA Update</em>')
+  })
+
+  it('strips scripts from CMS-authored fragments', () => {
+    expect(sanitizeHtml('<em>ok</em><script>alert(1)</script>')).toBe('<em>ok</em>')
+  })
+})

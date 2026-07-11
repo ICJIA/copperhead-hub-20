@@ -22,6 +22,18 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    // Optional read-only CMS token (NUXT_STRAPI_TOKEN). Server-only; the
+    // public role currently allows tokenless reads, so this may stay empty.
+    // Defaults are placeholders by design — real values come from env vars,
+    // never from this file (predecessor defect S2/S4).
+    strapiToken: '',
+    public: {
+      // Override with NUXT_PUBLIC_STRAPI_URL if the CMS moves.
+      strapiUrl: 'https://v2.hub.icjia-api.cloud',
+    },
+  },
+
   compatibilityDate: '2026-07-11',
 
   typescript: {

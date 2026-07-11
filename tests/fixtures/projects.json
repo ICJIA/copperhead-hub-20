@@ -1,0 +1,38 @@
+{
+  "data": [
+    {
+      "id": 23,
+      "documentId": "do30xaqkxey4fak53tburq6f",
+      "Title": "Justice Counts Implementation Program",
+      "SubTitle": "Information flows are both technically sound and policy-relevant.",
+      "Body": "ICJIA leads Illinois's participation in Justice Counts, a national initiative to standardize and publish criminal justice metrics across agencies. The project improves transparency and decision-making by collecting core data from law enforcement, courts, corrections, and behavioral health systems. ICJIA serves as the state's technical lead, helping agencies align with national benchmarks and build sustainable reporting infrastructure.\nJustice Counts represents a transformative shift in how Illinois—and the nation—approaches criminal justice data. By participating in this national initiative, I",
+      "Authors": [
+        "Jack Monaghan"
+      ],
+      "createdAt": "2026-05-27T04:35:52.189Z",
+      "updatedAt": "2026-05-29T05:14:31.516Z",
+      "publishedAt": "2026-05-29T05:14:31.533Z",
+      "date": "2026-05-27",
+      "slug": "justice-counts",
+      "category": "Justice Counts",
+      "headerBg": "bg-[#1a3a5c]",
+      "icon": "i-lucide-landmark",
+      "description": "ICJIA leads Illinois's participation in Justice Counts, a national initiative to standardize and publish criminal justice metrics across agencies.",
+      "bullets": [
+        "Infrastructure Development",
+        "Installation Resilience",
+        "Community Partnership"
+      ],
+      "order": 1,
+      "email": null
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 1,
+      "pageCount": 5,
+      "total": 5
+    }
+  }
+}

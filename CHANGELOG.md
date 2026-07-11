@@ -4,6 +4,26 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-07-11
+
+Phase 1 (Content layer) — typed Strapi 5 reads, one normalization boundary, one sanitized markdown pipeline; all gates green.
+
+### Added
+
+- Domain models for all content types (`app/types/content.ts`): Article, Dataset, App, Project, Center, Page, plus MediaFile/Author/LinkedRef
+- Normalization boundary (`app/utils/normalize.ts`) — the only place raw CMS responses are touched: relative `/uploads` media URLs absolutized, PascalCase project/center fields (`Title`/`SubTitle`/`Body`/`Author`) mapped, `{title, description}` author components → `{name, bio}`, CMS presentation hints quarantined as `*Raw`
+- Typed content service (`app/utils/content.ts`): REST reads with pagination-to-completion (no silent caps), retry, optional `NUXT_STRAPI_TOKEN` bearer (server-only; reads are currently public — no token required), real 404s via `createError`
+- Markdown pipeline (`app/utils/markdown.ts`): marked 18 + marked-footnote + isomorphic DOMPurify, heading ids with collision suffixes, h2 TOC extraction, forced `rel="noopener noreferrer"` on `target=_blank`
+- Fixtures from the live API (`tests/fixtures/`, refreshed via `scripts/update-fixtures.mjs`) — 23 new unit tests run fully offline
+- Home page renders live CMS content (latest three publications) at build time — embedded in the prerendered HTML, with fail-loud prerender on fetch errors
+- `.env.example` documenting the optional `NUXT_STRAPI_TOKEN` / `NUXT_PUBLIC_STRAPI_URL`
+- ADR 0002 — content-layer decisions and known content gaps
+
+### Notes
+
+- The Strapi 5 `pages` collection currently holds only a `test` entry — the real `hub-home`, `hub-overview`, and `dicra` pages need authoring (Hub Studio) before Phase 2 can reach page parity
+- Nuxt context gotcha, documented in the service: `useRuntimeConfig()` must be captured synchronously at function entry — calling it after an `await` fails during prerender with "composable called outside of a plugin"
+
 ## [0.3.0] - 2026-07-11
 
 Phase 0 (Foundations) scaffolding — all quality gates green locally and in CI.

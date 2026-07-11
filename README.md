@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Status: Phase 0 (Foundations) — complete.** All quality gates green in CI (lint, typecheck, unit, axe WCAG 2.1 A/AA in light *and* dark mode, Lighthouse budgets), and the preview site deploys continuously from `main`: **https://copperhead-hub-20.netlify.app/researchhub/** (crawling blocked until launch). Next: Phase 1 (typed Strapi 5 content layer). Last updated: July 11, 2026.
+> **Status: Phase 1 (Content layer) — complete.** The preview site now renders live Strapi 5 content at build time (typed service → normalization boundary → sanitized markdown pipeline, all fixture-tested offline). All gates green in CI; continuous deploys from `main`: **https://copperhead-hub-20.netlify.app/researchhub/** (crawling blocked until launch). Next: Phase 2 (parity page templates — needs Figma designs and the hub-home/hub-overview/dicra pages authored in Strapi). Last updated: July 11, 2026.
 
 ## TL;DR — the 30-second version
 

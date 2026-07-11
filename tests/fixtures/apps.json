@@ -1,0 +1,319 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "documentId": "qsl0bpbl8fa7t257z68p5brv",
+      "title": "Uniform Crime Report Index Offense Explorer",
+      "legacyId": "5da0c0db3bb01c36d66f6875",
+      "status": "archived",
+      "slug": "uniform-crime-report-index-offense-explorer",
+      "date": "2019-11-15",
+      "external": false,
+      "categories": [
+        "crimes"
+      ],
+      "tags": [
+        "dashboard",
+        "Uniform Crime Reporting"
+      ],
+      "contributors": [
+        {
+          "title": "ICJIA R&A staff"
+        }
+      ],
+      "description": "Uniform Crime Report (UCR) Index Offense Explorer offers an interactive interface to the Crime in Illinois Annual Uniform Crime Report Index Offense data (1982-2018) originally published by Illinois State Police.",
+      "url": "https://app.icjia.cloud/app_direct/ucr-index-offense-explorer/",
+      "funding": null,
+      "citation": null,
+      "createdAt": "2019-10-11T17:50:19.074Z",
+      "updatedAt": "2025-06-26T14:27:04.142Z",
+      "publishedAt": "2026-03-16T18:55:00.583Z",
+      "image": {
+        "id": 1046,
+        "documentId": "v6rh68r63skt49byfethmv13",
+        "name": "app-uniform-crime-report-index-offense-explorer-image.png",
+        "alternativeText": null,
+        "caption": null,
+        "focalPoint": null,
+        "width": 720,
+        "height": 342,
+        "formats": {
+          "thumbnail": {
+            "name": "thumbnail_app-uniform-crime-report-index-offense-explorer-image.png",
+            "hash": "thumbnail_app_uniform_crime_report_index_offense_explorer_image_22cc0163e1",
+            "ext": ".png",
+            "mime": "image/png",
+            "path": null,
+            "width": 245,
+            "height": 116,
+            "size": 22.67,
+            "sizeInBytes": 22671,
+            "url": "/uploads/thumbnail_app_uniform_crime_report_index_offense_explorer_image_22cc0163e1.png"
+          },
+          "small": {
+            "name": "small_app-uniform-crime-report-index-offense-explorer-image.png",
+            "hash": "small_app_uniform_crime_report_index_offense_explorer_image_22cc0163e1",
+            "ext": ".png",
+            "mime": "image/png",
+            "path": null,
+            "width": 500,
+            "height": 238,
+            "size": 67.35,
+            "sizeInBytes": 67347,
+            "url": "/uploads/small_app_uniform_crime_report_index_offense_explorer_image_22cc0163e1.png"
+          }
+        },
+        "hash": "app_uniform_crime_report_index_offense_explorer_image_22cc0163e1",
+        "ext": ".png",
+        "mime": "image/png",
+        "size": 33.21,
+        "url": "/uploads/app_uniform_crime_report_index_offense_explorer_image_22cc0163e1.png",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T18:30:51.832Z",
+        "updatedAt": "2026-03-16T18:30:51.832Z",
+        "publishedAt": "2026-03-16T18:30:51.832Z"
+      },
+      "datasets": [
+        {
+          "id": 11,
+          "documentId": "uc0vbw9a7z0pksr84dmpzshz",
+          "title": "Illinois Uniform Crime Reports (UCR) Index Crime Offense",
+          "legacyId": "5da0c0dc3bb01c36d66f6883",
+          "status": "published",
+          "slug": "illinois-uniform-crime-reports-ucr-index-crime-offense",
+          "date": "2020-12-31",
+          "external": false,
+          "categories": [
+            "crimes"
+          ],
+          "tags": [
+            "index crime"
+          ],
+          "project": false,
+          "sources": [
+            {
+              "title": "Uniform Crime Report, Illinois State Police",
+              "url": "https://isp.illinois.gov/CrimeReporting/CrimeInIllinoisReports"
+            }
+          ],
+          "unit": "county",
+          "timeperiod": {
+            "yeartype": "calendar",
+            "yearmin": 1982,
+            "yearmax": 2020
+          },
+          "description": "Index offenses include Violent Index offenses (murder, criminal sexual assault, robbery, aggravated battery/assault) and Property Index offenses (burglary, theft, motor vehicle theft, arson). ICJIA uses the latest data published in Crime in Illinois by the Illinois State Police and the latest population estimates are sourced from Center for Disease Control / U.S. Census Bureau Bridged Race Population Estimates ( https://wonder.cdc.gov/bridged-race-population.html )",
+          "notes": [
+            "Counties may not add up to the state total if the state total was updated in a later edition of Crime in Illinois.",
+            "Beginning in 2012, blank indicates noncompliance/no data was submitted for the reporting year.",
+            "The Illinois State Police publishes I-UCR data for each year twice, for example I-UCR statistics are published as 2018-2017 and 2019-2018. In such cases the later published numbers contain minor revisions to numbers. ICJIA policy is to update to the most recent published version of this data when available, such that numbers for 2018 reflect the data published alongside the initial release of 2019 data."
+          ],
+          "variables": [
+            {
+              "name": "Year",
+              "type": "integer",
+              "definition": "The year that events recorded in the data occurred."
+            },
+            {
+              "name": "id",
+              "type": "int",
+              "definition": "Location Identifier. Typically this is county identifier where 1 indicates first county in alphabetical order (Adams) and 102 is last (Woodford)"
+            },
+            {
+              "name": "fips_number",
+              "type": "int",
+              "definition": "Federal Information Processing Standard (FIPS) code for geography."
+            },
+            {
+              "name": "county_name",
+              "type": "str",
+              "definition": "County name."
+            },
+            {
+              "name": "judicial circuit",
+              "type": "str",
+              "definition": "Illinois Judicial Circuit Court number",
+              "values": "Integers 1 to 23 and \"co\" for Cook."
+            },
+            {
+              "name": "region",
+              "type": "str",
+              "definition": "The region of the State the county is located in. Northern is subdivided for easy exclusion of Cook and/or Cook and Collar counties (i.e. the grear Chicago region).",
+              "values": "Northern - Other , Northern - Collar, Northern - Cook, Central, or Southern."
+            },
+            {
+              "name": "community_type",
+              "type": "str",
+              "definition": "Categorization based on the percent the county population living in a rural area.",
+              "values": "Completely Rural (rural 100%), Mostly rural (rural >50%), Mostly urban (rural <50%), or Completely urban (rural 0%)."
+            },
+            {
+              "name": "percent_rural",
+              "type": "float",
+              "definition": "Percentage of population living in a census block designated as rural within the county, based on 2010 Census.   https://www2.census.gov/geo/docs/reference/ua/PctUrbanRural_County.xls ",
+              "values": "0.0 to 100.0."
+            },
+            {
+              "name": "population",
+              "type": "int",
+              "definition": "Population estimate based on CDC/Census Bridged Race Postcensus/Intercensus Estimates, note that population may be filter for juveniles, adults, or the whole population. https://wonder.cdc.gov/bridged-race-population.html ",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "murder",
+              "type": "int",
+              "definition": "Murder Offenses - The willful (non-negligent) killing of one human being by another.  Illinois Criminal Statutes include multiple homicide-related offenses. Only first and second degree murder are included here for consistency with the federal offense definition.",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "sexual_assault",
+              "type": "int",
+              "definition": "Criminal Sexual Assault Offenses - In the federal UCR program this offense is called \"Rape\", however in Illinois the relevant criminal statutes are called criminal sexual assault. Prior to 2014 the federal UCR program used the term forcible rape, a term which only included \"the act of a man having sexual bodily connections with a woman; sexual intercourse.\". Since 2014, the definition of rape is \" Penetration,  no  matter  how  slight,  of  the  vagina  or  anus  with  any  body  part  or  object,  or  oral penetration  by  a  sex  organ  of  another  person,  without  the  consent  of  the  victim.    Force  is  not  a  required  element.\" The latter is largely consistent with Illinois criminal statutes related to the Illinois offense of criminal sexual assault since 1984.",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "robbery",
+              "type": "int",
+              "definition": "Robbery Offenses -   The  taking  or  attempting  to  take  anything  of  value  from  the  care,  custody,  or  control  of  a  person or persons by force or threat of force or violence and/or putting the victm in fear; attempts are included.",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "agg_battery_assault",
+              "type": "int",
+              "definition": "Aggravated Battery / Assault Offenses -  An  unlawful  attack  by  one  person  upon  another  for  the  purpose of inflicting severe or aggravated bodily injury.  This type of assault is usually accompanied by the use of a weapon or by means likely to produce death or great bodily harm.  It is not necessary that an  injury  results  from  the  attack  when  a  weapon  is  used  that  could  cause  great  personal  injury;  attempts and attempted criminal homicide are included. \r\nIllinois criminal statutes allows  battery  and  assault  offenses  to  be  elevated  to  aggravated  based  on  who  the  victim  is  (police  officer,  correctional  officer, fireman,  private  security  officer, teacher,  emergency  medical  technician,  disabled  person,  person  age  60  years  or  older,  or  pregnant  victim); where the incident took place (public way, public property, or sports or entertainment arenas when events are scheduled);  or  if  the  assailant  conceals  his  identity  (hooded,  robed,  or  masked).    If  the  battery  or  assault  offense  is  elevated  to  aggravated  based  ONLY  on  one  of  the  criteria  above,  the  offense  is  not  classified  as  aggravated and should not be reported. ",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "theft",
+              "type": "int",
+              "definition": "Theft Offenses -  The  unlawful  taking,  carrying,  leading,  or  riding  away  of  property  from  the  possession  of  another; attempts are included.",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "burglary",
+              "type": "int",
+              "definition": "Burglary Offenses - The unlawful entry of a structure to commit a felony or a theft; attempts are included.  \r\n\r\nHistorically, vehicle burglaries  have  been  classified  and  reported  as  thefts.    Many  agencies  were  incorrectly  classifying  and  reporting vehicle burglaries in the burglary category.  The development of more detailed reporting guidelines coupled with a statewide training initiative resulted in a better understanding of the definition of burglary.",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "motor_vehicle_theft",
+              "type": "int",
+              "definition": "Motor Vehicle Theft Offenses - The theft or attempted theft of a motor vehicle. ",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "arson",
+              "type": "int",
+              "definition": "Arson Offenses -  Any  willful  or  malicious  burning  or  attempt  to  burn,  with  or  without  intent  to  defraud,  a  dwelling house, public building, motor vehicle or aircraft, or personal property of another; attempts are included.",
+              "values": "Non-negative integer."
+            },
+            {
+              "name": "murder_rate",
+              "type": "float",
+              "definition": "Rate for murder, per 100,000.\n",
+              "values": "Non-negative."
+            },
+            {
+              "name": "sexual_assault_rate",
+              "type": "float",
+              "definition": "Rate for sexual_assault, per 100,000.\n",
+              "values": "Non-negative."
+            },
+            {
+              "name": "robbery_rate",
+              "type": "float",
+              "definition": "Rate for robbery, per 100,000.\n",
+              "values": "Non-negative."
+            },
+            {
+              "name": "agg_battery_assault_rate",
+              "type": "float",
+              "definition": "Rate for agg_battery_assault, per 100,000.\n",
+              "values": "Non-negative."
+            },
+            {
+              "name": "theft_rate",
+              "type": "float",
+              "definition": "Rate for theft, per 100,000.\n",
+              "values": "Non-negative."
+            },
+            {
+              "name": "burglary_rate",
+              "type": "float",
+              "definition": "Rate for burglary, per 100,000.\n",
+              "values": "Non-negative."
+            },
+            {
+              "name": "motor_vehicle_theft_rate",
+              "type": "float",
+              "definition": "Rate for motor_vehicle_theft, per 100,000.\n",
+              "values": "Non-negative."
+            },
+            {
+              "name": "arson_rate",
+              "type": "float",
+              "definition": "Rate for arson, per 100,000.\n",
+              "values": "Non-negative."
+            }
+          ],
+          "funding": null,
+          "citation": null,
+          "createdAt": "2019-10-11T17:50:20.206Z",
+          "updatedAt": "2025-06-26T14:23:08.788Z",
+          "publishedAt": "2026-03-16T18:44:53.435Z"
+        }
+      ],
+      "articles": [
+        {
+          "id": 62,
+          "documentId": "cf33b1nmt235mi672130xt08",
+          "title": "About Uniform Crime Reporting Program Data",
+          "legacyId": "5da0c0e23bb01c36d66f68db",
+          "status": "published",
+          "slug": "about-uniform-crime-reporting-program-data",
+          "date": "2016-09-27",
+          "external": false,
+          "categories": [
+            "law enforcement"
+          ],
+          "tags": [
+            "Uniform Crime Reporting"
+          ],
+          "authors": [
+            {
+              "title": "Erica Hughes",
+              "description": ""
+            }
+          ],
+          "images": [
+            {
+              "title": "figure1",
+              "src": "/uploads/about_uniform_crime_reporting_program_data_imgfield_000_a4b16d6bba.png"
+            }
+          ],
+          "abstract": "The FBI's Uniform Crime Reporting (UCR) Program is the official source of nationwide crime data and can be used to examine current patterns and trends over time. The Illinois UCR Program provides state-specific data. Those who use the programs to study crime trends should become familiar with the data source, its method of collection, and caveats needed to ensure proper data context.",
+          "markdown": "## Introduction\n\nThe FBI 's Uniform Crime Reporting (UCR) Program is the official source of nationwide crime data and can be used to examine current patterns and trends over time. The Illinois UCR Program provides state-specific data. Those who use the programs to study crime trends should become familiar with the data source, its method of collection, and caveats needed to ensure proper data context.\n\n## Uniform Crime Reporting Program\n\nThe Uniform Crime Reporting Program is a voluntary, nationwide law enforcement data collection program maintained by the FBI since 1930. UCR Program goals include generating data that can inform law enforcement policy and planning and offering information about crime to entities, including, but not limited to, government agencies, researchers, the media, and the public. Statistical crime data from more than 18,000 law enforcement agencies—including state, county, tribal, and local police departments, as well as railroads, forest preserves, universities and colleges, park districts, and hospitals that employ sworn police officers—are submitted to the FBI.[^1]\n\nThe FBI collects criminal offense and arrest data through the UCR program from law enforcement agencies in 50 states as well as the District of Columbia and three American territories—American Samoa, Guam, and Puerto Rico. In Illinois, the Illinois State Police (ISP) is responsible for submitting data gathered from Illinois law enforcement agencies to the FBI.\n\nThe FBI collects data on eight offenses for the UCR Program which are often referred to as Part 1 offenses or Index crimes—violent and property offenses that occur with regular frequency and are likely to come to the attention of police. These offenses are categorized into two types:\n\n1. Violent index offenses, including murder/non-negligent manslaughter, rape, robbery, and aggravated assault.\n2. Property index offenses, including burglary, theft, motor vehicle theft, and arson.\n\nIn addition to submitting data on Part 1 offenses, some law enforcement agencies across the country provide data on [Part 2 offenses](https://www2.fbi.gov/ucr/cius2009/about/offense_definitions.html,), which are less serious and encompass all other offenses.[^2] Data on Part 2 offenses are not collected by the Illinois State Police and therefore not submitted to the FBI.[^3]\n\n### Data collection changes\n\nThe following changes have been made since the inception of the UCR program:\n\n- Two offenses were added:\n- Hate crime offenses in 1990.\n- Human trafficking-related offenses—coerced commercial sex acts and involuntary servitude—in 2013.[^4]\n- The definition of rape was changed in 2013:\n- The term \"forcible\" was removed.\n- Male victims were added.\n- Other forms of sexual penetration were added.[^5]\n\n### Reports\n\nOnce compiled from state-level submissions, the FBI publishes UCR data in [_Crime in the U.S._](https://ucr.fbi.gov/crime-in-the-u.s/), an annual report that summarizes the findings and arranges the data in tables. Criminal justice policy makers, criminal justice practitioners, and the public rely on the information contained in _Crime in the U.S._ to broaden their comprehension of national crime trends.[^6]\n\nAt the same time, states publish their own annual UCR crime reports to disseminate information on state crime trends. ISP publishes Illinois UCR data in its annual report, [_Crime in Illinois_](http://www.isp.state.il.us/crime/ucrhome.cfm), which includes data from reporting law enforcement agencies in each county. Illinois county-level UCR data are also available on the [Authority website](http://www.icjia.state.il.us/research/overview#tab_research-data) dating back to 1982.\n\n### Data reporting methods\n\nThe FBI 's UCR program uses four data collection subprograms to gather data and generate annual reports: the Law Enforcement Officers Killed and Assaulted (LEOKA) Program; the Hate Crime Statistics Program; the National Incident Based Reporting System (NIBRS), and the Summary Reporting System (SRS).[^7]\n\nThe FBI uses LEOKA to collect and publish data through an annual report called [_Law Enforcement Officers Killed and Assaulted_](https://ucr.fbi.gov/ucr-publications), which has been published since 1982. The Hate Crime Statistics Program is used to collect data on offenses motivated by a bias against someone 's race or ethnicity, religion, sexual orientation, or disability. Data collected are summarized and published in an [annual report](https://ucr.fbi.gov/ucr-publications#Hate).\n\nThe FBI 's UCR program relies on both NIBRS and SRS to collect arrest and offense data from law enforcement agencies. NIBRS is an incident-based reporting system that allows agencies to collect detailed data on crime, including victim and offender demographics and incident information, for all reported offenses. SRS, on the other hand, allows law enforcement agencies to tally the number of occurrences of Part 1 offenses as well as the number of arrests for Part 1 and Part 2 offenses, on a monthly basis to produce aggregate totals for each offense category. These aggregate counts are submitted to the FBI for inclusion in the annual _Crime in the U.S._ report.\n\nIn total, 34 states are NIBRS compliant, 16 of which are fully compliant (all agencies in the state report via NIBRS), while the remaining 18 states submit both SRS and NIBRS data to the UCR program for inclusion in the annual _Crime in the U.S._ report.[^8]\n\nIn most cases, Illinois law enforcement agencies use SRS to report to ISP and ISP uses SRS to report to the FBI. However, the FBI prefers that agencies report their data via NIBRS as it provides the most detailed information. The FBI has mandated that all states use NIBRS by 2021. Thus, Illinois will likely shift from SRS to NIBRS sometime in the next few years.[^9]\n\n### Limitations\n\nWhile the UCR Program is considered to be a reliable and comprehensive source of information, it has its limitations. First, users should be aware that only certain serious violent and property crimes are collected, chosen for their regular occurrence and their likelihood of being reported to the police.\n\nSecond, crime often goes unreported to police. Available data may misrepresent actual crime rates.\n\nThird, agencies use the \"hierarchy rule,\" which stipulates that only the most serious offense committed during a criminal incident must be reported. While offenders may commit and be charged with multiple law violations within an incident, only the most serious violation is reported to the UCR Program.\n\nFourth, lack of reporting or irregular reporting by states can limit the accuracy of UCR data, while technological problems, data system changes, and staff turnover may prevent agencies from reporting accurately or at all.[^10]\n\nThese factors may indicate an undercount of UCR data when compared to actual occurrences of crime.\n\nIn addition, certain subprograms—such as the SRS—do not allow data on individual incidents, age, race, or gender to be submitted; data compiled by states that use the SRS exclusively, including Illinois, are incomplete.[^11]\n\nDue to these limitations, crime trends suggested by UCR data may not be representative of the entire population or reflect the true occurrence of crime.[^12]\n\n## Illinois UCR Program\n\nIn 1969, a state law was passed requiring ISP to collect Part 1 Index offense data from all Illinois law enforcement agencies on a monthly basis[^13] [20 *ILCS* 2630/8].[^14]\n\n### Data collection changes\n\nIn the past two decades, ISP has expanded the range of data compiled in I-UCR:\n\n- In 1994, ISP began requiring that law enforcement agencies report drug arrest data to I-UCR.[^15]\n- In 1996, ISP began collecting data on domestic offenses, attacks against school personnel, and hate crimes, which was mandated by state statute [50 *ILCS* 709/5]. Additionally, ISP began the voluntary collection of data on crimes against children; however, reporting on crimes against children ended in 2013 to lessen the burden on agencies.[^16]\n- In 2014, ISP added two human trafficking crime categories to the UCR Program: coerced commercial sex acts and involuntary servitude.[^17]\n- In 2014, ISP adopted the FBI 's UCR Program expanded definition of rape and changed the name of that offense category from the previous terminology of criminal sexual assault.[^18]\n- In 2014, ISP added a new school incidents supplemental report that expanded reporting of offenses against school personnel to include incidents of intimidation, drug use, and firearm incidents in schools.[^19]\n- In 2016, ISP re-instituted Supplemental Homicide Reporting, pursuant to a new state law [50 *ILCS* 709/5],[^20] to collect detailed victim, offender, and incident information on each reported homicide.\n- In 2016, ISP began mandating law enforcement agencies to report incidents of death occurring during the course of an arrest, pursuant to a new state law [50 *ILCS* 709/5].[^21]\n- In 2017, ISP will begin collecting officer-related non-fatal shooting incidents, pursuant to a new state law [50 *ILCS* 709/5].[^22]\n\n### Reporting developments\n\nSome Illinois law enforcement agencies were unable to make the necessary definition and hierarchical changes to their reporting systems in 2015, and as a result, fewer agencies reported data to ISP.[^23] In addition, data submitted by agencies that do not follow federal definitions and guidelines are excluded from _Crime in Illinois_.[^24]\n\nBetween 2005 and 2015, the number of reporting agencies dropped 34 percent, from 1,119 to 741, due to a number of law enforcement agencies closing, merging with one another, or being unable to comply with reporting requirement (_Figure 1_).[^25]\n\nThree-quarters of all the Illinois agencies submitted data in 2015, accounting for 98 percent of the state population.[^26] Most agencies that did not report data were based in less populated jurisdictions and the decrease in number of reporting agencies had a minimal impact on the reliability and generalization of the data.\n\n<div class=\"article-figure\"> \n \n#### Figure 1 \n#### Number of data-reporting Illinois law enforcement agencies, 2005-2015 \n \n![Figure 1](/uploads/about_uniform_crime_reporting_program_data_imgfield_000_a4b16d6bba.png) \n \n</div> \n \n## Summary and implications for policy and practice \n \n*Crime in Illinois* is considered Illinois ' official source of crime statistics and provides the most comprehensive data available. While limitations to I-UCR data exist in terms of scope, the data are, for the most part, correctly reported and most of the Illinois population is represented.[^27] \n \nAccurate and reliable I-UCR data reporting by all local law enforcement agencies in Illinois allows policymakers and practitioners to identify and address crime trends across the state. Agencies that properly report data enjoy the added advantage of federal [Edward Byrne Memorial Justice Assistance Grant Program](https://www.bja.gov/ProgramDetails.aspx?Program_ID=59) funding eligibility. \n \nTwo practical changes would strengthen the I-UCR Program. First, the FBI provides guidelines to law enforcement agencies on proper data collection.[^28] ISP should resume offering training to law enforcement agencies on UCR guidelines as funding allows. This will be of particular importance in light of the newly instituted reporting mandates.[^29] Second, beginning in 2021, UCR data will be accepted only through NIBRS; [^30] action toward statewide NIBRS implementation should be undertaken by local law enforcement agencies. \n \nOnce reporting is conducted through NIBRS, criminal justice policy makers, practitioners, researchers, and the public will have access to detailed information that will allow them to more closely examine trends and issues emerging in the criminal justice system. \n \n \n[^1]: Federal Bureau of Investigation. (2014). *Crime in the United States 2014: about the uniform crime reporting program*. Retrieved from [https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr](https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr). \n[^2]: Federal Bureau of Investigation. (2014). *Crime in the United States 2011: Offense definitions*. Retrieved from [https://ucr.fbi.gov/crime-in-the-u.s/2011/crime-in-the-u.s.-2011/offense-definitions](https://ucr.fbi.gov/crime-in-the-u.s/2011/crime-in-the-u.s.-2011/offense-definitions). \n[^3]: T. Hickman, personal communication, October 15, 2015. \n[^4]: Federal Bureau of Investigation. (2014). *Crime in the United States 2014: about the uniform crime reporting program*. Retrieved from [https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr](https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr). \n[^5]: Federal Bureau of Investigation. (2013). *Uniform crime reports, rape addendum*. Retrieved from [https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/rape-addendum](https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/rape-addendum). \n[^6]: Federal Bureau of Investigation. (2014). *Crime in the United States 2014: about the uniform crime reporting program*. Retrieved from [https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr](https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr). \n[^7]: Federal Bureau of Investigation. (2014). *About the UCR program*. Retrieved from [https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr](https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/resource-pages/about-ucr). \n[^8]: D. Fouch, personnel communication, September 12, 2016.; Note: Compliance means that state NIBRS record management systems are compatible with the FBI specifications for reporting. Compliant states include Arizona, Arkansas, Colorado, Connecticut, Delaware, Kansas, Kentucky, Idaho, Iowa, Louisiana, Main, Massachusetts, Michigan, Minnesota, Missouri, Montana, Nebraska, New Hampshire, North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah, Vermont, Virginia. Washington, West Virginia, and Wisconsin. \n[^9]: T. Hickman, personal communication, October 15, 2015. \n[^10]: Federal Bureau of Investigation. (2016). *A Word about UCR data*. Retrieved from [https://ucr.fbi.gov/word](https://ucr.fbi.gov/word). \n[^11]: Federal Bureau of Investigation. (2014). *FBI national incident based reporting system, the basics*. Retrieved from [https://www2.fbi.gov/ucr/faqs.htm](https://www2.fbi.gov/ucr/faqs.htm). \n[^12]: Maltz, M. D. (1999). *Bridging gaps in police crime data*. Washington, DC: U.S. Department of Justice, Office of Justice Programs, Bureau of Justice Statistics. \n[^13]: T. Hickman, personal communication, October 15, 2015. \n[^14]: Illinois State Police. (2015). *Crime in Illinois*. Retrieved from [http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf](http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf). \n[^15]: T. Hickman, personal communication, October 15, 2015. \n[^16]: T. Hickman, personal communication, October 15, 2015. \n[^17]: Illinois State Police. (2015). *Crime in Illinois*. Retrieved from [http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf](http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf). \n[^18]: Illinois State Police. (2015). *Crime in Illinois*. Retrieved from [http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf](http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf). \n[^19]: Illinois State Police. (2015). *Crime in Illinois, school incidents*. Retrieved from [http://www.isp.state.il.us/docs/cii/cii15/cii15_SectionIV_Pg259_to_286.pdf](http://www.isp.state.il.us/docs/cii/cii15/cii15_SectionIV_Pg259_to_286.pdf). \n[^20]: Illinois State Police (2016). *New 2016 reporting elements*. Retrieved from [http://www.isp.state.il.us/docs/ucr_2016_rpt_ele.pdf](http://www.isp.state.il.us/docs/ucr_2016_rpt_ele.pdf). \n[^21]: Illinois State Police (2016). *New 2016 reporting elements*. Retrieved from [http://www.isp.state.il.us/docs/ucr_2016_rpt_ele.pdf](http://www.isp.state.il.us/docs/ucr_2016_rpt_ele.pdf). \n[^22]: Illinois State Police (2016). *New 2016 reporting elements*. Retrieved from [http://www.isp.state.il.us/docs/ucr_2016_rpt_ele.pdf](http://www.isp.state.il.us/docs/ucr_2016_rpt_ele.pdf). \n[^23]: Illinois State Police. (2015). *Crime in Illinois*. Retrieved from [http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf](http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf). \n[^24]: Illinois State Police. (2015). *Crime in Illinois*. Retrieved from [http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf](http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf). \n[^25]: T. Hickman, personal communication, October 14, 2015.) \n[^26]: Illinois State Police. (2015). *Crime in Illinois*. Retrieved from [http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf](http://www.isp.state.il.us/docs/cii/cii15/cii15_Intro_Pg1_to_10.pdf). \n[^27]: T. Hickman, personal communication, October 15, 2015. \n[^28]: Federal Bureau of Investigation. (2014). *A word about UCR data.* Retrieved from [https://www.fbi.gov/about-us/cjis/ucr/word](https://www.fbi.gov/about-us/cjis/ucr/word). \n[^29]: T. Hickman, personal communication, October 14, 2015. \n[^30]: T. Hickman, personal communication, October 14, 2015.\n",
+          "mainfiletype": null,
+          "funding": null,
+          "citation": null,
+          "doi": null,
+          "hideFromBanner": false,
+          "createdAt": "2019-10-11T17:50:26.947Z",
+          "updatedAt": "2019-10-16T14:17:16.855Z",
+          "publishedAt": "2026-03-16T18:45:24.977Z",
+          "type": null
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 1,
+      "pageCount": 13,
+      "total": 13
+    }
+  }
+}

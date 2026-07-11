@@ -1,0 +1,219 @@
+{
+  "data": [
+    {
+      "id": 44,
+      "documentId": "d3wxdv4smp2t47l61717t4nm",
+      "title": "ICJIA’s Research Hub",
+      "summary": "test",
+      "body": "test",
+      "slug": "test",
+      "createdAt": "2026-04-21T04:48:18.896Z",
+      "updatedAt": "2026-06-19T21:25:16.560Z",
+      "publishedAt": "2026-06-19T21:25:16.577Z",
+      "statistics": "",
+      "centers": [
+        {
+          "name": "Center for Community Corrections Research",
+          "description": "The Center for Community Corrections Research conducts research and evaluation projects on interventions designed to divert individuals from prison; and, to improve re-entry for persons returning to their communities after incarceration. The goal is to expand the use of effective community interventions using evaluation, research, and implementation science. Center staff collect and analyze a variety of data including administrative, qualitative and quantitative. Research and evaluation reports are designed to influence Illinois policies regarding the use of interventions such as problem-solving courts, probation, behavioral and medical treatments; and, to evaluate the effectiveness of these interventions to reduce prison recidivism in diverse populations. The Center develops data visualizations and dashboards to assist with program management and improvements. Center staff publish research and evaluation reports, work in collaboration with external evaluators, and provide research presentations.",
+          "url": "#"
+        },
+        {
+          "name": "Center for Criminal Justice Data and Analytics",
+          "description": "The Center for Criminal Justice Data and Analytics continually collects, analyzes, reports on, and disseminates crime and risk factor statistical information for strategic planning, policy decisions and public education. Staff has developed a repository of these data on the ICJIA website, along with various online tools for data display and analysis. In partnership with the State Police, the Center is responsible for the dissemination of state criminal history record information (CHRI) data for research purposes, including in-house analytic use. The Center provides technical assistance in statistical methods, database design, data analysis and presentation.",
+          "url": "#"
+        },
+        {
+          "name": "Center for Sponsored Research & Program Development",
+          "description": "The Center for Sponsored Research & Program Development secures experts in the field to conduct research and evaluate programs that inform policy, support evidence-based practices, and guide decision-making. Staff review and select programs and other priority criminal justice-related topics viable for evaluation and further research. Researchers are selected through a competitive process and are awarded federal grant subcontracts to conduct studies. The center also provides technical assistance to programs supported with Authority-administered grant funds as they refine program objectives, develop data collection tools, and assess program performance.",
+          "url": "#"
+        },
+        {
+          "name": "Center for Victim Studies",
+          "description": "The Center for Victim Studies designs and conducts research examining the nature and scope of victimization in Illinois and evaluates programs that address victim needs. Center staff use a variety of research methods and analyses to explore victimization and victim services in order to improve policy, programming, and practice throughout the state. The center also coordinates presentations and disseminates reports, translating promising research into implications for policy and practice for stakeholders and victim service providers. Staff also provide technical assistance to help victim service programs collect data to inform how to best meet the multifaceted needs of victims. Finally, staff manage the InfoNet System, a web-based data collection and reporting system used by more than 100 victim service providers in Illinois. The system is one of only a few known central repositories in the country for statewide, standardized victim service data. Click here to learn more about InfoNet.",
+          "url": "#"
+        },
+        {
+          "name": "Center for Violence Prevention and Intervention Research",
+          "description": "The Center for Violence Prevention and Intervention Research reviews scientific literature, designs and conducts studies, and collects and analyzes data on violent crime in Illinois to help inform and enhance the state’s criminal justice response to violence through timely research publications, presentations and discussions. Center staff examine environmental, social, and individual factors that contribute to the occurrence of violent crime and seek collaboration with a diverse set of stakeholders to understand the scope of existing prevention and intervention efforts and guide future strategies more broadly.",
+          "url": "#"
+        }
+      ],
+      "hero": [
+        {
+          "title": "ICJIA's Research Hub",
+          "subtitle": "The R&A Center is committed to transparency, rigor, and accessibility —empowering stakeholders to make informed decisions that advance equity and effectiveness across the justice landscape."
+        }
+      ],
+      "infobox": [
+        {
+          "unitName": "Research and Analysis Unit",
+          "description": "Welcome to the Research & Analysis (R&A) Center at the Illinois Criminal Justice Information Authority (ICJIA). This site serves as a hub for data-driven insights, policy-relevant research, and evidence-based analysis focused on criminal justice in Illinois. Whether you're a policymaker, practitioner, researcher, or community advocate, you'll find timely publications, interactive data tools, and in-depth reports that illuminate trends in crime, victimization, justice system performance, and public safety. The R&A Center is committed to transparency, rigor, and accessibility—empowering stakeholders to make informed decisions that advance equity and effectiveness across the justice landscape."
+        }
+      ],
+      "resources": [
+        {
+          "title": "Datasets",
+          "subtitle": "Data Center Information",
+          "icon": "i-lucide-database",
+          "iconBg": "bg-green-100",
+          "iconColor": "text-green-700",
+          "url": "/data"
+        },
+        {
+          "title": "Dashboards",
+          "subtitle": "Criminal Justice Records",
+          "icon": "i-lucide-bar-chart-2",
+          "iconBg": "bg-[#1a3a5c]",
+          "iconColor": "text-white",
+          "url": "/data?tab=apps"
+        },
+        {
+          "title": "Articles",
+          "subtitle": "Criminal Justice Articles",
+          "icon": "i-lucide-newspaper",
+          "iconBg": "bg-red-700",
+          "iconColor": "text-white",
+          "url": "/articles"
+        },
+        {
+          "title": "Reports",
+          "subtitle": "Criminal Justice Reports",
+          "icon": "i-lucide-clipboard",
+          "iconBg": "bg-blue-700",
+          "iconColor": "text-white",
+          "url": "#"
+        }
+      ],
+      "topics": [
+        {
+          "label": "Drug Crume and Misuse"
+        },
+        {
+          "label": "Victims"
+        },
+        {
+          "label": "Law Enforcement"
+        },
+        {
+          "label": "Services, Access, and Aid"
+        },
+        {
+          "label": "Race, Ethnicity, Gender, and LGBTQ+ Disparities"
+        },
+        {
+          "label": "Courts, Probation, & Community Supervision"
+        },
+        {
+          "label": "Health"
+        },
+        {
+          "label": "Violence and Prevention"
+        },
+        {
+          "label": "Housing, Employment, and Poverty"
+        },
+        {
+          "label": "IDOC - MSR and Prison"
+        }
+      ],
+      "projects": [
+        {
+          "title": "Justice Counts Implementation Program",
+          "category": "Justice Counts",
+          "headerBg": "bg-[#1a3a5c]",
+          "icon": "i-lucide-landmark",
+          "description": "ICJIA leads Illinois's participation in Justice Counts, a national initiative to standardize and publish criminal justice metrics across agencies.",
+          "bullets": [
+            "Infrastructure Development",
+            "Installation Resilience",
+            "Community Partnership"
+          ],
+          "url": "/programs/justice-counts"
+        },
+        {
+          "title": "Restore, Reinvest, Renew (R3)",
+          "category": "Investment",
+          "headerBg": "bg-red-800",
+          "icon": "i-lucide-refresh-cw",
+          "description": "ICJIA leads Illinois's participation in Justice Counts, a national initiative to standardize and publish criminal justice metrics across agencies.",
+          "bullets": [
+            "Sound Insulation",
+            "Noise Barriers",
+            "Community Impact"
+          ],
+          "url": "/programs/restore-reinvest-renew"
+        },
+        {
+          "title": "Deaths in Custody",
+          "category": "Deaths",
+          "headerBg": "bg-green-800",
+          "icon": "i-lucide-file-text",
+          "description": "ICJIA leads Illinois's participation in Justice Counts, a national initiative to standardize and publish criminal justice metrics across agencies.",
+          "bullets": [
+            "Sound Insulation",
+            "Noise Barriers",
+            "Community Impact"
+          ],
+          "url": "/programs/deaths-in-custody"
+        },
+        {
+          "title": "Illinois Uniform Crime Report",
+          "category": "Crime Data",
+          "headerBg": "bg-blue-900",
+          "icon": "i-lucide-shield",
+          "description": "ICJIA leads Illinois's participation in Justice Counts, a national initiative to standardize and publish criminal justice metrics across agencies.",
+          "bullets": [
+            "Annual statewide crime statistics",
+            "Law enforcement agency reporting",
+            "Trend analysis & visualization"
+          ],
+          "url": "/programs/illinois-uniform-crime-report"
+        },
+        {
+          "title": "Violence Prevention Research",
+          "category": "Prevention",
+          "headerBg": "bg-teal-800",
+          "icon": "i-lucide-heart-handshake",
+          "description": "ICJIA leads Illinois's participation in Justice Counts, a national initiative to standardize and publish criminal justice metrics across agencies.",
+          "bullets": [
+            "Evidence-based program evaluation",
+            "Community violence intervention",
+            "Policy recommendations"
+          ],
+          "url": "/programs/violence-prevention-research"
+        }
+      ],
+      "articlesTitle": [
+        {
+          "articlesTitle": "Latest Articles"
+        }
+      ],
+      "articlesButtonLabel": [
+        {
+          "articlesButtonLabel": "View All Articles"
+        },
+        {
+          "articlesButtonUrl": "/articles"
+        }
+      ],
+      "topicsSubtitle": [
+        {
+          "topicsSubtitle": "Browse research by topic area. Each topic links to filtered articles and resources from the Research and Analysis Unit."
+        }
+      ],
+      "resourceViewLabel": [
+        {
+          "resourceViewLabel": "View"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 1,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
+}

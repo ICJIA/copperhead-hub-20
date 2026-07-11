@@ -1,0 +1,345 @@
+{
+  "data": [
+    {
+      "id": 532,
+      "documentId": "vgxs1hbvwlkqrbq42vjcl3p7",
+      "title": "Research & Analysis Update, Winter 2026 Edition",
+      "legacyId": "69975469035ff60e84b7d861",
+      "status": "published",
+      "slug": "research--analysis-update-winter-2026-edition",
+      "date": "2026-02-19",
+      "external": false,
+      "categories": [
+        "other"
+      ],
+      "tags": [
+        "newsletter",
+        "staff",
+        "projects"
+      ],
+      "authors": [
+        {
+          "title": "Research and Analysis Unit",
+          "description": "Prepared by Emilee Green who is a Research Scientist in the Center for Justice Research and Evaluation."
+        }
+      ],
+      "images": null,
+      "abstract": "The ICJIA Research & Analysis newsletter is published quarterly and highlights the work of the Research & Analysis Unit. Over 30 dedicated researchers work to improve the administration of justice and inform policy and practice in criminal justice, victim services, and violence prevention.",
+      "markdown": "ICJIA’s Research & Analysis Unit is committed to advancing justice and informing policy through rigorous research and evaluation. Our latest newsletter, Winter 2026 Issue 21, highlights key initiatives and achievements in the field of criminal justice, victim services, and violence prevention.\n\nThis edition features a spotlight on ICJIA staff at the 2025 [Police, Treatment, and Community Collaborative](https://ptaccollaborative.org/2025-summit/) (PTACC) Summit in New Orleans, Louisiana. PTACC brings together stakeholders from around the world to discuss the field of deflection, including major",
+      "mainfiletype": "pdf version",
+      "funding": "This work was supported by Grant #15PBJA-21-GG-00271-JAGX awarded to the Illinois Criminal Justice Information Authority by the Bureau of Justice Statistics, Office of Justice Programs, U.S. Department of Justice. Points of view or opinions contained within this document are those of the authors and do not necessarily represent the official position or policies of the Authority or the U.S. Department of Justice.",
+      "citation": "Research and Analysis Unit. (2026, February 19). <em>ICJIA research and analysis update, 21.</em> Illinois Criminal Justice Information Authority.",
+      "doi": null,
+      "hideFromBanner": false,
+      "createdAt": "2026-02-19T18:20:25.395Z",
+      "updatedAt": "2026-06-16T06:42:17.017Z",
+      "publishedAt": "2026-06-16T06:43:17.951Z",
+      "type": "update",
+      "splash": {
+        "id": 1044,
+        "documentId": "yj2xnms47j00yynm5jfl8l0w",
+        "name": "research-analysis-update-winter-2026-edition-splash.jpg",
+        "alternativeText": null,
+        "caption": null,
+        "focalPoint": null,
+        "width": 1280,
+        "height": 853,
+        "formats": {
+          "thumbnail": {
+            "name": "thumbnail_research-analysis-update-winter-2026-edition-splash.jpg",
+            "hash": "thumbnail_research_analysis_update_winter_2026_edition_splash_162f22ade7",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 234,
+            "height": 156,
+            "size": 4.03,
+            "sizeInBytes": 4033,
+            "url": "/uploads/thumbnail_research_analysis_update_winter_2026_edition_splash_162f22ade7.jpg"
+          },
+          "large": {
+            "name": "large_research-analysis-update-winter-2026-edition-splash.jpg",
+            "hash": "large_research_analysis_update_winter_2026_edition_splash_162f22ade7",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 1000,
+            "height": 666,
+            "size": 30.29,
+            "sizeInBytes": 30288,
+            "url": "/uploads/large_research_analysis_update_winter_2026_edition_splash_162f22ade7.jpg"
+          },
+          "medium": {
+            "name": "medium_research-analysis-update-winter-2026-edition-splash.jpg",
+            "hash": "medium_research_analysis_update_winter_2026_edition_splash_162f22ade7",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 750,
+            "height": 500,
+            "size": 19.91,
+            "sizeInBytes": 19907,
+            "url": "/uploads/medium_research_analysis_update_winter_2026_edition_splash_162f22ade7.jpg"
+          },
+          "small": {
+            "name": "small_research-analysis-update-winter-2026-edition-splash.jpg",
+            "hash": "small_research_analysis_update_winter_2026_edition_splash_162f22ade7",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 500,
+            "height": 333,
+            "size": 11.34,
+            "sizeInBytes": 11340,
+            "url": "/uploads/small_research_analysis_update_winter_2026_edition_splash_162f22ade7.jpg"
+          }
+        },
+        "hash": "research_analysis_update_winter_2026_edition_splash_162f22ade7",
+        "ext": ".jpg",
+        "mime": "image/jpeg",
+        "size": 36.88,
+        "url": "/uploads/research_analysis_update_winter_2026_edition_splash_162f22ade7.jpg",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T18:30:49.460Z",
+        "updatedAt": "2026-03-16T18:30:49.460Z",
+        "publishedAt": "2026-03-16T18:30:49.461Z"
+      },
+      "thumbnail": {
+        "id": 1045,
+        "documentId": "k6iogr8f8s8m7ye731i3q31z",
+        "name": "research-analysis-update-winter-2026-edition-thumbnail.jpg",
+        "alternativeText": null,
+        "caption": null,
+        "focalPoint": null,
+        "width": 500,
+        "height": 500,
+        "formats": {
+          "thumbnail": {
+            "name": "thumbnail_research-analysis-update-winter-2026-edition-thumbnail.jpg",
+            "hash": "thumbnail_research_analysis_update_winter_2026_edition_thumbnail_3f5b1c11e8",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 156,
+            "height": 156,
+            "size": 3.51,
+            "sizeInBytes": 3505,
+            "url": "/uploads/thumbnail_research_analysis_update_winter_2026_edition_thumbnail_3f5b1c11e8.jpg"
+          }
+        },
+        "hash": "research_analysis_update_winter_2026_edition_thumbnail_3f5b1c11e8",
+        "ext": ".jpg",
+        "mime": "image/jpeg",
+        "size": 16.76,
+        "url": "/uploads/research_analysis_update_winter_2026_edition_thumbnail_3f5b1c11e8.jpg",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T18:30:50.419Z",
+        "updatedAt": "2026-03-16T18:30:50.419Z",
+        "publishedAt": "2026-03-16T18:30:50.419Z"
+      },
+      "mainfile": {
+        "id": 1287,
+        "documentId": "b502xftaknltc5816je2wfiy",
+        "name": "Winter 2026 Newsletter.pdf",
+        "alternativeText": null,
+        "caption": null,
+        "focalPoint": null,
+        "width": null,
+        "height": null,
+        "formats": null,
+        "hash": "Winter_2026_Newsletter_c9d3e05a22",
+        "ext": ".pdf",
+        "mime": "application/pdf",
+        "size": 1191.81,
+        "url": "/uploads/Winter_2026_Newsletter_c9d3e05a22.pdf",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T18:44:22.674Z",
+        "updatedAt": "2026-03-16T18:44:22.674Z",
+        "publishedAt": "2026-03-16T18:44:22.674Z"
+      },
+      "extrafile": null,
+      "apps": [],
+      "datasets": []
+    },
+    {
+      "id": 475,
+      "documentId": "pkit03iuxs8edio5ejio736z",
+      "title": "Lewd Sexual Display in a Penal Institution: State Fiscal Year 2025 Report",
+      "legacyId": "694988fc035ff60e84b7d85c",
+      "status": "draft",
+      "slug": "lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report",
+      "date": "2025-12-22",
+      "external": false,
+      "categories": [
+        "corrections"
+      ],
+      "tags": [
+        "prison",
+        "harassment"
+      ],
+      "authors": [
+        {
+          "title": "Center for Justice Research and Evaluation",
+          "description": "The Center for Justice Research and Evaluation conducts applied research and evaluation projects that examine critical criminal and juvenile justice topics and criminal justice program implementation and outcomes in Illinois."
+        }
+      ],
+      "images": null,
+      "abstract": "Public Act  103-283 amended the Criminal Code to establish the offense of \"lewd sexual display in a penal institution.\" A person who is incarcerated commits this offense when they knowingly expose their genitals to individuals for the purpose of harassment or intimidation. Section 11-9.2-2 of the legislation requires the Illinois Criminal Justice Information Authority to compile information on any charges, referrals, and demographic information related to this offense from Illinois penal institutions and State's Attorney offices. This is the second annual report.",
+      "markdown": "## Introduction\n\nThe Illinois legislature enacted [Public Act 103-283](https://www.ilga.gov/legislation/publicacts/fulltext.asp?Name=103-0283), which amended the Criminal Code to establish the criminal offense of “lewd sexual display in a penal institution” as of January 1, 2024. \n\nAs stated in [720 ILCS 5/11-9.2-1](https://www.ilga.gov/legislation/ilcs/documents/072000050K11-9.2-1.htm),\n\n* a) A person commits lewd sexual display in a penal institution when he or she is in the custody of a penal institution and knowingly engages in any of the following acts while he or she is confined in a pen",
+      "mainfiletype": "full report",
+      "funding": "This evaluation was supported by Grant 15PBJA-21-GG-00271-JAGX awarded to the Illinois Criminal Justice Information Authority by the Bureau of Justice Statistics, Office of Justice Programs, U.S. Department of Justice. Points of view or opinions contained within this document are those of the authors and do not necessarily represent the official position or policies of the Authority or the U.S. Department of Justice.This evaluation was supported by Grant 15PBJA-21-GG-00271-JAGX awarded to the Illinois Criminal Justice Information Authority by the Bureau of Justice Statistics, Office of Justice Programs, U.S. Department of Justice. Points of view or opinions contained within this document are those of the authors and do not necessarily represent the official position or policies of the Authority or the U.S. Department of Justice.",
+      "citation": "Center for Justice Research and Evaluation. (2025). <em>Lewd sexual display in a penal institution: State Fiscal Year 2025 report.</em> Illinois Criminal Justice Information Authority.",
+      "doi": null,
+      "hideFromBanner": false,
+      "createdAt": "2025-12-22T18:07:56.436Z",
+      "updatedAt": "2026-04-25T13:32:56.313Z",
+      "publishedAt": "2026-04-25T13:32:56.336Z",
+      "type": "researchReport",
+      "splash": {
+        "id": 1042,
+        "documentId": "iolyr7v9ok6lhvakidb94rhq",
+        "name": "lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report-splash.jpg",
+        "alternativeText": null,
+        "caption": null,
+        "focalPoint": null,
+        "width": 1920,
+        "height": 1080,
+        "formats": {
+          "thumbnail": {
+            "name": "thumbnail_lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report-splash.jpg",
+            "hash": "thumbnail_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 245,
+            "height": 138,
+            "size": 2.69,
+            "sizeInBytes": 2692,
+            "url": "/uploads/thumbnail_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca.jpg"
+          },
+          "large": {
+            "name": "large_lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report-splash.jpg",
+            "hash": "large_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 1000,
+            "height": 563,
+            "size": 16.09,
+            "sizeInBytes": 16089,
+            "url": "/uploads/large_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca.jpg"
+          },
+          "small": {
+            "name": "small_lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report-splash.jpg",
+            "hash": "small_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 500,
+            "height": 281,
+            "size": 6.44,
+            "sizeInBytes": 6443,
+            "url": "/uploads/small_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca.jpg"
+          },
+          "medium": {
+            "name": "medium_lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report-splash.jpg",
+            "hash": "medium_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 750,
+            "height": 422,
+            "size": 10.86,
+            "sizeInBytes": 10859,
+            "url": "/uploads/medium_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca.jpg"
+          }
+        },
+        "hash": "lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca",
+        "ext": ".jpg",
+        "mime": "image/jpeg",
+        "size": 32.19,
+        "url": "/uploads/lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_splash_258b9765ca.jpg",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T18:30:46.915Z",
+        "updatedAt": "2026-03-16T18:30:46.915Z",
+        "publishedAt": "2026-03-16T18:30:46.915Z"
+      },
+      "thumbnail": {
+        "id": 1043,
+        "documentId": "z1iws095ejkmfe7eu28pfan0",
+        "name": "lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report-thumbnail.jpg",
+        "alternativeText": null,
+        "caption": null,
+        "focalPoint": null,
+        "width": 500,
+        "height": 500,
+        "formats": {
+          "thumbnail": {
+            "name": "thumbnail_lewd-sexual-display-in-a-penal-institution-state-fiscal-year-2025-report-thumbnail.jpg",
+            "hash": "thumbnail_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_thumbnail_70fe51f830",
+            "ext": ".jpg",
+            "mime": "image/jpeg",
+            "path": null,
+            "width": 156,
+            "height": 156,
+            "size": 1.93,
+            "sizeInBytes": 1930,
+            "url": "/uploads/thumbnail_lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_thumbnail_70fe51f830.jpg"
+          }
+        },
+        "hash": "lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_thumbnail_70fe51f830",
+        "ext": ".jpg",
+        "mime": "image/jpeg",
+        "size": 8.11,
+        "url": "/uploads/lewd_sexual_display_in_a_penal_institution_state_fiscal_year_2025_report_thumbnail_70fe51f830.jpg",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T18:30:47.885Z",
+        "updatedAt": "2026-03-16T18:30:47.885Z",
+        "publishedAt": "2026-03-16T18:30:47.885Z"
+      },
+      "mainfile": {
+        "id": 1286,
+        "documentId": "magyqbfrnus7nqbi941gyb9v",
+        "name": "FINAL Lewd Sexual Display in Prison 2025 Annual Report.pdf",
+        "alternativeText": null,
+        "caption": null,
+        "focalPoint": null,
+        "width": null,
+        "height": null,
+        "formats": null,
+        "hash": "FINAL_Lewd_Sexual_Display_in_Prison_2025_Annual_Report_f6b389409b",
+        "ext": ".pdf",
+        "mime": "application/pdf",
+        "size": 204.08,
+        "url": "/uploads/FINAL_Lewd_Sexual_Display_in_Prison_2025_Annual_Report_f6b389409b.pdf",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2026-03-16T18:44:21.677Z",
+        "updatedAt": "2026-03-16T18:44:21.677Z",
+        "publishedAt": "2026-03-16T18:44:21.677Z"
+      },
+      "extrafile": null,
+      "apps": [],
+      "datasets": []
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 2,
+      "pageCount": 118,
+      "total": 236
+    }
+  }
+}
