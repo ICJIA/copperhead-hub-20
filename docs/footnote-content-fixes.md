@@ -2,6 +2,15 @@
 
 **Date:** 2026-07-11 · **Audience:** whoever has Strapi admin (or Hub Studio) write access
 
+> **Faster path:** [`footnote-fixes/`](footnote-fixes/) contains the **complete
+> corrected `markdown` field for each article**, pre-validated against the
+> rendering pipeline — paste each file over the article's markdown field
+> wholesale (see its README). The find/replace instructions below describe the
+> same fixes for review, or for hand-application if an article was edited in
+> Strapi after 2026-07-11. The two "lost" citations in article 9 have since
+> been **recovered from the original report PDF** and are included in the
+> paste-ready file.
+
 The Copperhead frontend fixed footnote *rendering* site-wide (v0.19.x normalizes
 hand-wrapped and indented footnote definitions before parsing). Nine articles
 remain broken because their **CMS source text is corrupted** — the same defects
