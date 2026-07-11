@@ -54,12 +54,15 @@ const filtered = computed(() => {
       </p>
     </div>
 
+    <h2 class="sr-only">
+      Results
+    </h2>
     <ul
       class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
       role="list"
     >
       <li
-        v-for="app in filtered"
+        v-for="(app, index) in filtered"
         :key="app.documentId"
       >
         <DataCard
@@ -69,6 +72,7 @@ const filtered = computed(() => {
           :description="app.description"
           :categories="app.categories"
           :image="app.image"
+          :eager="index < 3"
           :archived="app.status === 'archived'"
         />
       </li>

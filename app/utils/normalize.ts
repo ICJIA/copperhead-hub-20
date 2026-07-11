@@ -123,8 +123,13 @@ export function normalizeArticleSummary(raw: Raw, origin: string): ArticleSummar
     external: raw.external === true,
     categories: stringArray(raw.categories),
     tags: stringArray(raw.tags),
-    authors: normalizeAuthors(raw.authors),
-    abstract: s(raw.abstract),
+    // Names only — carrying every author bio 236× would bloat the
+    // listing payload for data the cards never render.
+    authors: normalizeAuthors(raw.authors).map(author => ({ name: author.name })),
+    // Cards clamp to 3 lines (~200 chars); shipping 236 full abstracts
+    // inflates the payload the browser must parse before hydration.
+    // Deep full-text matching is /search's job.
+    abstract: s(raw.abstract).slice(0, 240),
     thumbnail: normalizeMedia(raw.thumbnail, origin),
   }
 }

@@ -24,3 +24,18 @@
   from = "/"
   to = "/researchhub/"
   status = 302
+
+# Security headers. CSP notes:
+# - script-src 'unsafe-inline' is required by Nuxt's inline payload/head
+#   scripts (static sites cannot use nonces); no external script origins
+#   except the Plausible instance.
+# - 'wasm-unsafe-eval' is required by Pagefind's WebAssembly engine.
+# - img/connect allow the CMS (media) and Plausible (events).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://plausible.icjia.cloud; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://v2.hub.icjia-api.cloud; font-src 'self' data:; connect-src 'self' https://plausible.icjia.cloud; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"

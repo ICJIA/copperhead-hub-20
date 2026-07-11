@@ -1,9 +1,9 @@
 {
   "name": "copperhead-hub-20",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "private": true,
   "type": "module",
-  "description": "Copperhead — ICJIA Research Hub 2.0 public frontend (Nuxt 4, Nuxt UI 4, static generation)",
+  "description": "Copperhead \u2014 ICJIA Research Hub 2.0 public frontend (Nuxt 4, Nuxt UI 4, static generation)",
   "license": "MIT",
   "engines": {
     "node": ">=22"
@@ -25,6 +25,7 @@
     "lhci": "lhci autorun"
   },
   "dependencies": {
+    "@nuxt/image": "2.0.0",
     "@nuxt/ui": "^4.9.0",
     "isomorphic-dompurify": "3.18.0",
     "marked": "18.0.6",
@@ -51,6 +52,7 @@
       "@parcel/watcher",
       "@tailwindcss/oxide",
       "esbuild",
+      "sharp",
       "unrs-resolver",
       "vue-demi"
     ]

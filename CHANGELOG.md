@@ -4,6 +4,29 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.12.0] - 2026-07-11
+
+Phase 5 — hardening: template performance budgets, security headers, keyboard tests, dependency posture, and the operations runbook.
+
+### Added
+
+- Lighthouse budgets now cover the five key templates (home, listing, article, dataset, search) with an assertion matrix; scores 0.91–0.96 everywhere except the listing (0.84, floor 0.80 — the 42-card image grid under Lighthouse's lazy-image simulation; tracked for a pagination follow-up)
+- Build-time image optimization (`@nuxt/image`): card images are now same-origin optimized webp `/_ipx` assets (~half the bytes, no cross-origin setup on the LCP path); preconnect to the CMS origin for the remaining full-size media
+- Security headers (`netlify.toml`): CSP (self + Plausible + `wasm-unsafe-eval` for Pagefind; no other external script origins), `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`
+- Keyboard accessibility tests (skip-link first-in-tab-order → `#main-content`; section nav reachable and operable) — a11y suite now 30 checks
+- `docs/runbook.md` — operations manual: content ops (the Studio publish → Netlify **build hook**, created), build commands, the launch-day checklist (robots flip, `PARITY_STRICT`, SEO budget restore, proxy flip, rollback), manual accessibility pass procedure, secrets rotation list, dependency posture
+- `dependabot.yml` (weekly grouped minor/patch; actions monthly)
+
+### Fixed
+
+- **Hydration crash on the articles listing** (`TypeError … 'dispose'` from a reactive second `useHead`) — it silently stripped the meta description at runtime and cost ~0.10 of performance score; removing the ineffective LCP-preload eliminated it (listing 0.74 → 0.84)
+- Card images ship explicit dimensions; first-row images load eagerly with `fetchpriority=high`; listing payload slimmed (author names only, clamped abstracts, no unused tags)
+- Heading order on listing pages (cards' h3 under an sr-only h2)
+
+### Security
+
+- Production dependency audit: 1 low advisory. Dev-chain advisories (lhci, `file-type` via pdf-search-index, esbuild) have no runtime exposure — the static site ships no dependencies; Dependabot now PRs weekly. Upstream note: `@icjia/pdf-search-index` should bump `file-type`
+
 ## [0.11.0] - 2026-07-11
 
 Phase 4 — SEO, URL-parity infrastructure, and analytics.

@@ -54,12 +54,15 @@ const filtered = computed(() => {
       </p>
     </div>
 
+    <h2 class="sr-only">
+      Results
+    </h2>
     <ul
       class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
       role="list"
     >
       <li
-        v-for="dataset in filtered"
+        v-for="(dataset, index) in filtered"
         :key="dataset.documentId"
       >
         <DataCard
@@ -68,6 +71,7 @@ const filtered = computed(() => {
           :date="dataset.date"
           :description="dataset.description"
           :categories="dataset.categories"
+          :eager="index < 3"
           :archived="dataset.status === 'archived'"
         />
       </li>

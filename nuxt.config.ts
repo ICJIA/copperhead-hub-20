@@ -4,7 +4,7 @@
 import { hub } from './hub.config.mjs'
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui', '@nuxt/eslint'],
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/image'],
 
   devtools: { enabled: true },
 
@@ -17,6 +17,10 @@ export default defineNuxtConfig({
       title: hub.site.name,
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: `${hub.site.baseURL}favicon.svg` },
+        // CMS media is cross-origin; connection setup would otherwise sit
+        // on the LCP critical path for image-bearing pages.
+        { rel: 'preconnect', href: hub.cms.origin, crossorigin: '' },
+        { rel: 'dns-prefetch', href: hub.cms.origin },
       ],
     },
   },
@@ -96,5 +100,14 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+
+  image: {
+    // Build-time optimization: prerendered pages reference same-origin
+    // /_ipx assets (webp, sized) instead of cross-origin CMS originals —
+    // no connection-setup penalty on the LCP path, roughly half the bytes.
+    domains: [new URL(hub.cms.origin).host],
+    format: ['webp'],
+    quality: 75,
   },
 })

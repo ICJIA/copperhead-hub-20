@@ -94,7 +94,8 @@ export async function fetchArticleSummaries(): Promise<ArticleSummary[]> {
   // `authors` (like categories/tags) is a JSON scalar field from the
   // migration, not a relation — it belongs in fields[], and populate
   // rejects it ("Invalid key") .
-  const fields = ['title', 'slug', 'date', 'abstract', 'type', 'categories', 'tags', 'authors', 'external', 'status']
+  // No tags: the listing UI filters by type/topic/author/year only.
+  const fields = ['title', 'slug', 'date', 'abstract', 'type', 'categories', 'authors', 'external', 'status']
   const query: Record<string, string | number> = {
     'sort': 'date:desc',
     'populate[0]': 'thumbnail',

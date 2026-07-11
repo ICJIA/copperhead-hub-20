@@ -9,21 +9,38 @@ const props = defineProps<{
   categories: string[]
   image?: MediaFile
   archived?: boolean
+  eager?: boolean
 }>()
 
 const primaryCategory = computed(() => props.categories[0])
+
+const img = computed(() => {
+  if (!props.image) return undefined
+  const small = props.image.formats?.small
+  return {
+    src: small?.url ?? props.image.url,
+    width: small?.width ?? props.image.width,
+    height: small?.height ?? props.image.height,
+    alt: props.image.alternativeText,
+  }
+})
 </script>
 
 <template>
   <article class="relative flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm transition-shadow focus-within:ring-2 focus-within:ring-primary hover:shadow-md">
     <div class="aspect-[16/9] w-full bg-elevated">
-      <img
-        v-if="image"
-        :src="image.url"
-        :alt="image.alternativeText"
+      <NuxtImg
+        v-if="img"
+        :src="img.src"
+        :alt="img.alt"
+        width="400"
+        height="225"
+        fit="cover"
+        densities="x1"
         class="h-full w-full object-cover"
-        loading="lazy"
-      >
+        :loading="eager ? 'eager' : 'lazy'"
+        :fetchpriority="eager ? 'high' : undefined"
+      />
       <div
         v-else
         class="flex h-full w-full items-center justify-center"

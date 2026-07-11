@@ -4,21 +4,42 @@ import type { ArticleSummary } from '../types/content'
 const props = defineProps<{
   article: ArticleSummary
   highlight?: string
+  /** First-row cards load eagerly — a lazy LCP image tanks page speed. */
+  eager?: boolean
 }>()
 
 const primaryCategory = computed(() => props.article.categories[0])
+
+// Cards are ~400px wide; the CMS "small" format (~500px) beats shipping
+// the full-size original. Dimensions prevent layout shift.
+const image = computed(() => {
+  const media = props.article.thumbnail
+  if (!media) return undefined
+  const small = media.formats?.small
+  return {
+    src: small?.url ?? media.url,
+    width: small?.width ?? media.width,
+    height: small?.height ?? media.height,
+    alt: media.alternativeText,
+  }
+})
 </script>
 
 <template>
   <article class="relative flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm transition-shadow focus-within:ring-2 focus-within:ring-primary hover:shadow-md">
     <div class="aspect-[16/9] w-full bg-elevated">
-      <img
-        v-if="article.thumbnail"
-        :src="article.thumbnail.url"
-        :alt="article.thumbnail.alternativeText"
+      <NuxtImg
+        v-if="image"
+        :src="image.src"
+        :alt="image.alt"
+        width="400"
+        height="225"
+        fit="cover"
+        densities="x1"
         class="h-full w-full object-cover"
-        loading="lazy"
-      >
+        :loading="eager ? 'eager' : 'lazy'"
+        :fetchpriority="eager ? 'high' : undefined"
+      />
       <div
         v-else
         class="flex h-full w-full items-center justify-center"

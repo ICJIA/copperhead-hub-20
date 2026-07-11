@@ -17,6 +17,10 @@ useHead({
   link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}articles/` }],
 })
 
+// Note: an LCP-image preload was tried here and removed — it crashed
+// unhead during hydration (reactive second useHead) and measured zero
+// LCP benefit; eager+fetchpriority on the first cards does the work.
+
 const route = useRoute()
 const router = useRouter()
 
@@ -252,18 +256,22 @@ function clearFilters(): void {
         </div>
       </div>
 
+      <h2 class="sr-only">
+        Results
+      </h2>
       <ul
         v-if="view === 'grid'"
         class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         role="list"
       >
         <li
-          v-for="article in visible"
+          v-for="(article, index) in visible"
           :key="article.documentId"
         >
           <ArticleCard
             :article="article"
             :highlight="search"
+            :eager="index < 3"
           />
         </li>
       </ul>
