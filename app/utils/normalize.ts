@@ -123,6 +123,7 @@ export function normalizeArticleSummary(raw: Raw, origin: string): ArticleSummar
     external: raw.external === true,
     categories: stringArray(raw.categories),
     tags: stringArray(raw.tags),
+    authors: normalizeAuthors(raw.authors),
     abstract: s(raw.abstract),
     thumbnail: normalizeMedia(raw.thumbnail, origin),
   }

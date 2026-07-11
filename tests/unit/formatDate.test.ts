@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatDate } from '../../app/utils/formatDate'
+import { formatDate, formatTypeLabel } from '../../app/utils/formatDate'
 
 describe('formatDate', () => {
   it('formats a date-only string without timezone shift', () => {
@@ -24,5 +24,16 @@ describe('formatDate', () => {
 
   it('returns an empty string for unparseable input', () => {
     expect(formatDate('not-a-date')).toBe('')
+  })
+})
+
+describe('formatTypeLabel', () => {
+  it('splits camelCase CMS type values into words', () => {
+    expect(formatTypeLabel('ProgramEvaluationSummary')).toBe('Program Evaluation Summary')
+    expect(formatTypeLabel('ResearchReport')).toBe('Research Report')
+  })
+
+  it('capitalizes single lowercase words', () => {
+    expect(formatTypeLabel('update')).toBe('Update')
   })
 })

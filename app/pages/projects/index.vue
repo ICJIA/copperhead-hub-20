@@ -14,19 +14,30 @@ const list = computed(() =>
   projects.value?.length ? projects.value : PLACEHOLDER_PROJECTS,
 )
 
+// Landing copy: authors own it via a pages entry slugged `projects`
+// (fallback preserves the copy from the retired projecthomes type).
+const { data: copy } = await usePageCopy('projects', {
+  title: 'Major Projects in R&A',
+  summary:
+    'Through major statewide projects and strategic partnerships, ICJIA\'s Research & Analysis Unit modernizes Illinois\'s justice system by integrating rigorous data infrastructure with policy innovation to improve transparency and performance.',
+})
+
 const HEADER_PALETTE = ['bg-icjia-800', 'bg-red-900', 'bg-emerald-900']
 </script>
 
 <template>
   <div class="mx-auto max-w-7xl px-4 py-10">
     <h1 class="text-3xl font-bold text-highlighted">
-      Major Projects in R&amp;A
+      {{ copy?.title }}
     </h1>
     <p class="mt-3 max-w-3xl text-sm leading-relaxed text-toned">
-      Through major statewide projects and strategic partnerships, the
-      Research &amp; Analysis Unit modernizes Illinois's justice system by
-      integrating rigorous data infrastructure with policy innovation.
+      {{ copy?.summary }}
     </p>
+    <div
+      v-if="copy?.bodyHtml"
+      class="article-body mt-6 max-w-3xl"
+      v-html="copy.bodyHtml"
+    />
     <ul
       class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
       role="list"

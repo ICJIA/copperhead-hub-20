@@ -48,6 +48,7 @@ export interface ArticleSummary {
   external: boolean
   categories: string[]
   tags: string[]
+  authors: Author[]
   abstract: string
   thumbnail?: MediaFile
 }

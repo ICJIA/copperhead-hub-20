@@ -91,8 +91,14 @@ export async function fetchAllArticles(): Promise<Article[]> {
 /** Slim rows for the listing page — scalars + thumbnail only, all pages. */
 export async function fetchArticleSummaries(): Promise<ArticleSummary[]> {
   const cms = cmsConfig()
-  const fields = ['title', 'slug', 'date', 'abstract', 'type', 'categories', 'tags', 'external', 'status']
-  const query: Record<string, string | number> = { 'sort': 'date:desc', 'populate[0]': 'thumbnail' }
+  // `authors` (like categories/tags) is a JSON scalar field from the
+  // migration, not a relation — it belongs in fields[], and populate
+  // rejects it ("Invalid key") .
+  const fields = ['title', 'slug', 'date', 'abstract', 'type', 'categories', 'tags', 'authors', 'external', 'status']
+  const query: Record<string, string | number> = {
+    'sort': 'date:desc',
+    'populate[0]': 'thumbnail',
+  }
   fields.forEach((field, i) => {
     query[`fields[${i}]`] = field
   })

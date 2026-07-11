@@ -3,6 +3,7 @@ import type { ArticleSummary } from '../types/content'
 
 const props = defineProps<{
   article: ArticleSummary
+  highlight?: string
 }>()
 
 const primaryCategory = computed(() => props.article.categories[0])
@@ -44,11 +45,23 @@ const primaryCategory = computed(() => props.article.categories[0])
           :to="`/articles/${article.slug}`"
           class="after:absolute after:inset-0 hover:text-primary focus:outline-none"
         >
-          {{ article.title }}
+          <HighlightText
+            :text="article.title"
+            :term="highlight"
+          />
         </NuxtLink>
       </h3>
+      <p
+        v-if="article.authors.length"
+        class="text-xs text-muted"
+      >
+        {{ article.authors.map(a => a.name).join(', ') }}
+      </p>
       <p class="line-clamp-3 text-sm text-muted">
-        {{ article.abstract }}
+        <HighlightText
+          :text="article.abstract"
+          :term="highlight"
+        />
       </p>
       <div
         class="mt-auto pt-1 text-sm font-semibold text-primary"

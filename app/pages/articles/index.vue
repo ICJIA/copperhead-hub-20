@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * Articles listing. Filter state lives in the URL (?q, ?type, ?topic,
+ * ?author, ?year, ?view) so every filtered view is shareable and
+ * back/forward-safe. Addresses the three Hub 2.0 stakeholder concerns:
+ * reports in one click (type chips), author names (author filter),
+ * search highlighting (HighlightText in both card variants).
+ */
 import { hub as hubConfig } from '../../../hub.config.mjs'
 
 useSeoMeta({
@@ -7,6 +14,7 @@ useSeoMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 
 const { data: articles, error } = await useAsyncData('articles-index', () => fetchArticleSummaries())
 
@@ -18,13 +26,25 @@ if (error.value) {
   })
 }
 
-const search = ref('')
-const selectedType = ref('All Types')
-const selectedYear = ref('All Years')
+/** One URL-synced filter param (empty string = not filtering). */
+function useQueryFilter(name: string) {
+  return computed<string>({
+    get: () => {
+      const value = route.query[name]
+      return typeof value === 'string' ? value : ''
+    },
+    set: (value) => {
+      router.replace({ query: { ...route.query, [name]: value || undefined } })
+    },
+  })
+}
 
-// Hub 1.0 parity: the grid/list toggle mirrors into ?view=list so views
-// are shareable and survive back/forward navigation.
-const router = useRouter()
+const search = useQueryFilter('q')
+const selectedType = useQueryFilter('type')
+const selectedTopic = useQueryFilter('topic')
+const selectedAuthor = useQueryFilter('author')
+const selectedYear = useQueryFilter('year')
+
 const view = computed<'grid' | 'list'>({
   get: () => (route.query.view === 'list' ? 'list' : 'grid'),
   set: (value) => {
@@ -32,28 +52,64 @@ const view = computed<'grid' | 'list'>({
   },
 })
 
-const typeOptions = computed(() => {
-  const types = new Set<string>()
+function setView(value: 'grid' | 'list'): void {
+  view.value = value
+}
+
+// Quick chips: the most common publication types, one click away.
+const typeChips = computed(() => {
+  const counts = new Map<string, number>()
   for (const article of articles.value ?? []) {
-    if (article.type) types.add(article.type)
+    if (article.type) counts.set(article.type, (counts.get(article.type) ?? 0) + 1)
   }
-  return ['All Types', ...[...types].sort()]
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(([type]) => type)
 })
 
-const yearOptions = computed(() => {
-  const years = new Set<string>()
-  for (const article of articles.value ?? []) {
-    const year = article.date?.slice(0, 4)
-    if (year) years.add(year)
-  }
-  return ['All Years', ...[...years].sort().reverse()]
-})
+function optionsFrom(values: Iterable<string>, allLabel: string) {
+  return [allLabel, ...[...new Set(values)].filter(Boolean).sort()]
+}
+
+const typeOptions = computed(() => [
+  { label: 'All Types', value: 'All Types' },
+  ...[...new Set((articles.value ?? []).map(a => a.type ?? '').filter(Boolean))]
+    .sort()
+    .map(type => ({ label: formatTypeLabel(type), value: type })),
+])
+
+const topicOptions = computed(() =>
+  optionsFrom((articles.value ?? []).flatMap(a => a.categories), 'All Topics'))
+
+const authorOptions = computed(() =>
+  optionsFrom((articles.value ?? []).flatMap(a => a.authors.map(author => author.name)), 'All Authors'))
+
+const yearOptions = computed(() =>
+  ['All Years', ...[...new Set((articles.value ?? []).map(a => a.date?.slice(0, 4)).filter((y): y is string => !!y))].sort().reverse()])
+
+/** USelect needs a concrete value; '' maps to the "All …" option. */
+function selectModel(filter: { value: string }, allLabel: string) {
+  return computed<string>({
+    get: () => filter.value || allLabel,
+    set: (value) => {
+      filter.value = value === allLabel ? '' : value
+    },
+  })
+}
+
+const typeModel = selectModel(selectedType, 'All Types')
+const topicModel = selectModel(selectedTopic, 'All Topics')
+const authorModel = selectModel(selectedAuthor, 'All Authors')
+const yearModel = selectModel(selectedYear, 'All Years')
 
 const filtered = computed(() => {
   const term = search.value.trim().toLowerCase()
   return (articles.value ?? []).filter((article) => {
-    if (selectedType.value !== 'All Types' && article.type !== selectedType.value) return false
-    if (selectedYear.value !== 'All Years' && !article.date.startsWith(selectedYear.value)) return false
+    if (selectedType.value && article.type !== selectedType.value) return false
+    if (selectedTopic.value && !article.categories.includes(selectedTopic.value)) return false
+    if (selectedAuthor.value && !article.authors.some(a => a.name === selectedAuthor.value)) return false
+    if (selectedYear.value && !article.date.startsWith(selectedYear.value)) return false
     if (term && !(`${article.title} ${article.abstract}`.toLowerCase().includes(term))) return false
     return true
   })
@@ -61,7 +117,7 @@ const filtered = computed(() => {
 
 // Hub 1.0 parity: incremental loading, 42 per page.
 const visibleCount = ref(hubConfig.content.listingPageSize)
-watch([search, selectedType, selectedYear], () => {
+watch([search, selectedType, selectedTopic, selectedAuthor, selectedYear], () => {
   visibleCount.value = hubConfig.content.listingPageSize
 })
 const visible = computed(() => filtered.value.slice(0, visibleCount.value))
@@ -70,8 +126,15 @@ function loadMore(): void {
   visibleCount.value += hubConfig.content.listingPageSize
 }
 
-function setView(value: 'grid' | 'list'): void {
-  view.value = value
+function toggleTypeChip(type: string): void {
+  selectedType.value = selectedType.value === type ? '' : type
+}
+
+const hasActiveFilters = computed(() =>
+  !!(search.value || selectedType.value || selectedTopic.value || selectedAuthor.value || selectedYear.value))
+
+function clearFilters(): void {
+  router.replace({ query: route.query.view === 'list' ? { view: 'list' } : {} })
 }
 </script>
 
@@ -82,25 +145,78 @@ function setView(value: 'grid' | 'list'): void {
         Articles and Reports
       </h1>
 
-      <div class="mt-6 flex flex-wrap items-end gap-3">
+      <!-- Quick type chips: one-click filters for common publication types -->
+      <div
+        class="mt-6 flex flex-wrap gap-2"
+        role="group"
+        aria-label="Quick publication-type filters"
+      >
+        <button
+          type="button"
+          class="rounded-full px-4 py-1.5 text-sm font-semibold"
+          :class="!selectedType
+            ? 'bg-icjia-800 text-white'
+            : 'border border-default text-toned hover:text-primary'"
+          :aria-pressed="!selectedType"
+          @click="selectedType = ''"
+        >
+          Show All
+        </button>
+        <button
+          v-for="type in typeChips"
+          :key="type"
+          type="button"
+          class="rounded-full px-4 py-1.5 text-sm font-semibold capitalize"
+          :class="selectedType === type
+            ? 'bg-icjia-800 text-white'
+            : 'border border-default text-toned hover:text-primary'"
+          :aria-pressed="selectedType === type"
+          @click="toggleTypeChip(type)"
+        >
+          {{ formatTypeLabel(type) }}
+        </button>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-end gap-3">
         <UInput
-          v-model="search"
+          :model-value="search"
           icon="i-lucide-search"
           placeholder="Search articles…"
-          class="w-full sm:w-72"
+          class="w-full sm:w-64"
           aria-label="Search articles"
+          @update:model-value="search = $event"
         />
         <USelect
-          v-model="selectedType"
+          v-model="typeModel"
           :items="typeOptions"
-          class="w-44 capitalize"
+          class="w-40 capitalize"
           aria-label="Filter by publication type"
         />
         <USelect
-          v-model="selectedYear"
+          v-model="topicModel"
+          :items="topicOptions"
+          class="w-40 capitalize"
+          aria-label="Filter by topic"
+        />
+        <USelect
+          v-model="authorModel"
+          :items="authorOptions"
+          class="w-48"
+          aria-label="Filter by author"
+        />
+        <USelect
+          v-model="yearModel"
           :items="yearOptions"
-          class="w-36"
+          class="w-32"
           aria-label="Filter by year"
+        />
+        <UButton
+          v-if="hasActiveFilters"
+          color="neutral"
+          variant="ghost"
+          icon="i-lucide-x"
+          label="Clear"
+          @click="clearFilters"
         />
         <p
           class="ml-auto text-sm text-muted"
@@ -141,7 +257,10 @@ function setView(value: 'grid' | 'list'): void {
           v-for="article in visible"
           :key="article.documentId"
         >
-          <ArticleCard :article="article" />
+          <ArticleCard
+            :article="article"
+            :highlight="search"
+          />
         </li>
       </ul>
       <ul
@@ -153,7 +272,10 @@ function setView(value: 'grid' | 'list'): void {
           v-for="article in visible"
           :key="article.documentId"
         >
-          <ArticleListRow :article="article" />
+          <ArticleListRow
+            :article="article"
+            :highlight="search"
+          />
         </li>
       </ul>
 

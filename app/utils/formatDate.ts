@@ -6,6 +6,13 @@
  * in local time, which rendered evening UTC timestamps a day early in
  * US-Central (plan, Appendix A.5 #4).
  */
+/** Humanize CMS type values: "ProgramEvaluationSummary" → "Program Evaluation Summary". */
+export function formatTypeLabel(value: string): string {
+  return value
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/^./, c => c.toUpperCase())
+}
+
 export function formatDate(value: string | Date | null | undefined): string {
   if (!value) return ''
 

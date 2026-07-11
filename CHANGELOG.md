@@ -4,6 +4,22 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.9.0] - 2026-07-11
+
+CMS consolidation (one type per concept) and Phase 3 milestone 1 — the stakeholder-priority filter experience.
+
+### Added
+
+- **Phase 3 filters on `/articles`** — the three Hub 2.0 stakeholder concerns, solved: one-click publication-type chips ("Show All" + the four most common types, humanized labels), an author filter (with author names now shown on every card), and search-term **highlighting** in titles and abstracts (pure text-segment rendering — no `v-html`; `segmentText` unit-tested)
+- Topic filter; every filter URL-synced (`?q`, `?type`, `?topic`, `?author`, `?year`, `?view`) — shareable, back/forward-safe, with a Clear button
+- `usePageCopy(slug, fallback)` — one mechanism for author-editable landing copy on any route
+- `formatTypeLabel` — humanizes CMS type values ("ProgramEvaluationSummary" → "Program Evaluation Summary")
+
+### Changed
+
+- **CMS consolidation (ADR-0003):** landing copy for `/centers` and `/projects` now lives in `pages` entries (slugs `centers`, `projects` — created and published in Strapi with the copy migrated from the singleton `centerhomes`/`projecthomes` collections; the mistakenly centers-flavored `projecthomes.subtitle` copy was not migrated). Both pages read the entries at build time with baked-in fallbacks. The `*home` content types are now unused; **deletion scheduled after 2026-07-31** per `docs/cms-consolidation.md`
+- Article summaries carry authors (`authors` is a JSON scalar field from the migration — selected via `fields[]`; Strapi rejects it as a populate key)
+
 ## [0.8.0] - 2026-07-11
 
 Phase 2, milestone 4 — the remaining URL-contract routes, Hub 1.0 parity details, and design-change-resilient article views.
