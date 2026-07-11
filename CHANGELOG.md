@@ -22,6 +22,7 @@ Phase 0 (Foundations) scaffolding — all quality gates green locally and in CI.
 ### Notes
 
 - TypeScript is pinned to `^6.0.3`, the newest line the toolchain accepts: TypeScript 7 (native compiler) currently breaks `typescript-eslint` and `vue-tsc` (`ERR_PACKAGE_PATH_NOT_EXPORTED`), verified during setup
+- Netlify site `copperhead-hub-20` (icjia team) created and linked to this repo for continuous deployment; preview at `copperhead-hub-20.netlify.app/researchhub/`. `NITRO_PRESET=static` is required in `netlify.toml` — on Netlify, Nitro otherwise auto-switches to its serverless preset and the static 404.html is never emitted (Phase 0 exit criteria complete)
 
 ## [0.2.0] - 2026-07-11
 

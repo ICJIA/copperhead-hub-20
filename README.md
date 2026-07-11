@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Status: Phase 0 (Foundations) — scaffolded, all quality gates green.** The Nuxt 4.4.x application shell is in place with CI-enforced gates (lint, typecheck, unit, axe WCAG 2.1 A/AA in light *and* dark mode, Lighthouse budgets). Next: connect the Netlify site, then Phase 1 (content layer). Last updated: July 11, 2026.
+> **Status: Phase 0 (Foundations) — complete.** All quality gates green in CI (lint, typecheck, unit, axe WCAG 2.1 A/AA in light *and* dark mode, Lighthouse budgets), and the preview site deploys continuously from `main`: **https://copperhead-hub-20.netlify.app/researchhub/** (crawling blocked until launch). Next: Phase 1 (typed Strapi 5 content layer). Last updated: July 11, 2026.
 
 ## TL;DR — the 30-second version
 
