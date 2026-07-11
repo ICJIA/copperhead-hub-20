@@ -6,7 +6,7 @@ date: "July 11, 2026 — Draft v1.0"
 
 > **Document purpose.** This document does three things: (1) it explains, in plain English, where the ICJIA Research Hub stands today and why it must be rebuilt; (2) it assesses the unfinished rewrite attempt (`ICJIA/hub-frontend`, March–July 2026) in enough technical detail to justify the path chosen; and (3) it lays out a concrete, phased roadmap for **Copperhead**, the new Research Hub public site, built on Nuxt 4.4.x and Nuxt UI 4.x against the already-completed Strapi 5 content database.
 >
-> **How to read it.** Part I (Sections 1–7) is written for managers and decision-makers — about ten minutes of reading, no technical background assumed; unfamiliar terms are in the Glossary (Appendix D). Part II (Sections 8–10) and the Appendices are for developers. Web addresses for every system mentioned are collected as plain text in Appendix E. Figma design mockups will be attached in a future revision; this document is the planning and engineering baseline.
+> **How to read it.** Part I (Sections 1–7) is written for managers and decision-makers — about ten minutes of reading, no technical background assumed; unfamiliar terms are in the Glossary (Appendix D). Part II (Sections 8–10) and the Appendices are for developers. Web addresses for every system mentioned are collected as clickable links in Appendix E. Figma design mockups will be attached in a future revision; this document is the planning and engineering baseline.
 
 **Contents** *(click an entry to jump to that section)*
 
@@ -27,7 +27,7 @@ date: "July 11, 2026 — Draft v1.0"
 - [Appendix B — Hub 1.0 URL & feature contract](#appendix-b--hub-10-url--feature-contract)
 - [Appendix C — Reuse checklist](#appendix-c--reuse-checklist)
 - [Appendix D — Glossary (for non-technical readers)](#appendix-d--glossary-for-non-technical-readers)
-- [Appendix E — Referenced resources (plain-text addresses)](#appendix-e--referenced-resources-plain-text-addresses)
+- [Appendix E — Referenced resources](#appendix-e--referenced-resources)
 
 ---
 
@@ -62,7 +62,7 @@ Within the broader **Hub 2.0 program**, the components are: **Strapi 5** (the co
 
 ## 3. The Research Hub today (Hub 1.0)
 
-The Research Hub is where ICJIA's Research & Analysis unit publishes its work: research articles and reports, downloadable datasets, and interactive data dashboards ("apps"). It launched in 2019 and currently lives at `icjia.illinois.gov/researchhub/` as a *section inside the main agency website's codebase* — not a separate application.
+The Research Hub is where ICJIA's Research & Analysis unit publishes its work: research articles and reports, downloadable datasets, and interactive data dashboards ("apps"). It launched in 2019 and currently lives at [`icjia.illinois.gov/researchhub/`](https://icjia.illinois.gov/researchhub/) as a *section inside the main agency website's codebase* — not a separate application.
 
 **How much it is used.** Live Plausible analytics, queried for this document on July 11, 2026 (Research Hub pages only, i.e., every URL under `/researchhub/`):
 
@@ -100,15 +100,15 @@ Three substantial pieces of Hub 2.0 exist today. Copperhead does not start from 
 
 | Component | Status | What it means for Copperhead |
 |---|---|---|
-| **Content migration, Strapi 3 → Strapi 5** (`hub-migration-tools`, v4.1) | **Complete and verified** — full API-to-API transfer of all articles, datasets, apps, media, and relationships, with automated field-by-field parity checks; includes an *incremental sync* mode for catching up late content changes at cutover | The hardest, riskiest part of most CMS projects is finished. Copperhead reads from the new Strapi 5 database from day one. |
-| **Hub Studio 2.0** (`hub-studio-2026`) | **Built and working in development**; independently red/blue-team security audited four times with 0 critical issues; 677 automated tests | Writing, previewing, and publishing content is Studio's job. Copperhead therefore contains **no editing features at all** — which removes, in one stroke, the largest and most dangerous part of the unfinished rewrite. |
-| **Filter/search UX proof-of-concept** (`v2-hub-demo`) | Live demo, built around the three concerns raised in Hub 2.0 meetings (research reports in one click; search highlighting; author names) | The filtering user experience has already been explored with stakeholders; Copperhead implements the chosen variant rather than designing from scratch. |
+| **Content migration, Strapi 3 → Strapi 5** ([`hub-migration-tools`](https://github.com/ICJIA/hub-migration-tools), v4.1) | **Complete and verified** — full API-to-API transfer of all articles, datasets, apps, media, and relationships, with automated field-by-field parity checks; includes an *incremental sync* mode for catching up late content changes at cutover | The hardest, riskiest part of most CMS projects is finished. Copperhead reads from the new Strapi 5 database from day one. |
+| **Hub Studio 2.0** ([`hub-studio-2026`](https://github.com/ICJIA/hub-studio-2026)) | **Built and working in development**; independently red/blue-team security audited four times with 0 critical issues; 677 automated tests | Writing, previewing, and publishing content is Studio's job. Copperhead therefore contains **no editing features at all** — which removes, in one stroke, the largest and most dangerous part of the unfinished rewrite. |
+| **Filter/search UX proof-of-concept** ([`v2-hub-demo`](https://github.com/ICJIA/v2-hub-demo)) | Live demo, built around the three concerns raised in Hub 2.0 meetings (research reports in one click; search highlighting; author names) | The filtering user experience has already been explored with stakeholders; Copperhead implements the chosen variant rather than designing from scratch. |
 
-A fourth asset — **`@icjia/pdf-search-index`**, an in-house package that extracts searchable text from PDF/Word/Excel documents at build time, with a first-party Nuxt 4 integration — replaces the most fragile subsystem of the unfinished rewrite (see Section 5).
+A fourth asset — [**`@icjia/pdf-search-index`**](https://github.com/ICJIA/pdf-search-index), an in-house package that extracts searchable text from PDF/Word/Excel documents at build time, with a first-party Nuxt 4 integration — replaces the most fragile subsystem of the unfinished rewrite (see Section 5).
 
 ## 5. The unfinished rewrite: what it is, what it includes, what it doesn't
 
-**Shape of the effort.** Repository `ICJIA/hub-frontend`, created March 17, 2026; last activity July 8, 2026; ~55 pull requests over about four months. It is a Nuxt 4 + Nuxt UI application — the same stack this plan recommends. We analyzed the complete repository snapshot (~12,000 lines across 98 files) file-by-file; the full defect inventory is Appendix A.
+**Shape of the effort.** Repository [`ICJIA/hub-frontend`](https://github.com/ICJIA/hub-frontend), created March 17, 2026; last activity July 8, 2026; ~55 pull requests over about four months. It is a Nuxt 4 + Nuxt UI application — the same stack this plan recommends. We analyzed the complete repository snapshot (~12,000 lines across 98 files) file-by-file; the full defect inventory is Appendix A.
 
 **What it includes (and mostly works in a demo sense):**
 
@@ -163,6 +163,29 @@ Copperhead is a **read-only, statically generated public website**: at build tim
 - **Independence.** Copperhead deploys on its own Netlify site with its own build — the separation of Hub from main website that the current architecture lacks.
 - **Modern, compliant, measurable.** Nuxt 4.4.x + Nuxt UI 4.x; WCAG 2.1 AA/IITAA checks enforced automatically on every change; Plausible analytics continuity from day one.
 - **Six phases** — foundations → content layer → parity pages → search & filtering → SEO/URL verification → hardening & launch — each with public exit criteria (Section 9). Indicatively 8–11 focused weeks; assumptions and risks in Sections 9–10.
+
+### So, what exactly has to be done?
+
+The same roadmap in plain English — the answer to "what will you actually be doing for those weeks?":
+
+1. **Set up the foundations (Phase 0, about a week).** Create the new application shell and its hosting, and wire in the automated quality checks — code standards, tests, accessibility — so that from the first week, nothing can be added to Copperhead that fails them. A private preview web address exists from day one; every phase after this ends with something you can click and review there.
+2. **Teach it to read our content (Phase 1, 1–1.5 weeks).** Connect Copperhead to the new Strapi 5 content database and build, with tests, the machinery that turns stored articles into web-ready pages. Everything else sits on this layer, so it is built carefully and first.
+3. **Rebuild every page type (Phase 2, 2–3 weeks — the largest block).** Hub home, the article page with all of its anatomy (table of contents, downloads, citations, author biographies, funding notes, related content), dataset and dashboard pages, listings, and the small standalone pages. This is where the Figma designs get applied.
+4. **Add search and filtering (Phase 3, 1–2 weeks).** The filtering experience stakeholders already reviewed in the live demo — one-click research reports, highlighted matches, author names — plus search that finds words *inside* published PDFs and spreadsheets.
+5. **Prove nothing breaks (Phase 4, about a week).** Generate everything search engines need (sitemap, scholarly metadata), set up analytics, and run the automated check that **every one of the 266 existing Hub addresses** works on the new site. This check is the launch gate.
+6. **Harden, then launch (Phases 5–6, about two weeks).** Full accessibility and performance audits, documentation, credential rotation, a short content freeze with a final content sync — then the cutover: the main website starts passing `/researchhub/` traffic to Copperhead. Rollback is a one-line change, so launch risk stays small. Afterward, the old Hub code is removed from the main website.
+
+### What we need from leadership
+
+Managers will reasonably ask "what do you need from *us*?" Five things:
+
+1. **A scope confirmation before Phase 2:** launch with the new Centers and Projects pages included (adds roughly one week), or add them shortly after launch. Either is fine; it just needs deciding once.
+2. **Design review availability during Phase 2** — short, prompt Figma sign-offs so page-building doesn't stall waiting on approvals.
+3. **A content-freeze window near launch** — roughly 2–3 business days when R&A holds new publications while the final sync and cutover happen (rehearsed in Phase 5, used in Phase 6).
+4. **Coordination with the main-website deployment** for the one-time switch that routes `/researchhub/` traffic to Copperhead (and a fallback owner identified, though rollback is trivial).
+5. **Agreement that the Success Criteria at the end of Part II are the launch gate** — Copperhead ships when every box is checked, and isn't held past that for additions that can come later.
+
+Beyond those: one developer's focused time for the 8–11 weeks, and nothing else — no new infrastructure purchases, no additional licenses (the hosting and analytics accounts already exist).
 
 ---
 
@@ -389,41 +412,41 @@ Consolidated from a file-by-file review of the complete repository snapshot (~12
 - **Technical debt:** shortcuts in code that accrue "interest" as future work.
 - **ADR (Architecture Decision Record):** a one-page written record of a significant technical decision and why it was made.
 
-# Appendix E — Referenced resources (plain-text addresses)
+# Appendix E — Referenced resources
 
-All addresses below are intentionally **plain text, not clickable links** — copy them into a browser if needed.
+Every address below is a **live, clickable link** (the visible text is the full address, so it can also be copied from a printout).
 
 **Live sites**
 
 | Resource | Address |
 |---|---|
-| Research Hub 1.0 (current, live) | `https://icjia.illinois.gov/researchhub/` |
-| ICJIA main website | `https://icjia.illinois.gov/` |
-| Filter-UX proof of concept (live demo) | `https://v2-hub-demo.netlify.app/` |
+| Research Hub 1.0 (current, live) | [`https://icjia.illinois.gov/researchhub/`](https://icjia.illinois.gov/researchhub/) |
+| ICJIA main website | [`https://icjia.illinois.gov/`](https://icjia.illinois.gov/) |
+| Filter-UX proof of concept (live demo) | [`https://v2-hub-demo.netlify.app/`](https://v2-hub-demo.netlify.app/) |
 
 **Content APIs**
 
 | Resource | Address |
 |---|---|
-| Strapi 3 (legacy, end-of-life — being retired) | `https://researchhub.icjia-api.cloud` |
-| Strapi 5 (migrated, current — Copperhead's source) | `https://v2.hub.icjia-api.cloud` |
+| Strapi 3 (legacy, end-of-life — being retired) | [`https://researchhub.icjia-api.cloud`](https://researchhub.icjia-api.cloud) |
+| Strapi 5 (migrated, current — Copperhead's source) | [`https://v2.hub.icjia-api.cloud`](https://v2.hub.icjia-api.cloud) |
 
 **Code repositories (GitHub, organization `ICJIA`)**
 
 | Repository | Purpose |
 |---|---|
-| `github.com/ICJIA/copperhead-hub-20` | **Project Copperhead — this project's repository** (home of this document) |
-| `github.com/ICJIA/hub-frontend` | The unfinished 2026 rewrite assessed in this document (to be archived) |
-| `github.com/ICJIA/hub-studio-2026` | Hub Studio 2.0 — internal authoring/preview/publishing tool |
-| `github.com/ICJIA/hub-migration-tools` | Completed, verified Strapi 3 → 5 content migration (with incremental sync) |
-| `github.com/ICJIA/v2-hub-demo` | Filter/search UX proof of concept |
-| `github.com/ICJIA/pdf-search-index` | `@icjia/pdf-search-index` — build-time document text extraction for search |
-| `github.com/ICJIA/icjia-public-client-2021` | Main website codebase (contains Hub 1.0 today; source of the legacy URL contract) |
+| [`github.com/ICJIA/copperhead-hub-20`](https://github.com/ICJIA/copperhead-hub-20) | **Project Copperhead — this project's repository** (home of this document) |
+| [`github.com/ICJIA/hub-frontend`](https://github.com/ICJIA/hub-frontend) | The unfinished 2026 rewrite assessed in this document (to be archived) |
+| [`github.com/ICJIA/hub-studio-2026`](https://github.com/ICJIA/hub-studio-2026) | Hub Studio 2.0 — internal authoring/preview/publishing tool |
+| [`github.com/ICJIA/hub-migration-tools`](https://github.com/ICJIA/hub-migration-tools) | Completed, verified Strapi 3 → 5 content migration (with incremental sync) |
+| [`github.com/ICJIA/v2-hub-demo`](https://github.com/ICJIA/v2-hub-demo) | Filter/search UX proof of concept |
+| [`github.com/ICJIA/pdf-search-index`](https://github.com/ICJIA/pdf-search-index) | `@icjia/pdf-search-index` — build-time document text extraction for search |
+| [`github.com/ICJIA/icjia-public-client-2021`](https://github.com/ICJIA/icjia-public-client-2021) | Main website codebase (contains Hub 1.0 today; source of the legacy URL contract) |
 
 **Standards & references (for the compliance sections)**
 
 | Reference | Address |
 |---|---|
-| WCAG 2.1 (W3C accessibility guidelines) | `https://www.w3.org/TR/WCAG21/` |
-| DOJ ADA Title II web accessibility rule | `https://www.ada.gov/resources/2024-03-08-web-rule/` |
-| IITAA (Illinois accessibility act) | `https://doit.illinois.gov` (Accessibility section) |
+| WCAG 2.1 (W3C accessibility guidelines) | [`https://www.w3.org/TR/WCAG21/`](https://www.w3.org/TR/WCAG21/) |
+| DOJ ADA Title II web accessibility rule | [`https://www.ada.gov/resources/2024-03-08-web-rule/`](https://www.ada.gov/resources/2024-03-08-web-rule/) |
+| IITAA (Illinois accessibility act) | [`https://doit.illinois.gov`](https://doit.illinois.gov) (Accessibility section) |
