@@ -39,3 +39,6 @@ playwright-report
 .vscode
 .idea
 .DS_Store
+
+# pdf-search-index extraction cache
+.pdf-cache
