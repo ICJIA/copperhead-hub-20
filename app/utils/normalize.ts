@@ -11,6 +11,7 @@
 import type {
   App,
   Article,
+  ArticleSummary,
   Author,
   Center,
   Dataset,
@@ -97,6 +98,22 @@ function linkedRefs(value: unknown): LinkedRef[] {
       return documentId && slug ? { documentId, slug, title } : null
     })
     .filter((r): r is LinkedRef => r !== null)
+}
+
+export function normalizeArticleSummary(raw: Raw, origin: string): ArticleSummary {
+  return {
+    documentId: s(raw.documentId),
+    slug: s(raw.slug),
+    title: s(raw.title),
+    type: sOpt(raw.type),
+    status: s(raw.status) || 'published',
+    date: s(raw.date),
+    external: raw.external === true,
+    categories: stringArray(raw.categories),
+    tags: stringArray(raw.tags),
+    abstract: s(raw.abstract),
+    thumbnail: normalizeMedia(raw.thumbnail, origin),
+  }
 }
 
 export function normalizeArticle(raw: Raw, origin: string): Article {

@@ -4,6 +4,26 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.0] - 2026-07-11
+
+Phase 2, milestone 1 — design tokens from Figma, site chrome, and the articles section as real static pages.
+
+### Added
+
+- ICJIA design tokens from the Figma file ("READY - hub design"): brand navy `#1B365D` as a full `icjia` palette, wired as the primary color with per-scheme AA shade overrides
+- Site chrome per the design: three-bar header (agency bar, navy breadcrumb band, Research Hub section nav with the dark-mode toggle) and the navy four-column footer
+- `/articles/` listing: server-rendered card grid (thumbnail, AA-safe category chip, date, title, excerpt), client search + type/year filters, Hub-parity "Load More" paging (42), live result count
+- `/articles/[slug]` detail: title band with document icon, Last Updated + View PDF / Download PDF / Cite Article action row, navy Overview band with authors, splash hero, Summary section, sanitized markdown body with typographic styles, Table of Contents rail card (numbered anchors), Funding Acknowledgement card, report-file download card, citation section with DOI link, Keywords & Tags chips
+- Canonical URLs and JSON-LD `ScholarlyArticle` on article pages (SEO parity plumbing begins)
+- **All 236 article routes prerendered** via explicit route registration (`prerender:routes` hook fetching every slug); `failOnError` keeps hollow pages from ever shipping; ~478 routes in ~10s
+- `CategoryChip` component with deterministic, WCAG-AA-safe palette pairs (the a11y gate caught Nuxt UI subtle badges failing 4.5:1 in light mode across 35 nodes)
+- A11y suite now audits the listing and a real article detail page (slug from fixtures) in both color schemes — 8 checks
+
+### Notes
+
+- Prerender link-crawling is intentionally **off**: article bodies contain legacy links to slugs that no longer exist (4 found; inventory kept for the content team — they 404 correctly at click-time). Routes are registered explicitly instead, which is also deterministic.
+- Related-content links on articles are deferred until the datasets/apps routes exist (next milestone) so the site never ships dead internal links.
+
 ## [0.4.0] - 2026-07-11
 
 Phase 1 (Content layer) — typed Strapi 5 reads, one normalization boundary, one sanitized markdown pipeline; all gates green.

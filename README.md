@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Status: Phase 1 (Content layer) — complete.** The preview site now renders live Strapi 5 content at build time (typed service → normalization boundary → sanitized markdown pipeline, all fixture-tested offline). All gates green in CI; continuous deploys from `main`: **https://copperhead-hub-20.netlify.app/researchhub/** (crawling blocked until launch). Next: Phase 2 (parity page templates — needs Figma designs and the hub-home/hub-overview/dicra pages authored in Strapi). Last updated: July 11, 2026.
+> **Status: Phase 2 (Parity pages) — in progress; milestone 1 shipped.** Design tokens from the Figma file, the three-bar header + navy footer chrome, and the full articles section are live on the preview: all **236 article pages prerendered as static HTML** with canonical URLs and `ScholarlyArticle` JSON-LD. All gates green in CI; continuous deploys from `main`: **https://copperhead-hub-20.netlify.app/researchhub/** (crawling blocked until launch). Next milestones: datasets/apps pages, hub home per design, centers/projects (needs hub-home/hub-overview/dicra authored in Strapi). Last updated: July 11, 2026.
 
 ## TL;DR — the 30-second version
 

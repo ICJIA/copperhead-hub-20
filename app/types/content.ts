@@ -37,6 +37,21 @@ export interface LinkedRef {
 /** Editorial status carried over from Hub 1.0 ('published' | 'archived'). */
 export type HubStatus = string
 
+/** Slim article shape for listings — no body, thumbnail media only. */
+export interface ArticleSummary {
+  documentId: string
+  slug: string
+  title: string
+  type?: string
+  status: HubStatus
+  date: string
+  external: boolean
+  categories: string[]
+  tags: string[]
+  abstract: string
+  thumbnail?: MediaFile
+}
+
 export interface Article {
   documentId: string
   legacyId?: string

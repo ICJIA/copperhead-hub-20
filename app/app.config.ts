@@ -1,10 +1,10 @@
-// Theme tokens. Placeholder palette until the Figma design system lands in
-// Phase 2 — components must reference semantic aliases (primary/neutral),
-// never raw color values, so the swap is a one-line change here.
+// Theme tokens. The icjia palette (from the Figma design, navy #1B365D)
+// is defined in app/assets/css/main.css; components reference semantic
+// aliases only — never raw color values.
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'blue',
+      primary: 'icjia',
       neutral: 'slate',
     },
   },

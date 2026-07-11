@@ -14,7 +14,7 @@
  * throws "composable called outside of a plugin" during prerender.
  */
 import { hub } from '../../hub.config.mjs'
-import type { App, Article, Center, Dataset, Page, Project } from '../types/content'
+import type { App, Article, ArticleSummary, Center, Dataset, Page, Project } from '../types/content'
 
 const PAGE_SIZE = hub.cms.pageSize
 
@@ -86,6 +86,18 @@ export async function fetchAllArticles(): Promise<Article[]> {
   const cms = cmsConfig()
   const rows = await fetchAll(cms, 'articles', { populate: '*', sort: 'date:desc' })
   return rows.map(row => normalizeArticle(row, cms.origin))
+}
+
+/** Slim rows for the listing page — scalars + thumbnail only, all pages. */
+export async function fetchArticleSummaries(): Promise<ArticleSummary[]> {
+  const cms = cmsConfig()
+  const fields = ['title', 'slug', 'date', 'abstract', 'type', 'categories', 'tags', 'external', 'status']
+  const query: Record<string, string | number> = { 'sort': 'date:desc', 'populate[0]': 'thumbnail' }
+  fields.forEach((field, i) => {
+    query[`fields[${i}]`] = field
+  })
+  const rows = await fetchAll(cms, 'articles', query)
+  return rows.map(row => normalizeArticleSummary(row, cms.origin))
 }
 
 export async function fetchLatestArticles(count: number): Promise<Article[]> {

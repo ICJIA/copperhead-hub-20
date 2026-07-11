@@ -42,8 +42,43 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-07-11',
 
+  nitro: {
+    prerender: {
+      // Routes are registered explicitly (see hooks below) — deterministic
+      // and complete. Crawling is off because CMS article bodies contain
+      // legacy links to slugs that no longer exist; those must 404 at
+      // click-time (correct) rather than fail the build (Phase 4's link
+      // audit reports them to the content team).
+      crawlLinks: false,
+      routes: ['/', '/articles'],
+      // A registered page that fails to render must fail the build.
+      failOnError: true,
+    },
+  },
+
   typescript: {
     strict: true,
+  },
+
+  hooks: {
+    // Register every article route explicitly — listings paginate client-side
+    // past the first page, so link-crawling alone would miss the tail.
+    async 'prerender:routes'(ctx) {
+      let page = 1
+      for (;;) {
+        const res = await fetch(
+          `${hub.cms.origin}/api/articles?fields[0]=slug&pagination[pageSize]=100&pagination[page]=${page}`,
+        )
+        if (!res.ok) throw new Error(`Article slug fetch failed: HTTP ${res.status}`)
+        const json = await res.json() as {
+          data: { slug: string }[]
+          meta: { pagination: { pageCount: number } }
+        }
+        for (const row of json.data) ctx.routes.add(`/articles/${row.slug}`)
+        if (page >= json.meta.pagination.pageCount) break
+        page++
+      }
+    },
   },
 
   eslint: {

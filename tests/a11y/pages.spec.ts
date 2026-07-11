@@ -1,12 +1,17 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { hub } from '../../hub.config.mjs'
+import articlesFixture from '../fixtures/articles.json' with { type: 'json' }
 
 // Real, fully rendered routes — never placeholder URLs. The prior codebase
 // audited literal "[slug]" paths, i.e., its own 404 page (plan, Appendix A, Q4).
-// As routes land in later phases, add them (or their fixture slugs) here.
+// The article detail uses a real slug from the committed fixtures.
+const ARTICLE_SLUG = articlesFixture.data[0]!.slug
+
 const ROUTES = [
   { name: 'home', path: hub.site.baseURL },
+  { name: 'articles listing', path: `${hub.site.baseURL}articles/` },
+  { name: 'article detail', path: `${hub.site.baseURL}articles/${ARTICLE_SLUG}/` },
   // The prerendered 404 page is served by Netlify for unknown paths.
   { name: '404 page', path: `${hub.site.baseURL}404.html` },
 ]

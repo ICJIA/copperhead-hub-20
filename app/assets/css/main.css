@@ -2,20 +2,111 @@
 @import "@nuxt/ui";
 
 /*
- * Design tokens land here in Phase 2 (from Figma) as a Tailwind v4 @theme
- * block. Until then the app runs on Nuxt UI's semantic tokens only —
- * no hardcoded colors anywhere in components (see plan, Appendix A, Q2).
+ * Design tokens — from the Figma file "READY - hub design".
+ * Brand navy #1B365D (probed from the footer fill); borders #E5E7EB;
+ * page canvas #F5F5F5. The icjia scale below is built around the navy
+ * as its 800 step.
  */
+@theme static {
+  --color-icjia-50: #f2f6fb;
+  --color-icjia-100: #e0e9f4;
+  --color-icjia-200: #c3d5e9;
+  --color-icjia-300: #98b6d8;
+  --color-icjia-400: #6691c2;
+  --color-icjia-500: #4272aa;
+  --color-icjia-600: #305a8e;
+  --color-icjia-700: #274a74;
+  --color-icjia-800: #1b365d;
+  --color-icjia-900: #142842;
+  --color-icjia-950: #0c1a2e;
+}
 
 :root {
-  /* WCAG 2.1 AA floor: the default primary shade (500) fails 4.5:1 as text
-   * on tinted backgrounds and behind white labels; 600 passes both. Token-
-   * level override — components stay palette-agnostic. */
+  /* WCAG 2.1 AA floor: primary must hold 4.5:1 as link text on white and
+   * behind white button labels. icjia-600 (#305a8e) is 6.5:1 on white. */
   --ui-primary: var(--ui-color-primary-600);
 }
 
 .dark {
-  /* Dark surfaces need the lighter shade — 600 fails 4.5:1 on dark tints.
-   * The a11y suite audits both color schemes; this pairing keeps both AA. */
-  --ui-primary: var(--ui-color-primary-400);
+  /* Dark surfaces need the lighter shades — audited in CI per scheme. */
+  --ui-primary: var(--ui-color-primary-300);
+}
+
+/* Rendered CMS markdown (articles). One typography block, token-driven. */
+.article-body {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--ui-text);
+}
+
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  color: var(--ui-primary);
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  scroll-margin-top: 5rem;
+}
+
+.article-body h2 { font-size: 1.375rem; }
+.article-body h3 { font-size: 1.125rem; }
+
+.article-body p { margin-bottom: 1.25em; }
+
+.article-body a {
+  color: var(--ui-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.article-body ul,
+.article-body ol {
+  margin: 0 0 1.25em 1.5em;
+}
+
+.article-body ul { list-style: disc; }
+.article-body ol { list-style: decimal; }
+.article-body li { margin-bottom: 0.375em; }
+
+.article-body blockquote {
+  border-left: 4px solid var(--ui-color-primary-200);
+  padding-left: 1rem;
+  margin: 1.5em 0;
+  color: var(--ui-text-muted);
+}
+
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.9375rem;
+}
+
+.article-body th,
+.article-body td {
+  border: 1px solid var(--ui-border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-body th {
+  background: var(--ui-bg-elevated);
+  font-weight: 600;
+}
+
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5em 0;
+}
+
+.article-body .footnotes {
+  margin-top: 3em;
+  padding-top: 1em;
+  border-top: 1px solid var(--ui-border);
+  font-size: 0.9375rem;
+  color: var(--ui-text-muted);
 }
