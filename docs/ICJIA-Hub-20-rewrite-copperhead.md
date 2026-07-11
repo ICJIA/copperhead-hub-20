@@ -42,6 +42,8 @@ A rewrite attempt ran from March to July 2026 and was left unfinished. We audite
 
 The good news: **most of the Hub 2.0 program is already done.** The content database has been fully migrated to Strapi 5 and verified, and Hub Studio 2.0 — the tool staff will use to write and publish — is built and security-audited. Copperhead, the new public site, is the last major component. The plan below reaches launch in **six phases (indicatively 8–11 weeks of focused development)**, ending with a like-for-like replacement of the current Hub: same addresses, same content, dramatically faster, better-looking, accessible by law, and independent of the main website.
 
+*(Since this plan was approved, a complete working **first draft** of the new site has been built at a private preview address — see "Progress update — July 11, 2026" below. It is not public and not final; the phases, risks, and asks in this document remain the roadmap for finishing it.)*
+
 **Five things to remember:**
 
 1. The Hub drives most of ICJIA's web traffic; its foundation is unsupported software from 2019.
@@ -190,19 +192,31 @@ Beyond those: one developer's focused time for the 8–11 weeks, and nothing els
 
 ## Progress update — July 11, 2026
 
-Written the day this plan was approved — and the same day the first four phases were substantially built. Current state:
+**The one-sentence status: a complete working first draft of the new Research Hub now exists — private, not public, and not final.**
+
+Think of it the way you'd think of a report manuscript: every chapter has been written and reads end-to-end, and now comes the editing. All ~540 pages of the new site render and work at a private preview address (the live Research Hub is untouched). Every article, dataset, and dashboard is browsable in the new design; search — including search *inside* published PDF documents — works; and every change is automatically checked against accessibility, performance, and correctness standards before it can ship. **None of this is public**, and none of it is finished: it is scaffolding and first-draft work, deliberately built early so that reviewing, refining, and content-writing can happen against something real rather than against mockups.
+
+**What "first draft" means concretely — still to do before anyone outside the team sees it:**
+
+- Visual design has not been reviewed against the Figma mockups by its designer; polish passes will follow.
+- Some copy on the site is **placeholder text** (clearly marked in the code) awaiting real content in the CMS — the homepage narrative, the projects section copy, and the publications/staff pages in particular.
+- Content authored on the current Hub since March (about 17 newer articles) syncs over at cutover, and three standing pages (hub overview, DICRA, homepage content) are waiting to be written in the new CMS.
+- A human accessibility walkthrough, a content-freeze rehearsal, and the launch-day checklist remain — all scripted in the project runbook.
+- The preview is deliberately hidden from search engines until launch.
+
+Build state by phase (engineering detail — "built" below means *working in the draft*, not launched):
 
 | Phase | Status |
 |---|---|
 | 0 — Foundations | **Complete.** Nuxt 4.4.8 + Nuxt UI 4.9 scaffold; all six quality gates enforced in CI (lint, types, unit tests, WCAG 2.1 AA accessibility in light *and* dark mode, Lighthouse budgets); standalone Netlify site connected with continuous deployment |
 | 1 — Content layer | **Complete.** Typed Strapi 5 service with a single normalization boundary; sanitized markdown pipeline; offline test fixtures; zero secrets required to build (reads are public; an optional read-only token is supported) |
-| 2 — Parity pages | **Complete (code-side).** Every Hub 1.0 URL-contract route exists — articles (all ~236 prerendered as static pages with scholarly metadata), datasets, apps, centers, projects, publications, staff, and the generic CMS-page route. Design tokens and page chrome from the Figma file; article views componentized per design block for change resilience |
-| 3 — Search & filtering | **Complete (code-side).** The three stakeholder concerns are solved: one-click publication-type chips, author names on cards plus an author filter, and search-term highlighting — all shareable via URL. Site search finds words **inside published PDF and Office documents** (extracted at build time, grouped under their parent items) |
-| 4 — SEO, URLs, analytics | **Substantially complete.** Sitemap emitted every build; canonical URLs and structured data on all key pages; Plausible analytics wired (activates only on the production hostname, so preview traffic never pollutes the statistics); redirects recover four legacy article URLs whose slugs changed; llms.txt. The **URL-parity checker** runs in CI against the archived 266-URL snapshot: 246 already resolve, and all 20 remaining misses are accounted for — 17 articles published on Hub 1.0 after the March migration (the cutover content sync brings them over) and the 3 pages awaiting authoring. Remaining: the robots flip and strict parity enforcement, both launch-day steps |
-| 5 — Hardening | **Substantially complete.** Performance budgets enforced on all five key templates (0.91–0.96; the 42-card listing at 0.84 with a documented floor and follow-up); security headers including a strict content-security policy; keyboard-navigation tests joined the accessibility suite (30 automated checks); dependency audit clean at runtime (zero production exposure) with weekly automated update PRs; the **operations runbook** written — including the launch-day checklist, rollback procedure, the content-publish rebuild webhook (created), the manual accessibility pass procedure, and the secrets-rotation list. Remaining: the human manual accessibility walkthrough and the content-freeze rehearsal |
+| 2 — Parity pages | **First draft built.** Every Hub 1.0 URL-contract route exists — articles (all ~236 prerendered as static pages with scholarly metadata), datasets, apps, centers, projects, publications, staff, and the generic CMS-page route. Design tokens and page chrome from the Figma file; article views componentized per design block for change resilience |
+| 3 — Search & filtering | **First draft built.** The three stakeholder concerns are addressed: one-click publication-type chips, author names on cards plus an author filter, and search-term highlighting — all shareable via URL. Site search finds words **inside published PDF and Office documents** (extracted at build time, grouped under their parent items) |
+| 4 — SEO, URLs, analytics | **First draft built.** Sitemap emitted every build; canonical URLs and structured data on all key pages; Plausible analytics wired (activates only on the production hostname, so preview traffic never pollutes the statistics); redirects recover four legacy article URLs whose slugs changed; llms.txt. The **URL-parity checker** runs in CI against the archived 266-URL snapshot: 246 already resolve, and all 20 remaining misses are accounted for — 17 articles published on Hub 1.0 after the March migration (the cutover content sync brings them over) and the 3 pages awaiting authoring. Remaining: the robots flip and strict parity enforcement, both launch-day steps |
+| 5 — Hardening | **First draft built.** Performance budgets enforced on all five key templates (0.91–0.96; the 42-card listing at 0.84 with a documented floor and follow-up); security headers including a strict content-security policy; keyboard-navigation tests joined the accessibility suite (30 automated checks); dependency audit clean at runtime (zero production exposure) with weekly automated update PRs; the **operations runbook** written — including the launch-day checklist, rollback procedure, the content-publish rebuild webhook (created), the manual accessibility pass procedure, and the secrets-rotation list. Remaining: the human manual accessibility walkthrough and the content-freeze rehearsal |
 | 6 — Launch | Not started — runbook checklist ready; blocked on content authoring + sync, design sign-off, and scheduling |
 
-**Live preview:** `copperhead-hub-20.netlify.app/researchhub/` (blocked from search engines until launch). ~540 routes prerender in about ten seconds; the build carries 41 unit tests and 26 accessibility checks.
+**Private preview:** `copperhead-hub-20.netlify.app/researchhub/` — a draft for internal review only, blocked from search engines until launch. ~540 pages rebuild in about ten seconds; every change passes 41 unit tests, 30 accessibility checks, and performance budgets before it can deploy.
 
 **Decisions made along the way** (recorded as ADRs in the repository): the content database was consolidated to **one content type per concept** — the redundant `centerhomes`/`projecthomes` singleton types were retired into ordinary `pages` entries (deletion of the empty types is scheduled after July 31, 2026, once the current Strapi developer's engagement ends).
 
