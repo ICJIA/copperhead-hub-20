@@ -18,6 +18,7 @@ date: "July 11, 2026 — Draft v1.0"
   - [5. The unfinished rewrite: what it is, what it includes, what it doesn't](#5-the-unfinished-rewrite-what-it-is-what-it-includes-what-it-doesnt)
   - [6. What we keep (the ~2%, plus lessons)](#6-what-we-keep-the-2-plus-lessons)
   - [7. The plan at a glance (managers' view)](#7-the-plan-at-a-glance-managers-view)
+  - [Progress update — July 11, 2026](#progress-update--july-11-2026)
 - [Part II — For Developers](#part-ii--for-developers)
   - [8. Target architecture](#8-target-architecture)
   - [9. Roadmap](#9-roadmap)
@@ -186,6 +187,25 @@ Managers will reasonably ask "what do you need from *us*?" Five things:
 5. **Agreement that the Success Criteria at the end of Part II are the launch gate** — Copperhead ships when every box is checked, and isn't held past that for additions that can come later.
 
 Beyond those: one developer's focused time for the 8–11 weeks, and nothing else — no new infrastructure purchases, no additional licenses (the hosting and analytics accounts already exist).
+
+## Progress update — July 11, 2026
+
+Written the day this plan was approved — and the same day the first four phases were substantially built. Current state:
+
+| Phase | Status |
+|---|---|
+| 0 — Foundations | **Complete.** Nuxt 4.4.8 + Nuxt UI 4.9 scaffold; all six quality gates enforced in CI (lint, types, unit tests, WCAG 2.1 AA accessibility in light *and* dark mode, Lighthouse budgets); standalone Netlify site connected with continuous deployment |
+| 1 — Content layer | **Complete.** Typed Strapi 5 service with a single normalization boundary; sanitized markdown pipeline; offline test fixtures; zero secrets required to build (reads are public; an optional read-only token is supported) |
+| 2 — Parity pages | **Complete (code-side).** Every Hub 1.0 URL-contract route exists — articles (all ~236 prerendered as static pages with scholarly metadata), datasets, apps, centers, projects, publications, staff, and the generic CMS-page route. Design tokens and page chrome from the Figma file; article views componentized per design block for change resilience |
+| 3 — Search & filtering | **Complete (code-side).** The three stakeholder concerns are solved: one-click publication-type chips, author names on cards plus an author filter, and search-term highlighting — all shareable via URL. Site search finds words **inside published PDF and Office documents** (extracted at build time, grouped under their parent items) |
+| 4 — SEO, URLs, analytics | Partially underway (canonical URLs and JSON-LD ship already); sitemap, robots flip, the URL-parity crawler, and Plausible are next |
+| 5–6 — Hardening & launch | Not started |
+
+**Live preview:** `copperhead-hub-20.netlify.app/researchhub/` (blocked from search engines until launch). ~540 routes prerender in about ten seconds; the build carries 41 unit tests and 26 accessibility checks.
+
+**Decisions made along the way** (recorded as ADRs in the repository): the content database was consolidated to **one content type per concept** — the redundant `centerhomes`/`projecthomes` singleton types were retired into ordinary `pages` entries (deletion of the empty types is scheduled after July 31, 2026, once the current Strapi developer's engagement ends).
+
+**What the project needs from the content side** (everything is wired to go live automatically when authored in Strapi/Hub Studio): the `hub-home`, `hub-overview`, and `dicra` page entries; corrected copy on the seeded project entries; and decisions on the publications/staff page sources and the newsletter signup integration (both flagged as Phase 4 items).
 
 ---
 

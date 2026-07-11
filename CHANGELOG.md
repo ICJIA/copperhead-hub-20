@@ -4,6 +4,18 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.10.0] - 2026-07-11
+
+Phase 3 complete — site search that reaches inside published documents.
+
+### Added
+
+- `/search` — site-wide search over every rendered page **plus the contents of published PDF/Office files**. Document text is extracted at build time (`scripts/build-doc-stubs.mjs`, powered by `@icjia/pdf-search-index`) into lightweight noindex stub pages that join the Pagefind index, so document matches download on demand from Pagefind's chunked index instead of shipping a multi-megabyte JSON to browsers. Extraction is cached in `node_modules/.cache` (persists across Netlify builds); failures are named, never silent
+- Grouped results: file hits carry parent metadata and nest under their parent article/dataset ("Match inside PDF document"), with orphan document hits linking to their parent; stale-response guard on queries
+- Pagefind engine loads via `import(/* @vite-ignore */ …)` — no `unsafe-eval` (the predecessor needed a `new Function` hack); search shell prerendered, `?q` URL-synced, header search button
+- `pnpm generate` now builds the Pagefind index (CI audits a working search page); `pnpm generate:full` (Netlify) adds document extraction; `DOC_LIMIT=n` for local smoke tests
+- Rewrite plan document: "Progress update — July 11, 2026" section (phases 0–3 status, decisions, content-side needs); docx rebuilt (19 TOC anchors verified, zero Word fields)
+
 ## [0.9.0] - 2026-07-11
 
 CMS consolidation (one type per concept) and Phase 3 milestone 1 — the stakeholder-priority filter experience.

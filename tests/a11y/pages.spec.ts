@@ -20,6 +20,7 @@ const ROUTES = [
   { name: 'dataset detail', path: `${hub.site.baseURL}datasets/${DATASET_SLUG}/` },
   { name: 'apps listing', path: `${hub.site.baseURL}apps/` },
   { name: 'app detail', path: `${hub.site.baseURL}apps/${APP_SLUG}/` },
+  { name: 'search', path: `${hub.site.baseURL}search/` },
   { name: 'centers', path: `${hub.site.baseURL}centers/` },
   { name: 'projects listing', path: `${hub.site.baseURL}projects/` },
   { name: 'publications', path: `${hub.site.baseURL}publications/` },

@@ -133,6 +133,13 @@ const sectionNav = [
           </NuxtLink>
         </div>
         <div class="flex items-center gap-2">
+          <UButton
+            to="/search"
+            icon="i-lucide-search"
+            color="neutral"
+            variant="ghost"
+            aria-label="Search the Research Hub"
+          />
           <UBadge
             color="neutral"
             variant="subtle"

@@ -6,7 +6,10 @@
 # build-time token — set in the Netlify UI, never in this file.
 
 [build]
-  command = "pnpm generate"
+  # generate:full adds document-text extraction (searchable PDF/Office
+  # bodies) before the Pagefind index; extraction is cached between
+  # builds via node_modules/.cache.
+  command = "pnpm generate:full"
   publish = ".output/public"
 
 [build.environment]

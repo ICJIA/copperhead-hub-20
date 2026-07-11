@@ -1,6 +1,6 @@
 {
   "name": "copperhead-hub-20",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": true,
   "type": "module",
   "description": "Copperhead — ICJIA Research Hub 2.0 public frontend (Nuxt 4, Nuxt UI 4, static generation)",
@@ -11,7 +11,9 @@
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
-    "generate": "nuxt generate && node scripts/postgenerate.mjs",
+    "generate": "nuxt generate && node scripts/postgenerate.mjs && pnpm pagefind",
+    "generate:full": "nuxt generate && node scripts/postgenerate.mjs && node scripts/build-doc-stubs.mjs && pnpm pagefind",
+    "pagefind": "pagefind --site .output/public/researchhub",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
@@ -31,12 +33,14 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
+    "@icjia/pdf-search-index": "1.4.1",
     "@iconify-json/lucide": "^1.2.116",
     "@lhci/cli": "^0.15.1",
     "@nuxt/eslint": "^1.16.0",
     "@playwright/test": "^1.61.1",
     "eslint": "^10.7.0",
     "http-server": "^14.1.1",
+    "pagefind": "1.5.2",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10",
     "vue-tsc": "^3.3.7"
