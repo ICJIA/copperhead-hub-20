@@ -4,6 +4,15 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.18.2] - 2026-07-11
+
+Load More jump made impossible rather than merely unlikely, after it persisted in one environment through 0.18.1's passive pinning.
+
+### Fixed
+
+- Load More now **actively holds the viewport**: a scroll listener snaps the position back for the entire load window, and for a 2-second grace period afterwards any sudden move toward the top (>1500px) is reverted — normal user scrolling passes through untouched. Whatever the source of a jump (browser quirk, extension, focus side effect, anchoring), it cannot win. Verified by injecting hostile `scrollTo(0, 0)` calls during and after the load: both snapped back within 1ms
+- The click is also `preventDefault`ed/stopped and the button is explicitly `type="button"`, ruling out any default-action navigation
+
 ## [0.18.1] - 2026-07-11
 
 Hardened the in-place Load More after a report that it can still jump to the top in some environments.

@@ -153,28 +153,39 @@ const visible = computed(() => filtered.value.slice(0, visibleCount.value))
 
 /**
  * Append the next page in place: spinner on the button while the list
- * patches, scroll position pinned (some browsers' scroll anchoring jumps
- * on large appends), and the new count announced to screen readers. When
- * the last page lands the button disappears, so focus moves to the first
- * newly revealed card instead of dropping to the document body.
+ * patches, and the viewport actively held still. A scroll listener snaps
+ * the position back for the whole load window, and for a grace period
+ * afterwards any sudden move toward the top is reverted — so no browser
+ * quirk, focus side effect, or anchoring behavior can jump the page.
+ * When the last page lands the button disappears, so focus moves to the
+ * first newly revealed card instead of dropping to the document body.
  */
 async function loadMore(): Promise<void> {
   if (loadingMore.value) return
   loadingMore.value = true
   const anchorY = window.scrollY
   const firstNewIndex = visibleCount.value
-  // One painted frame with the spinner before the heavy list patch.
-  await new Promise(resolve => setTimeout(resolve, 300))
-  visibleCount.value += hubConfig.content.listingPageSize
-  await nextTick()
-  // Pin the scroll position through layout and the next two paints —
-  // browsers apply scroll anchoring differently on large list appends.
-  const pin = () => window.scrollTo(0, anchorY)
-  pin()
-  requestAnimationFrame(() => {
-    pin()
-    requestAnimationFrame(pin)
-  })
+  const hold = () => window.scrollTo(0, anchorY)
+  window.addEventListener('scroll', hold)
+  try {
+    // One painted frame with the spinner before the heavy list patch.
+    await new Promise(resolve => setTimeout(resolve, 300))
+    visibleCount.value += hubConfig.content.listingPageSize
+    await nextTick()
+    hold()
+    // Keep holding through the next two paints.
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve(undefined))))
+  }
+  finally {
+    window.removeEventListener('scroll', hold)
+    hold()
+  }
+  // Grace period: normal scrolling passes, a top-jump gets snapped back.
+  const guardTopJump = () => {
+    if (window.scrollY < anchorY - 1500) window.scrollTo(0, anchorY)
+  }
+  window.addEventListener('scroll', guardTopJump)
+  setTimeout(() => window.removeEventListener('scroll', guardTopJump), 2000)
   loadMoreStatus.value = `Showing ${visible.value.length} of ${filtered.value.length} articles`
   if (visibleCount.value >= filtered.value.length) {
     resultsList.value
@@ -369,13 +380,14 @@ function clearFilters(): void {
         class="mt-10 text-center"
       >
         <UButton
+          type="button"
           color="primary"
           size="lg"
           :loading="loadingMore"
           :label="loadingMore
             ? 'Loading more articles…'
             : `Load More Articles (${filtered.length - visibleCount} remaining)`"
-          @click="loadMore"
+          @click.prevent.stop="loadMore"
         />
       </div>
     </div>
