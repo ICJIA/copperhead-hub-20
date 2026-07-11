@@ -167,7 +167,14 @@ async function loadMore(): Promise<void> {
   await new Promise(resolve => setTimeout(resolve, 300))
   visibleCount.value += hubConfig.content.listingPageSize
   await nextTick()
-  window.scrollTo(0, anchorY)
+  // Pin the scroll position through layout and the next two paints —
+  // browsers apply scroll anchoring differently on large list appends.
+  const pin = () => window.scrollTo(0, anchorY)
+  pin()
+  requestAnimationFrame(() => {
+    pin()
+    requestAnimationFrame(pin)
+  })
   loadMoreStatus.value = `Showing ${visible.value.length} of ${filtered.value.length} articles`
   if (visibleCount.value >= filtered.value.length) {
     resultsList.value
@@ -313,7 +320,7 @@ function clearFilters(): void {
       <ul
         v-if="view === 'grid'"
         ref="resultsList"
-        class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        class="mt-8 grid gap-6 [overflow-anchor:none] sm:grid-cols-2 lg:grid-cols-3"
         role="list"
       >
         <li
@@ -330,7 +337,7 @@ function clearFilters(): void {
       <ul
         v-else
         ref="resultsList"
-        class="mt-8 space-y-4"
+        class="mt-8 space-y-4 [overflow-anchor:none]"
         role="list"
       >
         <li
@@ -365,7 +372,9 @@ function clearFilters(): void {
           color="primary"
           size="lg"
           :loading="loadingMore"
-          :label="`Load More Articles (${filtered.length - visibleCount} remaining)`"
+          :label="loadingMore
+            ? 'Loading more articles…'
+            : `Load More Articles (${filtered.length - visibleCount} remaining)`"
           @click="loadMore"
         />
       </div>

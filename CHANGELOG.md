@@ -4,6 +4,15 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.18.1] - 2026-07-11
+
+Hardened the in-place Load More after a report that it can still jump to the top in some environments.
+
+### Fixed
+
+- Load More now pins the scroll position through layout **and the next two paint frames** (a single restore can lose to late scroll-anchoring adjustments in some browser/zoom combinations), and the results lists opt out of native scroll anchoring (`overflow-anchor: none`) so the browser can't fight the pin
+- The button reads **"Loading more articles…"** with the spinner while the next page renders, instead of only swapping in a spinner icon
+
 ## [0.18.0] - 2026-07-11
 
 Interaction polish on the articles experience: in-place Load More and smooth-scrolling table of contents.
