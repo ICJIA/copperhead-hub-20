@@ -202,7 +202,8 @@ function clearFilters(): void {
         </button>
       </div>
 
-      <div class="mt-4 flex flex-wrap items-end gap-3">
+      <div class="mt-4 flex flex-wrap items-center gap-3">
+        <span class="text-sm font-semibold text-toned">Filter by:</span>
         <UInput
           :model-value="search"
           icon="i-lucide-search"

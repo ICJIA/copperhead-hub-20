@@ -4,6 +4,20 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.15.0] - 2026-07-11
+
+Fidelity pass 2 against the Figma frames + link-integrity sweep of the site chrome.
+
+### Added
+
+- Agency-bar search control (square navy button, far right) per the frames; the section-nav search icon removed to match
+- "Filter by:" labels on the articles/datasets/apps filter rows; sort controls on the datasets and apps listings (consistency with the Datahub frame)
+
+### Fixed
+
+- **Every header/footer link verified against the main site's live sitemap** — several pointed at paths that don't exist (`/about/`, `/research/`, `/press/`, `/funding/`, `/contact/`, `/employment/`, `/grant-status-request/`, `/privacy/`, `/accessibility/`, `/about/staff/`). Real targets now: `/about/about-the-authority/`, `/grants/funding/`, `/about/contact/`, `/about/employment/`, `/about/privacy/`, `/about/policies/`, `/about/icjia-staff/`, `/about/publications/`, `/news/`, `/events/`
+- Design elements with **no existing page on the main site** are deliberately omitted rather than shipped as dead links, and documented: "Partners" nav item (main-site dropdown, no landing page), "Grant Status Request", "Terms of Use", the "Language Access Request | Translate Site" utility bar (main-site chrome, needs main-site coordination)
+
 ## [0.14.0] - 2026-07-11
 
 Design polish pass against the shared Figma frames.

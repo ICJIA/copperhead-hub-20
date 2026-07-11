@@ -1,27 +1,30 @@
 <script setup lang="ts">
+// Every target verified against the main site's live sitemap (no dead
+// links; "Grant Status Request" and "Terms of Use" from the design have
+// no existing pages and are omitted until the main site adds them).
 const columns = [
   {
     heading: 'Overview',
     links: [
-      { label: 'About', href: 'https://icjia.illinois.gov/about/' },
+      { label: 'About', href: 'https://icjia.illinois.gov/about/about-the-authority/' },
       { label: 'Events', href: 'https://icjia.illinois.gov/events/' },
-      { label: 'Press', href: 'https://icjia.illinois.gov/press/' },
+      { label: 'News', href: 'https://icjia.illinois.gov/news/' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'Funding', href: 'https://icjia.illinois.gov/funding/' },
-      { label: 'Research', href: 'https://icjia.illinois.gov/research/' },
-      { label: 'Employment', href: 'https://icjia.illinois.gov/employment/' },
+      { label: 'Funding', href: 'https://icjia.illinois.gov/grants/funding/' },
+      { label: 'Publications', href: 'https://icjia.illinois.gov/about/publications/' },
+      { label: 'Employment', href: 'https://icjia.illinois.gov/about/employment/' },
     ],
   },
   {
     heading: 'Contact',
     links: [
-      { label: 'Contact Us', href: 'https://icjia.illinois.gov/contact/' },
-      { label: 'Grant Status Request', href: 'https://icjia.illinois.gov/grant-status-request/' },
-      { label: 'News & Information', href: 'https://icjia.illinois.gov/news/' },
+      { label: 'Contact Us', href: 'https://icjia.illinois.gov/about/contact/' },
+      { label: 'ICJIA Staff', href: 'https://icjia.illinois.gov/about/icjia-staff/' },
+      { label: 'Subscribe to ICJIA News', href: 'https://icjia.illinois.gov/news/' },
     ],
   },
 ]
@@ -69,13 +72,13 @@ const columns = [
         <p>© {{ new Date().getFullYear() }} Illinois Criminal Justice Information Authority. All rights reserved.</p>
         <div class="flex gap-4">
           <a
-            href="https://icjia.illinois.gov/privacy/"
+            href="https://icjia.illinois.gov/about/privacy/"
             class="hover:text-white hover:underline"
           >Privacy Policy</a>
           <a
-            href="https://icjia.illinois.gov/accessibility/"
+            href="https://icjia.illinois.gov/about/policies/"
             class="hover:text-white hover:underline"
-          >Accessibility</a>
+          >Policies &amp; Accessibility</a>
         </div>
       </div>
     </div>

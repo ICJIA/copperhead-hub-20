@@ -21,7 +21,7 @@ useSeoMeta({
     </p>
     <div class="mt-8">
       <UButton
-        to="https://icjia.illinois.gov/about/staff/"
+        to="https://icjia.illinois.gov/about/icjia-staff/"
         target="_blank"
         rel="noopener"
         color="primary"

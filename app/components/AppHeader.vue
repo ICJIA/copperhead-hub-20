@@ -26,11 +26,13 @@ const crumbs = computed(() => {
   return trail
 })
 
+// Mirrors the main site's global nav — every target verified against the
+// live sitemap (Partners is a main-site dropdown with no landing page and
+// is omitted; the real global chrome is the main site's job at launch).
 const agencyNav = [
-  { label: 'About', href: 'https://icjia.illinois.gov/about/' },
-  { label: 'Research', href: 'https://icjia.illinois.gov/research/' },
-  { label: 'Grant Resources', href: 'https://icjia.illinois.gov/grants/' },
-  { label: 'Partners', href: 'https://icjia.illinois.gov/partners/' },
+  { label: 'About', href: 'https://icjia.illinois.gov/about/about-the-authority/' },
+  { label: 'Research', href: 'https://icjia.illinois.gov/researchhub/' },
+  { label: 'Grant Resources', href: 'https://icjia.illinois.gov/grants/funding/' },
 ]
 
 const sectionNav = [
@@ -62,19 +64,33 @@ const sectionNav = [
           </span>
           <span class="sr-only">Illinois Criminal Justice Information Authority home</span>
         </a>
-        <nav
-          aria-label="Agency"
-          class="hidden items-center gap-6 md:flex"
-        >
-          <a
-            v-for="item in agencyNav"
-            :key="item.label"
-            :href="item.href"
-            class="text-xs font-semibold tracking-wider text-toned uppercase hover:text-primary"
+        <div class="flex items-center gap-5">
+          <nav
+            aria-label="Agency"
+            class="hidden items-center gap-6 md:flex"
           >
-            {{ item.label }}
-          </a>
-        </nav>
+            <a
+              v-for="item in agencyNav"
+              :key="item.label"
+              :href="item.href"
+              class="text-xs font-semibold tracking-wider text-toned uppercase hover:text-primary"
+            >
+              {{ item.label }}
+            </a>
+          </nav>
+          <!-- Figma: square navy search control at the agency bar's right -->
+          <NuxtLink
+            to="/search"
+            class="flex size-9 items-center justify-center rounded-md bg-icjia-800 text-white hover:bg-icjia-700"
+            aria-label="Search the Research Hub"
+          >
+            <UIcon
+              name="i-lucide-search"
+              class="size-4.5"
+              aria-hidden="true"
+            />
+          </NuxtLink>
+        </div>
       </div>
     </div>
 
@@ -134,13 +150,6 @@ const sectionNav = [
           </NuxtLink>
         </div>
         <div class="flex shrink-0 items-center gap-2">
-          <UButton
-            to="/search"
-            icon="i-lucide-search"
-            color="neutral"
-            variant="ghost"
-            aria-label="Search the Research Hub"
-          />
           <UBadge
             color="neutral"
             variant="subtle"

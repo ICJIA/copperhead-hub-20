@@ -22,12 +22,23 @@ if (error.value) {
 
 const search = ref('')
 
+const sort = ref('newest')
+const sortOptions = [
+  { label: 'Sort: Most Recent', value: 'newest' },
+  { label: 'Sort: Oldest', value: 'oldest' },
+  { label: 'Sort: Title A–Z', value: 'title' },
+]
+
 const filtered = computed(() => {
   const term = search.value.trim().toLowerCase()
-  if (!term) return apps.value ?? []
-  return (apps.value ?? []).filter(app =>
-    `${app.title} ${app.description}`.toLowerCase().includes(term),
-  )
+  const rows = !term
+    ? (apps.value ?? [])
+    : (apps.value ?? []).filter(app =>
+        `${app.title} ${app.description}`.toLowerCase().includes(term),
+      )
+  if (sort.value === 'oldest') return [...rows].reverse()
+  if (sort.value === 'title') return [...rows].sort((a, b) => a.title.localeCompare(b.title))
+  return rows
 })
 </script>
 
@@ -39,12 +50,19 @@ const filtered = computed(() => {
 
     <div class="mt-6 flex flex-wrap items-center gap-4">
       <DataSectionTabs active="apps" />
+      <span class="text-sm font-semibold text-toned">Filter by:</span>
       <UInput
         v-model="search"
         icon="i-lucide-search"
         placeholder="Search apps…"
         class="w-full sm:w-72"
         aria-label="Search apps"
+      />
+      <USelect
+        v-model="sort"
+        :items="sortOptions"
+        class="w-44"
+        aria-label="Sort apps"
       />
       <p
         class="ml-auto text-sm text-muted"
