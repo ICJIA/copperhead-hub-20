@@ -37,7 +37,7 @@ useHead({
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: JSON.stringify({
+      innerHTML: serializeJsonLd({
         '@context': 'https://schema.org',
         '@type': 'Dataset',
         'name': dataset.value.title,

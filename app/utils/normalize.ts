@@ -37,9 +37,21 @@ function stringArray(value: unknown): string[] {
   return Array.isArray(value) ? value.filter(v => typeof v === 'string') : []
 }
 
+/**
+ * CMS-sourced URLs land in href/src sinks; only web schemes may pass.
+ * Anything else (javascript:, data:, vbscript:, …) is dropped.
+ */
+export function safeHttpUrl(value: unknown): string | undefined {
+  if (typeof value !== 'string' || !value) return undefined
+  const trimmed = value.trim()
+  if (/^https?:\/\//i.test(trimmed)) return trimmed
+  return undefined
+}
+
 export function absolutizeMediaUrl(url: string, origin: string): string {
   if (!url) return ''
-  return url.startsWith('/') ? `${origin}${url}` : url
+  if (url.startsWith('/')) return `${origin}${url}`
+  return safeHttpUrl(url) ?? ''
 }
 
 export function normalizeMedia(raw: Raw | null | undefined, origin: string): MediaFile | undefined {
@@ -169,7 +181,7 @@ export function normalizeDataset(raw: Raw, origin: string): Dataset {
     sources: Array.isArray(raw.sources)
       ? (raw.sources as Raw[])
           .filter(src => src && s(src.title))
-          .map(src => ({ title: s(src.title), url: sOpt(src.url) }))
+          .map(src => ({ title: s(src.title), url: safeHttpUrl(src.url) }))
       : [],
     unit: sOpt(raw.unit),
     timeperiod,
@@ -200,7 +212,7 @@ export function normalizeApp(raw: Raw, origin: string): App {
     tags: stringArray(raw.tags),
     contributors: normalizeAuthors(raw.contributors),
     description: s(raw.description),
-    url: sOpt(raw.url),
+    url: safeHttpUrl(raw.url),
     funding: sOpt(raw.funding),
     citation: sOpt(raw.citation),
     image: normalizeMedia(raw.image, origin),

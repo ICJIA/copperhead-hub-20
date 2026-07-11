@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   absolutizeMediaUrl,
   normalizeApp,
+  safeHttpUrl,
   normalizeArticle,
   normalizeAuthors,
   normalizeCenter,
@@ -104,6 +105,32 @@ describe('normalizeCenter (live fixture) — PascalCase absorption', () => {
   it('maps Title/Description to lowercase domain fields', () => {
     expect(center.title).toBeTruthy()
     expect(center.description).toBeTruthy()
+  })
+})
+
+describe('safeHttpUrl', () => {
+  it('passes http(s) URLs through', () => {
+    expect(safeHttpUrl('https://example.gov/x')).toBe('https://example.gov/x')
+    expect(safeHttpUrl('http://example.gov')).toBe('http://example.gov')
+  })
+
+  it('drops javascript:, data:, and other non-web schemes', () => {
+    expect(safeHttpUrl('javascript:alert(1)')).toBeUndefined()
+    expect(safeHttpUrl('data:text/html,<script>alert(1)</script>')).toBeUndefined()
+    expect(safeHttpUrl('vbscript:x')).toBeUndefined()
+    expect(safeHttpUrl(' JavaScript:alert(1)')).toBeUndefined()
+  })
+
+  it('drops empty and non-string input', () => {
+    expect(safeHttpUrl('')).toBeUndefined()
+    expect(safeHttpUrl(null)).toBeUndefined()
+  })
+})
+
+describe('normalizeApp URL filtering', () => {
+  it('drops a javascript: app URL (href sink)', () => {
+    const app = normalizeApp({ documentId: 'x', slug: 'x', title: 'X', url: 'javascript:alert(1)' }, ORIGIN)
+    expect(app.url).toBeUndefined()
   })
 })
 
