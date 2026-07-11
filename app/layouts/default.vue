@@ -18,11 +18,14 @@
         >
           ICJIA Research Hub
         </NuxtLink>
-        <UBadge
-          color="neutral"
-          variant="subtle"
-          label="Preview build"
-        />
+        <div class="flex items-center gap-2">
+          <UBadge
+            color="neutral"
+            variant="subtle"
+            label="Preview build"
+          />
+          <ColorModeToggle />
+        </div>
       </nav>
     </header>
 

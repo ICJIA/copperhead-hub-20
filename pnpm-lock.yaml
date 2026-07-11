@@ -30,6 +30,9 @@ importers:
       '@axe-core/playwright':
         specifier: ^4.12.1
         version: 4.12.1(playwright-core@1.61.1)
+      '@iconify-json/lucide':
+        specifier: ^1.2.116
+        version: 1.2.116
       '@lhci/cli':
         specifier: ^0.15.1
         version: 0.15.1
@@ -756,6 +759,9 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
+
+  '@iconify-json/lucide@1.2.116':
+    resolution: {integrity: sha512-mbwPmiUXaZyLMSeQOxiTqz2fmZikD9qiGnMBiev47UUNY9uGCEgMg9iUYwaJzCtJTDtAIyK4vokfIpqsVorgSw==}
 
   '@iconify/collections@1.0.708':
     resolution: {integrity: sha512-9C1wW0tb8VVdsbAdfZfEYklxE2p+jz9Qrm6Lfx/+lWS8i0QiOJ5QtOoZScvs2MwVpJsViw4VeMcpQU0+eQJrHg==}
@@ -7160,6 +7166,10 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.4.3': {}
+
+  '@iconify-json/lucide@1.2.116':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify/collections@1.0.708':
     dependencies:

@@ -3,7 +3,9 @@ module.exports = {
     collect: {
       staticDistDir: '.output/public',
       url: ['http://localhost/researchhub/index.html'],
-      numberOfRuns: 1,
+      // Assertions check the median run — single runs on shared CI VMs
+      // swing ±15 performance points from load noise alone.
+      numberOfRuns: 3,
     },
     assert: {
       assertions: {
