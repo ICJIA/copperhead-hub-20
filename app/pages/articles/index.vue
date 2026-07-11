@@ -142,13 +142,40 @@ const filtered = computed(() => {
 
 // Hub 1.0 parity: incremental loading, 42 per page.
 const visibleCount = ref(hubConfig.content.listingPageSize)
+const loadingMore = ref(false)
+const loadMoreStatus = ref('')
+const resultsList = ref<HTMLElement | null>(null)
 watch([search, selectedType, selectedTopic, selectedAuthor, selectedYear], () => {
   visibleCount.value = hubConfig.content.listingPageSize
+  loadMoreStatus.value = ''
 })
 const visible = computed(() => filtered.value.slice(0, visibleCount.value))
 
-function loadMore(): void {
+/**
+ * Append the next page in place: spinner on the button while the list
+ * patches, scroll position pinned (some browsers' scroll anchoring jumps
+ * on large appends), and the new count announced to screen readers. When
+ * the last page lands the button disappears, so focus moves to the first
+ * newly revealed card instead of dropping to the document body.
+ */
+async function loadMore(): Promise<void> {
+  if (loadingMore.value) return
+  loadingMore.value = true
+  const anchorY = window.scrollY
+  const firstNewIndex = visibleCount.value
+  // One painted frame with the spinner before the heavy list patch.
+  await new Promise(resolve => setTimeout(resolve, 300))
   visibleCount.value += hubConfig.content.listingPageSize
+  await nextTick()
+  window.scrollTo(0, anchorY)
+  loadMoreStatus.value = `Showing ${visible.value.length} of ${filtered.value.length} articles`
+  if (visibleCount.value >= filtered.value.length) {
+    resultsList.value
+      ?.querySelectorAll(':scope > li')[firstNewIndex]
+      ?.querySelector('a')
+      ?.focus({ preventScroll: true })
+  }
+  loadingMore.value = false
 }
 
 function toggleTypeChip(type: string): void {
@@ -285,6 +312,7 @@ function clearFilters(): void {
       </h2>
       <ul
         v-if="view === 'grid'"
+        ref="resultsList"
         class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         role="list"
       >
@@ -301,6 +329,7 @@ function clearFilters(): void {
       </ul>
       <ul
         v-else
+        ref="resultsList"
         class="mt-8 space-y-4"
         role="list"
       >
@@ -322,6 +351,12 @@ function clearFilters(): void {
         No articles match the current filters.
       </p>
 
+      <p
+        class="sr-only"
+        role="status"
+      >
+        {{ loadMoreStatus }}
+      </p>
       <div
         v-if="visibleCount < filtered.length"
         class="mt-10 text-center"
@@ -329,6 +364,7 @@ function clearFilters(): void {
         <UButton
           color="primary"
           size="lg"
+          :loading="loadingMore"
           :label="`Load More Articles (${filtered.length - visibleCount} remaining)`"
           @click="loadMore"
         />

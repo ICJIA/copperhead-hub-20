@@ -4,6 +4,15 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.18.0] - 2026-07-11
+
+Interaction polish on the articles experience: in-place Load More and smooth-scrolling table of contents.
+
+### Changed
+
+- **Load More Articles now appends in place**: the button shows a spinner while the next 42 cards render, scroll position is explicitly pinned (some browsers' scroll anchoring can jump on large list appends), and the new count is announced to screen readers ("Showing 84 of 236 articles"). When the last page lands and the button disappears, keyboard focus moves to the first newly revealed card instead of dropping to the document body
+- **Article table of contents links smooth-scroll** to their section (instant for users who prefer reduced motion), landing with the heading clear of the sticky chrome via its scroll-margin. The URL hash still updates for shareable deep links — without a router navigation, which previously double-scrolled via popstate — and focus moves to the target heading for keyboard and screen-reader users
+
 ## [0.17.0] - 2026-07-11
 
 Table presentation pass: zebra striping and full-container-width tables across articles and datasets.

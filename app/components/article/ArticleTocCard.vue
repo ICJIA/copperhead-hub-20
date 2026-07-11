@@ -5,6 +5,26 @@ import type { TocEntry } from '../../utils/markdown'
 defineProps<{
   toc: TocEntry[]
 }>()
+
+/**
+ * Same-page anchors handled manually: native hash navigation jumps
+ * instantly and the popstate it fires makes vue-router scroll a second
+ * time. scrollIntoView honors the headings' scroll-margin-top (sticky
+ * chrome offset) so the section lands fully visible, smooth unless the
+ * user prefers reduced motion.
+ */
+function scrollToSection(id: string): void {
+  const heading = document.getElementById(id)
+  if (!heading) return
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  heading.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+  // Keep the URL shareable without a router navigation (replaceState fires
+  // no popstate, so vue-router stays out of it).
+  history.replaceState(history.state, '', `#${id}`)
+  // Reading/tab order follows the jump for keyboard and SR users.
+  heading.setAttribute('tabindex', '-1')
+  heading.focus({ preventScroll: true })
+}
 </script>
 
 <template>
@@ -27,6 +47,7 @@ defineProps<{
         <a
           :href="`#${entry.id}`"
           class="text-primary hover:underline"
+          @click.prevent="scrollToSection(entry.id)"
         >{{ entry.text }}</a>
       </li>
     </ol>
