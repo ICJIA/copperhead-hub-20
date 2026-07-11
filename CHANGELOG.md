@@ -17,6 +17,11 @@ Phase 2, milestone 2 — the datasets and apps sections; every Hub 1.0 content t
 - "Data" added to the section nav; Analytics & Data breadcrumbs
 - Prerender registration generalized across all three collections — **518 routes** generated; a11y suite now audits 8 routes × 2 color schemes (16 checks)
 
+### Security
+
+- CMS-sourced URLs (app launch URL, dataset source URLs, media URLs) are scheme-filtered at the normalization boundary (`safeHttpUrl`) — only `http(s)` reaches an `href`/`src` sink; `javascript:`/`data:` values are dropped
+- JSON-LD scripts serialize via `serializeJsonLd`, escaping `<` as `<` so CMS strings containing `</script>` cannot break out of the script element (`JSON.stringify` alone does not protect against this)
+
 ## [0.5.0] - 2026-07-11
 
 Phase 2, milestone 1 — design tokens from Figma, site chrome, and the articles section as real static pages.
