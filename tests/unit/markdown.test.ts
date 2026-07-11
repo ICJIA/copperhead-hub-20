@@ -48,6 +48,14 @@ describe('renderMarkdown', () => {
     expect(html).toContain('https://example.gov/report')
   })
 
+  it('treats whitespace-only lines before definitions as blank (CMS tab lines)', () => {
+    const md = 'Claim.[^1] More.[^2]\n\t\n\t\n[^1]: First note.\n[^2]: Second note.'
+    const { html } = renderMarkdown(md)
+    expect(html).not.toContain('[^')
+    expect(html).toContain('id="footnote-1"')
+    expect(html).toContain('id="footnote-2"')
+  })
+
   it('leaves footnote-like lines inside code fences alone', () => {
     const md = 'Text.\n\n```\n[^1]: not a footnote\n```\n'
     const { html } = renderMarkdown(md)

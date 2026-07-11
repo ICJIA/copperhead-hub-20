@@ -4,6 +4,18 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.19.2] - 2026-07-11
+
+One more footnote content shape fixed in the pipeline, and a paste-ready fix document for the truly corrupted articles.
+
+### Fixed
+
+- Whitespace-only lines (the CMS uses tab-only "blank" lines) before footnote definitions are now treated as blank by the normalizer — marked saw them as paragraph continuations, which swallowed the definitions that followed. Fixes the R3 grant-program article (all 7 footnotes render); the residual leak set drops to 9 articles
+
+### Added
+
+- `docs/footnote-content-fixes.md` — exact find/replace instructions for the 9 articles whose footnote markers are corrupted in the CMS source itself (verified identical in the legacy Hub 1.0 CMS, so these predate the migration): three mangled numbers (a year, a p-value), two stray empty definition tokens, one mislabeled definition, one glued/duplicated definition pair, one off-by-one renumbering (12 definitions), and two genuinely lost citations to recover from the original PDF
+
 ## [0.19.1] - 2026-07-11
 
 Recovered the articles-listing performance budget that 0.18.3's image fix spent (CI caught the listing at 0.64 vs the 0.65 floor).

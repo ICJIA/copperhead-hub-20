@@ -34,7 +34,7 @@ function normalizeFootnoteDefinitions(markdown: string): string {
   const out: string[] = []
   let inFence = false
   let prevWasDefinition = false
-  for (const line of markdown.split('\n')) {
+  for (let line of markdown.split('\n')) {
     if (/^\s*(```|~~~)/.test(line)) {
       inFence = !inFence
       out.push(line)
@@ -45,6 +45,10 @@ function normalizeFootnoteDefinitions(markdown: string): string {
       out.push(line)
       continue
     }
+    // Whitespace-only lines (CMS content uses tab-only "blank" lines) are
+    // semantically blank but marked treats them as paragraph continuations,
+    // which swallows a following definition.
+    if (line.trim() === '') line = ''
     if (/^ {0,3}\[\^[^\]]+\]:/.test(line)) {
       if (out.length && out[out.length - 1]!.trim() !== '') out.push('')
       out.push(line.trimStart())
