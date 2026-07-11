@@ -11,6 +11,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Nitro auto-detects Netlify and would switch to its serverless preset;
+  # force plain static output so the artifact is identical to local builds
+  # (and 404.html exists for scripts/postgenerate.mjs).
+  NITRO_PRESET = "static"
 
 # Convenience on the bare preview domain: / -> /researchhub/
 [[redirects]]
