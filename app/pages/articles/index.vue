@@ -151,6 +151,11 @@ watch([search, selectedType, selectedTopic, selectedAuthor, selectedYear], () =>
 })
 const visible = computed(() => filtered.value.slice(0, visibleCount.value))
 
+// The build prerenders the first page in default order — only those
+// articles have static /_ipx/ image variants (see ArticleCard.optimized).
+const optimizedThumbIds = computed(() =>
+  new Set((articles.value ?? []).slice(0, hubConfig.content.listingPageSize).map(a => a.documentId)))
+
 /**
  * Append the next page in place: spinner on the button while the list
  * patches, and the viewport actively held still. A scroll listener snaps
@@ -342,6 +347,7 @@ function clearFilters(): void {
             :article="article"
             :highlight="search"
             :eager="index < 3"
+            :optimized="optimizedThumbIds.has(article.documentId)"
           />
         </li>
       </ul>

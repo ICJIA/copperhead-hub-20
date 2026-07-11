@@ -109,7 +109,10 @@ if (error.value || !data.value?.latest?.length) {
             v-for="article in data.latest"
             :key="article.documentId"
           >
-            <ArticleCard :article="article" />
+            <ArticleCard
+              :article="article"
+              optimized
+            />
           </li>
         </ul>
         <div class="mt-8 text-center">

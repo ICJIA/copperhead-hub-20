@@ -6,6 +6,14 @@ const props = defineProps<{
   highlight?: string
   /** First-row cards load eagerly — a lazy LCP image tanks page speed. */
   eager?: boolean
+  /**
+   * True only when this card was part of build-rendered markup: ipxStatic
+   * emits /_ipx/ variants solely for images rendered at build time, so
+   * client-revealed cards (Load More, filtered-in older articles) must
+   * skip NuxtImg or they 404. Optimized cards keep the same-origin webp
+   * that holds the listing's LCP budget.
+   */
+  optimized?: boolean
 }>()
 
 const primaryCategory = computed(() => props.article.categories[0])
@@ -28,11 +36,20 @@ const image = computed(() => {
 <template>
   <article class="relative flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm transition-shadow focus-within:ring-2 focus-within:ring-primary hover:shadow-md">
     <div class="aspect-[16/9] w-full bg-elevated">
-      <!-- Plain img, not NuxtImg: ipxStatic only emits variants for images
-           rendered at build time, so cards revealed by Load More would 404
-           on /_ipx/ URLs. The CMS origin is allowed by the img-src CSP. -->
+      <NuxtImg
+        v-if="image && optimized"
+        :src="image.src"
+        :alt="image.alt"
+        width="400"
+        height="225"
+        fit="cover"
+        densities="x1"
+        class="h-full w-full object-cover"
+        :loading="eager ? 'eager' : 'lazy'"
+        :fetchpriority="eager ? 'high' : undefined"
+      />
       <img
-        v-if="image"
+        v-else-if="image"
         :src="image.src"
         :alt="image.alt"
         :width="image.width"

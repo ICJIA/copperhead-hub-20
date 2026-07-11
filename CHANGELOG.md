@@ -4,6 +4,14 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.19.1] - 2026-07-11
+
+Recovered the articles-listing performance budget that 0.18.3's image fix spent (CI caught the listing at 0.64 vs the 0.65 floor).
+
+### Fixed
+
+- Article cards are optimized again where optimization exists: the build-rendered first page keeps NuxtImg's same-origin `/_ipx/` webp (those variants are emitted at build, restoring the listing's LCP path), while client-revealed cards — Load More pages and older articles surfaced by filters — use the direct CMS image, keyed by membership in the build-rendered set so no card can ever request a missing variant. Verified: page 1 = 42/42 `_ipx`, after Load More = +42 direct CMS, filtered 2018 view all direct CMS, zero broken images in every case
+
 ## [0.19.0] - 2026-07-11
 
 Footnotes: a site-wide rendering fix and a new in-place reading experience.
