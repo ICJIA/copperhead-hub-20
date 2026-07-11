@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { hub as hubConfig } from '../../hub.config.mjs'
 /**
  * Site search. Pagefind runs over the generated HTML — including the
  * document stubs written by scripts/build-doc-stubs.mjs — so queries
@@ -11,6 +12,10 @@
 useSeoMeta({
   title: 'Search — ICJIA Research Hub',
   description: 'Search Research Hub articles, datasets, and dashboards — including the contents of published documents.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}search/` }],
 })
 
 interface PagefindResultData {

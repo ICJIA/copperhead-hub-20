@@ -13,6 +13,21 @@ useSeoMeta({
 
 useHead({
   link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}` }],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: serializeJsonLd({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': hubConfig.site.name,
+        'url': `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}`,
+        'publisher': {
+          '@type': 'GovernmentOrganization',
+          'name': 'Illinois Criminal Justice Information Authority',
+        },
+      }),
+    },
+  ],
 })
 
 // Live content anchors the page (articles fail loud — they exist and must

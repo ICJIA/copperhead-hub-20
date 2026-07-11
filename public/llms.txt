@@ -1,0 +1,22 @@
+# ICJIA Research Hub
+
+> Research articles, downloadable datasets, and interactive data dashboards
+> published by the Illinois Criminal Justice Information Authority's
+> Research & Analysis Unit.
+
+The Research Hub publishes criminal justice research for Illinois:
+program evaluations, statistical reports, literature reviews, policy
+briefs, datasets, and data dashboards.
+
+## Sections
+
+- Articles and reports: /researchhub/articles/
+- Datasets: /researchhub/datasets/
+- Interactive dashboards: /researchhub/apps/
+- Research centers: /researchhub/centers/
+- Major projects: /researchhub/projects/
+- Search (includes document contents): /researchhub/search/
+
+## Sitemap
+
+- /researchhub/sitemap.xml

@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { hub as hubConfig } from '../../../hub.config.mjs'
+
 useSeoMeta({
   title: 'Analytics and Data — Apps — ICJIA Research Hub',
   description: 'Interactive criminal justice data dashboards published by the Illinois Criminal Justice Information Authority.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}apps/` }],
 })
 
 const { data: apps, error } = await useAsyncData('apps-index', () => fetchAllApps())

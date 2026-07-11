@@ -4,6 +4,18 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.11.0] - 2026-07-11
+
+Phase 4 — SEO, URL-parity infrastructure, and analytics.
+
+### Added
+
+- `sitemap.xml` emitted from the generated output every build (269 URLs; attachment stubs and infrastructure excluded); referenced by `llms.txt`
+- **URL-parity checker** (`pnpm parity`) — the launch gate: verifies every URL in the archived Hub 1.0 snapshot (`docs/parity/hub-sitemap-2026-07-11.txt`, 266 URLs) against the generated output + redirect map. Runs in CI in advisory mode; `PARITY_STRICT=1` (launch day) makes misses fatal. Current: **246/266 resolve**; all 20 misses accounted for (17 post-migration articles → cutover sync; 3 pages → authoring)
+- Redirect map (`public/_redirects`, kept at publish root): four legacy article slugs that circulate in citations 301 to their current articles (fuzzy-matched and verified)
+- **Plausible analytics** wired (`plausible.icjia.cloud`, domain `icjia.illinois.gov`) via a conditional loader that activates only when served from the production hostname — preview/branch deploys and local dev never pollute the KPI record
+- `llms.txt`; `WebSite` JSON-LD on the home page; canonical URLs on all listing/search pages
+
 ## [0.10.0] - 2026-07-11
 
 Phase 3 complete — site search that reaches inside published documents.

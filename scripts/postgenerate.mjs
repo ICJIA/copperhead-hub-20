@@ -23,7 +23,7 @@ if (existsSync(join(target, 'index.html'))) {
   process.exit(0)
 }
 
-const KEEP_AT_ROOT = new Set(['robots.txt', hub.site.basePath])
+const KEEP_AT_ROOT = new Set(['robots.txt', '_redirects', hub.site.basePath])
 
 mkdirSync(target, { recursive: true })
 

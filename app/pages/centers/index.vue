@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { hub as hubConfig } from '../../../hub.config.mjs'
 import { PLACEHOLDER_CENTERS } from '../../content/homepage-placeholders'
 
 useSeoMeta({
   title: 'Centers — ICJIA Research Hub',
   description: 'The specialized research centers of the ICJIA Research & Analysis Unit.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}centers/` }],
 })
 
 // Live centers from Strapi; typed placeholders only if the collection

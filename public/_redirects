@@ -1,0 +1,7 @@
+# Legacy slug corrections — old article URLs that circulate in citations
+# and in-content links but whose slugs changed. Fuzzy-matched and verified
+# against the current CMS (docs/cms-consolidation.md era, 2026-07-11).
+/researchhub/articles/a-state-and-national-overview-of-the-opioid-and-heroin-crisis /researchhub/articles/an-overview-of-national-and-illinois-opioid-and-heroin-crisis 301
+/researchhub/articles/an-examination-of-illinois-sexual-violence-victims; /researchhub/articles/an-examination-of-illinois-sexual-violence-victims 301
+/researchhub/articles/exploring-effective-postopioid-overdose-reversal-responses-for-law-enforcement-and-other-first-responders /researchhub/articles/exploring-effective-post-opioid-overdose-reversal-responses-for-law-enforcement-and-other-first-responders 301
+/researchhub/articles/implementation-science-in-criminal-justice-how-implementation-of-evidencebased-programs-and-practices-affects-outcomes /researchhub/articles/implementation-science-in-criminal-justice-how-implementation-of-evidence-based-programs-and-practices-affects-outcomes 301

@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { hub as hubConfig } from '../../../hub.config.mjs'
+
 useSeoMeta({
   title: 'Analytics and Data — Datasets — ICJIA Research Hub',
   description: 'Downloadable criminal justice datasets published by the Illinois Criminal Justice Information Authority.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}datasets/` }],
 })
 
 const { data: datasets, error } = await useAsyncData('datasets-index', () => fetchAllDatasets())

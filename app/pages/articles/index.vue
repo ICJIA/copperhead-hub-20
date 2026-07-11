@@ -13,6 +13,10 @@ useSeoMeta({
   description: 'Research articles and reports published by the Illinois Criminal Justice Information Authority.',
 })
 
+useHead({
+  link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}articles/` }],
+})
+
 const route = useRoute()
 const router = useRouter()
 

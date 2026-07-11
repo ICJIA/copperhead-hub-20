@@ -58,6 +58,17 @@ export const hub = {
     siteName: 'copperhead-hub-20',
     siteId: '0a3b53a9-46eb-487a-81cb-4cc13d8540da',
   },
+
+  analytics: {
+    /** Self-hosted Plausible instance. */
+    plausibleHost: 'https://plausible.icjia.cloud',
+    /**
+     * The reporting property. The loader only activates when the page is
+     * actually served from this hostname, so preview/branch deploys never
+     * pollute production statistics.
+     */
+    domain: 'icjia.illinois.gov',
+  },
 }
 
 export default hub

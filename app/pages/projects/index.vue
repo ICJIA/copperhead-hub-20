@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { hub as hubConfig } from '../../../hub.config.mjs'
 import { PLACEHOLDER_PROJECTS } from '../../content/homepage-placeholders'
 
 useSeoMeta({
   title: 'Major Projects — ICJIA Research Hub',
   description: 'Major projects and strategic partnerships of the ICJIA Research & Analysis Unit.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: `${hubConfig.site.productionOrigin}${hubConfig.site.baseURL}projects/` }],
 })
 
 const { data: projects } = await useAsyncData('projects-index', () =>

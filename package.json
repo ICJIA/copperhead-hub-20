@@ -1,6 +1,6 @@
 {
   "name": "copperhead-hub-20",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "type": "module",
   "description": "Copperhead — ICJIA Research Hub 2.0 public frontend (Nuxt 4, Nuxt UI 4, static generation)",
@@ -11,9 +11,10 @@
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
-    "generate": "nuxt generate && node scripts/postgenerate.mjs && pnpm pagefind",
-    "generate:full": "nuxt generate && node scripts/postgenerate.mjs && node scripts/build-doc-stubs.mjs && pnpm pagefind",
+    "generate": "nuxt generate && node scripts/postgenerate.mjs && node scripts/build-sitemap.mjs && pnpm pagefind",
+    "generate:full": "nuxt generate && node scripts/postgenerate.mjs && node scripts/build-doc-stubs.mjs && node scripts/build-sitemap.mjs && pnpm pagefind",
     "pagefind": "pagefind --site .output/public/researchhub",
+    "parity": "node scripts/parity-check.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
