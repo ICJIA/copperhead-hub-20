@@ -8,26 +8,26 @@ date: "July 11, 2026 — Draft v1.0"
 >
 > **How to read it.** Part I (Sections 1–7) is written for managers and decision-makers — about ten minutes of reading, no technical background assumed; unfamiliar terms are in the Glossary (Appendix D). Part II (Sections 8–10) and the Appendices are for developers. Web addresses for every system mentioned are collected as plain text in Appendix E. Figma design mockups will be attached in a future revision; this document is the planning and engineering baseline.
 
-**Contents**
+**Contents** *(click an entry to jump to that section)*
 
-- Part I — For Decision-Makers
-  - 1. TL;DR (the 60-second version)
-  - 2. Why a codename? ("Copperhead")
-  - 3. The Research Hub today (Hub 1.0)
-  - 4. What is already done (and de-risks this project)
-  - 5. The unfinished rewrite: what it is, what it includes, what it doesn't
-  - 6. What we keep (the ~2%, plus lessons)
-  - 7. The plan at a glance (managers' view)
-- Part II — For Developers
-  - 8. Target architecture
-  - 9. Roadmap
-  - 10. Risks and mitigations
-  - Success criteria (definition of done)
-- Appendix A — Defect inventory of the unfinished rewrite
-- Appendix B — Hub 1.0 URL & feature contract
-- Appendix C — Reuse checklist
-- Appendix D — Glossary (for non-technical readers)
-- Appendix E — Referenced resources (plain-text addresses)
+- [Part I — For Decision-Makers](#part-i--for-decision-makers)
+  - [1. TL;DR (the 60-second version)](#1-tldr-the-60-second-version)
+  - [2. Why a codename? ("Copperhead")](#2-why-a-codename-copperhead)
+  - [3. The Research Hub today (Hub 1.0)](#3-the-research-hub-today-hub-10)
+  - [4. What is already done (and de-risks this project)](#4-what-is-already-done-and-de-risks-this-project)
+  - [5. The unfinished rewrite: what it is, what it includes, what it doesn't](#5-the-unfinished-rewrite-what-it-is-what-it-includes-what-it-doesnt)
+  - [6. What we keep (the ~2%, plus lessons)](#6-what-we-keep-the-2-plus-lessons)
+  - [7. The plan at a glance (managers' view)](#7-the-plan-at-a-glance-managers-view)
+- [Part II — For Developers](#part-ii--for-developers)
+  - [8. Target architecture](#8-target-architecture)
+  - [9. Roadmap](#9-roadmap)
+  - [10. Risks and mitigations](#10-risks-and-mitigations)
+  - [Success criteria (definition of done)](#success-criteria-definition-of-done)
+- [Appendix A — Defect inventory of the unfinished rewrite](#appendix-a--defect-inventory-of-the-unfinished-rewrite-hub-frontend)
+- [Appendix B — Hub 1.0 URL & feature contract](#appendix-b--hub-10-url--feature-contract)
+- [Appendix C — Reuse checklist](#appendix-c--reuse-checklist)
+- [Appendix D — Glossary (for non-technical readers)](#appendix-d--glossary-for-non-technical-readers)
+- [Appendix E — Referenced resources (plain-text addresses)](#appendix-e--referenced-resources-plain-text-addresses)
 
 ---
 
