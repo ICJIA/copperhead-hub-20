@@ -4,6 +4,13 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.19.3] - 2026-07-11
+
+### Changed
+
+- The footnote pop-up now titles itself **"Reference N"** instead of "Footnote N"
+- Rewrite plan (`docs/ICJIA-Hub-20-rewrite-copperhead.md` + `.docx`) refreshed with the July 11 reader-experience refinements: table restyling, in-place Load More, smooth TOC, the reference pop-up, the site-wide footnote fix (43 of 52 repaired in the pipeline, 9-article CMS correction package), and the performance-gate catch; docx rebuilt field-free with all 19 anchors verified
+
 ## [0.19.2] - 2026-07-11
 
 One more footnote content shape fixed in the pipeline, and a paste-ready fix document for the truly corrupted articles.

@@ -29,7 +29,7 @@ function onBodyClick(event: MouseEvent): void {
   const links = [...clone.querySelectorAll<HTMLAnchorElement>('a[href^="http"]')].slice(0, 3)
   if (lastToastId !== undefined) toast.remove(lastToastId)
   const added = toast.add({
-    title: `Footnote ${id.replace(/^footnote-/, '')}`,
+    title: `Reference ${id.replace(/^footnote-/, '')}`,
     description: (clone.textContent ?? '').replace(/\s+/g, ' ').trim(),
     icon: 'i-lucide-book-open',
     color: 'neutral',
