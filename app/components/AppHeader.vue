@@ -153,7 +153,7 @@ const sectionNav = [
           <UBadge
             color="neutral"
             variant="subtle"
-            label="Preview build"
+            label="Copperhead build"
           />
           <ColorModeToggle />
         </div>
