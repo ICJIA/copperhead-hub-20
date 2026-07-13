@@ -36,7 +36,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
     "@icjia/pdf-search-index": "1.4.1",
-    "@iconify-json/lucide": "^1.2.116",
+    "@iconify-json/lucide": "^1.2.117",
     "@lhci/cli": "^0.15.1",
     "@nuxt/eslint": "^1.16.0",
     "@playwright/test": "^1.61.1",
