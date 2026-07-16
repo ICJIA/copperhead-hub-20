@@ -23,6 +23,8 @@ const ROUTES = [
   { name: 'search', path: `${hub.site.baseURL}search/` },
   // Reader with no ?file — the accessible "no document" shell that prerenders.
   { name: 'reader (empty state)', path: `${hub.site.baseURL}reader/` },
+  // In-app spec doc render (large document — heading order, tables, links).
+  { name: 'spec', path: `${hub.site.baseURL}spec/` },
   { name: 'centers', path: `${hub.site.baseURL}centers/` },
   { name: 'projects listing', path: `${hub.site.baseURL}projects/` },
   { name: 'publications', path: `${hub.site.baseURL}publications/` },

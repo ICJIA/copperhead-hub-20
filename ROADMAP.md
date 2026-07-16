@@ -19,6 +19,10 @@ _Last updated: 2026-07-16 · Current version: v0.24.0_
   "View Resources" section, centers accordion first-open. See `docs/figma-design-audit.md`.
 - **Manager-facing docs & status bar** (v0.24.0) — bottom status bar (version, repo, changelog,
   spec, roadmap), in-app rendered spec, real ICJIA footer logo, this roadmap.
+- **Pre-launch hardening** (2026-07-16) — `/spec` and the reader empty state added to the automated
+  accessibility gate (now 34 checks, light + dark); the reader *with a document loaded* was
+  audited live and confirmed clean (labeled controls, `aria-live` match count, `aria-hidden`
+  canvas, screen-reader text layer).
 - Footnote-rendering pipeline hardening + a paste-ready content-fix package for 9 articles
   (v0.19.x, in `docs/footnote-fixes/`).
 - **The 9 footnote content fixes are applied to Strapi and live** (2026-07-16, via
@@ -30,6 +34,11 @@ _Last updated: 2026-07-16 · Current version: v0.24.0_
 
 ## Next (proposed)
 
+- **Reader performance on multi-page PDFs** (code — I can do this). The reader renders every page
+  sequentially, so a 22-page report takes tens of seconds to fully render (the first match still
+  appears fast via auto-jump, but later pages lag). Fix: a quick text-only pass to find and jump to
+  the first match's page, then render page canvases lazily on scroll (IntersectionObserver). The
+  reader is accessible and functional today — this is a perceived-performance improvement.
 - **Author the `hub-home` CMS entry** — unlocks the homepage hero photo, the "Topics in R&A"
   image, and real homepage copy (currently placeholders).
 - **Real copy for the five project pages** — they currently share the seeded Justice Counts body.
