@@ -1,4 +1,8 @@
 <script setup lang="ts">
+// Public assets live at the app baseURL (/researchhub/), so build the
+// logo path from it rather than a root-absolute src that would 404.
+const logoSrc = `${useRuntimeConfig().app.baseURL}icjia-logo.png`
+
 // Every target verified against the main site's live sitemap (no dead
 // links; "Grant Status Request" and "Terms of Use" from the design have
 // no existing pages and are omitted until the main site adds them).
@@ -34,12 +38,14 @@ const columns = [
   <footer class="bg-icjia-800 text-icjia-100">
     <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
       <div>
-        <span
-          class="inline-flex h-12 w-16 items-center justify-center rounded-sm bg-white/10 font-serif text-xl font-bold tracking-wide text-white"
-          aria-hidden="true"
+        <img
+          :src="logoSrc"
+          width="250"
+          height="175"
+          alt="ICJIA"
+          class="h-16 w-auto rounded-sm"
+          decoding="async"
         >
-          ICJIA
-        </span>
         <p class="mt-4 text-xs leading-relaxed font-semibold tracking-wide uppercase">
           Illinois Criminal Justice<br>Information Authority
         </p>

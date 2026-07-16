@@ -4,6 +4,26 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.24.0] - 2026-07-16
+
+Manager-facing docs and status surface, plus the real agency logo.
+
+### Added
+
+- **Bottom status bar** on every page: the deployed version, and links to the GitHub repository, the
+  changelog, the in-app spec, and the roadmap. Always reflects the current version (from
+  package.json) and the canonical docs.
+- **In-app spec page** (`/spec`): renders `docs/ICJIA-Hub-20-rewrite-copperhead.md` through the site's
+  markdown pipeline, with downloads of the current `.md` and `.docx`. `scripts/copy-spec.mjs`
+  publishes both into the build so the downloads always match what shipped.
+- **ROADMAP.md** — next / deferred / done, for tracking progress at a glance.
+- A running, version-keyed build changelog at the top of the spec doc, mirrored for managers.
+
+### Changed
+
+- The footer now shows the **real ICJIA logo** instead of a text placeholder.
+- README refreshed to the current build (v0.24.0) with living-doc links (changelog, roadmap, spec).
+
 ## [0.23.0] - 2026-07-16
 
 Gentle view transitions, and a centers-card bug fix found along the way.

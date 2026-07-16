@@ -1,8 +1,14 @@
 # Copperhead — ICJIA Research Hub 2.0 (public frontend)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/build-v0.24.0-1b365d.svg)](CHANGELOG.md)
 
-> **Status: FIRST DRAFT — private preview, not public, not final.** A complete working draft of the new Research Hub exists at **https://copperhead-hub-20.netlify.app/researchhub/** (internal review only; hidden from search engines). All ~540 pages, every page type, and search — including search *inside* published PDF documents — work in the draft, and every change passes automated accessibility, performance, and correctness checks before it deploys. It remains scaffolding and first-draft work: design review, real copy for the placeholder sections, and the launch checklist are still ahead. Last updated: July 11, 2026.
+> **Current build: v0.24.0 · updated 2026-07-16.** Living docs, always current:
+> [CHANGELOG](CHANGELOG.md) (what shipped, per version) · [ROADMAP](ROADMAP.md) (next / deferred / done) ·
+> the full [spec & status doc](docs/ICJIA-Hub-20-rewrite-copperhead.md). The running preview also
+> surfaces these from its bottom status bar, and renders the spec in-app at `/researchhub/spec`.
+
+> **Status: FIRST DRAFT — private preview, not public, not final.** A complete working draft of the new Research Hub exists at **https://copperhead-hub-20.netlify.app/researchhub/** (internal review only; hidden from search engines). All ~540 pages, every page type, and search — including search *inside* published PDF documents with an **in-app reader that highlights the searched term** — work in the draft, and every change passes automated accessibility, performance, and correctness checks before it deploys. Recent work has added the in-PDF search-term reader (v0.22.0), gentle reduced-motion-aware view transitions (v0.23.0), two Figma design-parity passes (v0.20–0.21), and this manager-facing docs/status layer (v0.24.0). Still ahead: design review, real copy for the placeholder sections, and the launch checklist.
 
 **For non-technical readers:** the rewrite is underway and further along than "started" — think of the preview as a full first-draft manuscript: every chapter written and readable end-to-end, now entering editing. Real today: all current articles, datasets, and dashboards in the new design; working deep search; the same web addresses the Hub uses now. Still to come: the designer's review against the mockups, real content where placeholder text stands in (homepage narrative, project descriptions, publications/staff pages), the ~17 newest Hub articles (they sync over at cutover), a human accessibility walkthrough, and the coordinated public launch. The plan document in [`docs/`](docs/ICJIA-Hub-20-rewrite-copperhead.md) has a plain-English progress section and the remaining asks of leadership.
 
@@ -24,7 +30,7 @@
 |---|---|---|
 | **Strapi 5 content database** | stores all Hub content (migrated from Strapi 3 via [`hub-migration-tools`](https://github.com/ICJIA/hub-migration-tools)) | ✅ Complete — full parity verified, March 2026 |
 | **Hub Studio 2.0** ([`hub-studio-2026`](https://github.com/ICJIA/hub-studio-2026)) | internal tool where R&A staff write, preview, and publish | ✅ Built and working in development; pre-launch |
-| **Copperhead** (this repository) | the public Research Hub website | 🚧 Planned — this repo |
+| **Copperhead** (this repository) | the public Research Hub website | 🚧 Working first draft (v0.24.0) — this repo |
 
 ## What's in this repository today
 
@@ -32,14 +38,17 @@
 app/                  Nuxt 4 application (baseURL /researchhub/, TypeScript strict)
   layouts/ pages/     accessible shell: skip link, landmarks, error/404 pages
   utils/              first typed utilities (with unit tests)
+  pages/reader.vue    in-app PDF reader with search-term highlighting (pdf.js)
+  pages/spec.vue      renders the spec doc in-app (bottom status bar → Spec)
+  components/         AppHeader, AppFooter (real ICJIA logo), AppStatusBar
 docs/
-  ICJIA-Hub-20-rewrite-copperhead.md/.docx   the rewrite plan (canonical)
-  icjia-hub-frontend-….txt                   snapshot of the unfinished predecessor (assessment basis)
+  ICJIA-Hub-20-rewrite-copperhead.md/.docx   the spec/status doc (canonical, running changelog)
+  figma-design-audit.md                      Figma parity audit + decisions
+  footnote-fixes/                            paste-ready content fixes for 9 articles
   adr/                                       architecture decision records
 tests/unit/           Vitest · tests/a11y/  axe-core WCAG 2.1 A/AA (Playwright, light + dark)
-scripts/              postgenerate restructure for /researchhub/ subpath hosting
-.github/workflows/    CI: lint · typecheck · unit · a11y · Lighthouse budgets
-netlify.toml · lighthouserc.cjs · CHANGELOG.md · LICENSE (MIT) · .nvmrc (Node 22)
+scripts/              postgenerate restructure · copy-spec · doc-stubs · sitemap
+CHANGELOG.md · ROADMAP.md · netlify.toml · lighthouserc.cjs · LICENSE (MIT) · .nvmrc (Node 22)
 ```
 
 ## Development

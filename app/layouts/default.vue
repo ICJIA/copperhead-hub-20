@@ -17,5 +17,6 @@
     </main>
 
     <AppFooter />
+    <AppStatusBar />
   </div>
 </template>

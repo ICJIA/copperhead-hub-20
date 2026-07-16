@@ -1,12 +1,29 @@
 ---
 title: "Project Copperhead"
 subtitle: "ICJIA Research Hub 2.0 — Assessment of the Unfinished Rewrite and Roadmap to Completion"
-date: "July 11, 2026 — Draft v1.0"
+date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks app v0.24.0)"
 ---
 
 > **Document purpose.** This document does three things: (1) it explains, in plain English, where the ICJIA Research Hub stands today and why it must be rebuilt; (2) it assesses the unfinished rewrite attempt (`ICJIA/hub-frontend`, March–July 2026) in enough technical detail to justify the path chosen; and (3) it lays out a concrete, phased roadmap for **Copperhead**, the new Research Hub public site, built on Nuxt 4.4.x and Nuxt UI 4.x against the already-completed Strapi 5 content database.
 >
 > **How to read it.** Part I (Sections 1–7) is written for managers and decision-makers — about ten minutes of reading, no technical background assumed; unfamiliar terms are in the Glossary (Appendix D). Part II (Sections 8–10) and the Appendices are for developers. Web addresses for every system mentioned are collected as clickable links in Appendix E. Figma design mockups will be attached in a future revision; this document is the planning and engineering baseline.
+
+---
+
+## Build changelog
+
+*This section is kept current with every substantive change so managers can see what shipped, by date and version, at any time. Newest first. The full technical changelog lives in the repository's `CHANGELOG.md`; the forward-looking view is in `ROADMAP.md`. This spec is also readable inside the app itself (bottom status bar → "Spec"), which always links to the current `.md` and `.docx`.*
+
+| Version | Date | What shipped |
+|---|---|---|
+| **v0.24.0** | 2026-07-16 | Manager-facing docs and a bottom status bar (current version, GitHub repo, changelog, this spec, roadmap); the real ICJIA logo in the footer; this spec rendered inside the app with `.md`/`.docx` downloads. |
+| **v0.23.0** | 2026-07-16 | Gentle view transitions — soft fades between pages, on filtering, and on the centers "Read More" reveal (all disabled when the reader prefers reduced motion). Fixed a bug where the centers "Read More" never actually revealed the full text. |
+| **v0.22.0** | 2026-07-16 | In-app PDF reader with search-term highlighting: a search hit inside a published PDF now opens the document in the app with the searched term highlighted, a match counter, and previous/next navigation. |
+| **v0.20.0 – v0.21.0** | 2026-07-16 | Figma design-parity pass — clickable homepage project cards, a project-to-project mini-nav, "Next Article" and "More Articles from Author(s)", a "View Resources" section, and the centers accordion opening its first entry. |
+| **v0.19.x** | 2026-07-11 | Site-wide footnote-rendering fixes (52 articles) plus a paste-ready content-fix package for the 9 with corrupted source; reference pop-up; table restyling; in-place "Load More"; smooth table-of-contents scrolling. |
+| **v0.1 – v0.19** | 2026-07-11 | Initial six-phase build to a complete working first draft at the private preview address (details in "Progress update — July 11, 2026" below). |
+
+---
 
 **Contents** *(click an entry to jump to that section)*
 

@@ -63,7 +63,7 @@ export default defineNuxtConfig({
       // click-time (correct) rather than fail the build (Phase 4's link
       // audit reports them to the content team).
       crawlLinks: false,
-      routes: ['/', '/articles', '/datasets', '/apps', '/centers', '/projects', '/publications', '/hub-staff', '/search', '/reader'],
+      routes: ['/', '/articles', '/datasets', '/apps', '/centers', '/projects', '/publications', '/hub-staff', '/search', '/reader', '/spec'],
       // A registered page that fails to render must fail the build.
       failOnError: true,
     },
@@ -135,6 +135,9 @@ export default defineNuxtConfig({
         'lucide:download',
         'lucide:file-x',
         'lucide:alert-triangle',
+        // Status bar + spec page.
+        'lucide:github',
+        'lucide:file-down',
       ],
     },
     fallbackToApi: false,
