@@ -5,10 +5,13 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-16 · Current version: v0.25.0_
+_Last updated: 2026-07-16 · Current version: v0.25.1_
 
 ## Done (recent)
 
+- **Header build-chip accessibility fix** (v0.25.1) — the version chip's screen-reader label now
+  matches its visible text (WCAG 2.5.3 Label in Name, Level A; the chip is site-wide). Surfaced while
+  auditing the rebuilt reader.
 - **Reader performance — lazy rendering** (v0.25.0) — the in-app PDF reader is rebuilt on pdf.js's own
   viewer components (`PDFViewer` + `PDFFindController`, the engine behind Firefox's built-in viewer):
   only the pages in (and near) view render, and pdf.js manages its worker. Long reports open to the

@@ -158,7 +158,7 @@ const changelogUrl = 'https://github.com/ICJIA/copperhead-hub-20/blob/main/CHANG
             :href="changelogUrl"
             target="_blank"
             rel="noopener"
-            :aria-label="`Copperhead build version ${version} — open changelog in a new tab`"
+            :aria-label="`Copperhead build · v${version} — open changelog in a new tab`"
             class="rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             <UBadge

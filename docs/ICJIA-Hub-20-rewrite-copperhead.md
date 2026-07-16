@@ -1,7 +1,7 @@
 ---
 title: "Project Copperhead"
 subtitle: "ICJIA Research Hub 2.0 — Assessment of the Unfinished Rewrite and Roadmap to Completion"
-date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks app v0.25.0)"
+date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks app v0.25.1)"
 ---
 
 > **Document purpose.** This document does three things: (1) it explains, in plain English, where the ICJIA Research Hub stands today and why it must be rebuilt; (2) it assesses the unfinished rewrite attempt (`ICJIA/hub-frontend`, March–July 2026) in enough technical detail to justify the path chosen; and (3) it lays out a concrete, phased roadmap for **Copperhead**, the new Research Hub public site, built on Nuxt 4.4.x and Nuxt UI 4.x against the already-completed Strapi 5 content database.
@@ -16,6 +16,7 @@ date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks
 
 | Version | Date | What shipped |
 |---|---|---|
+| **v0.25.1** | 2026-07-16 | Accessibility fix — the header's build-version chip now exposes a screen-reader label that matches its visible text (WCAG 2.5.3 Label in Name, Level A); the chip appears on every page. |
 | **v0.25.0** | 2026-07-16 | The in-app PDF reader now renders lazily — rebuilt on pdf.js's own viewer engine (the same one behind Firefox's built-in PDF viewer), it draws only the pages you're looking at, so a long report opens to the first search match in a few seconds instead of pausing to render every page first. |
 | **v0.24.0** | 2026-07-16 | Manager-facing docs and a bottom status bar (current version, GitHub repo, changelog, this spec, roadmap); the real ICJIA logo in the footer; this spec rendered inside the app with `.md`/`.docx` downloads. |
 | **v0.23.0** | 2026-07-16 | Gentle view transitions — soft fades between pages, on filtering, and on the centers "Read More" reveal (all disabled when the reader prefers reduced motion). Fixed a bug where the centers "Read More" never actually revealed the full text. |

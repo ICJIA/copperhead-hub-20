@@ -4,6 +4,17 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.25.1] - 2026-07-16
+
+### Fixed
+
+- **Header build-version chip — accessibility (WCAG 2.5.3 Label in Name, Level A).** The chip's visible
+  text (e.g. `Copperhead build · v0.25.0`) was not contained in its `aria-label` (`…build version
+  0.25.0…`), which can stop voice-control users from activating it by its visible name. Aligned the
+  `aria-label` to lead with the visible text. The chip is in the header on every page, so this is a
+  site-wide fix. Surfaced while auditing the rendered in-app PDF reader; verified after the fix (home
+  100/100, 0 accessibility issues).
+
 ## [0.25.0] - 2026-07-16
 
 A faster, lazily-rendered in-app PDF reader, rebuilt on pdf.js's own viewer engine.
