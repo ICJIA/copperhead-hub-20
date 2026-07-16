@@ -11,6 +11,11 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: hub.site.baseURL,
+    // Gentle cross-fade between routes. No `appear`, so the initial (and
+    // Lighthouse's cold) load is never faded — LCP is unaffected; only
+    // client-side navigations animate. Disabled under prefers-reduced-motion
+    // in main.css.
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       htmlAttrs: { lang: 'en' },
       // Default title is baked into every generated document — including the

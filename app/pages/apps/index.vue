@@ -75,7 +75,9 @@ const filtered = computed(() => {
     <h2 class="sr-only">
       Results
     </h2>
-    <ul
+    <TransitionGroup
+      tag="ul"
+      name="fade"
       class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
       role="list"
     >
@@ -94,7 +96,7 @@ const filtered = computed(() => {
           :archived="app.status === 'archived'"
         />
       </li>
-    </ul>
+    </TransitionGroup>
 
     <p
       v-if="!filtered.length"

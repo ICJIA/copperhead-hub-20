@@ -55,8 +55,10 @@ const { data: copy } = await usePageCopy('centers', {
         subtitle="Quality criminal justice research and analytics"
         heading-id="centers-grid-heading"
       />
+      <!-- items-start (not stretch) so a card can grow when its description
+           expands; forcing equal height clips the reveal in this grid. -->
       <ul
-        class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        class="mt-8 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3"
         role="list"
       >
         <li
@@ -65,7 +67,7 @@ const { data: copy } = await usePageCopy('centers', {
         >
           <article
             :id="`center-${center.documentId}`"
-            class="flex h-full scroll-mt-24 flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm"
+            class="flex scroll-mt-24 flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm"
           >
             <!-- Figma shows imagery per center; the CMS center type has no
                  media field yet, so a branded panel stands in (authors get
@@ -87,10 +89,14 @@ const { data: copy } = await usePageCopy('centers', {
               >
                 Director: {{ center.author }}
               </p>
+              <!-- line-clamp toggle (grows the card naturally now that the
+                   grid no longer forces equal height). The reveal uses a
+                   short opacity fade via animation, honoring reduced-motion
+                   in main.css. -->
               <p
                 :id="`center-description-${center.documentId}`"
                 class="text-sm leading-relaxed text-toned"
-                :class="{ 'line-clamp-6': !expandedIds.has(center.documentId) }"
+                :class="expandedIds.has(center.documentId) ? 'center-desc-revealed' : 'line-clamp-6'"
               >
                 {{ center.description }}
               </p>

@@ -202,3 +202,59 @@
 .pdf-text-layer .pdf-term-current-fallback {
   background-color: rgb(251 146 60 / 0.75);
 }
+
+/* ── Gentle view transitions ────────────────────────────────────────────
+   Page cross-fade (Nuxt pageTransition) and list card fade-in (filters,
+   Load More). Kept short and opacity-only so layout stays stable — the
+   article listing's Load-More scroll-hold depends on cards occupying their
+   space immediately. All of it is switched off under reduced-motion. */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* TransitionGroup on result lists: new cards fade in; removals are instant
+   (no absolute-positioned leave, which a CSS grid can't size correctly). */
+.fade-enter-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active,
+  .fade-enter-active {
+    transition: none;
+  }
+}
+
+/* Expand/collapse reveal (centers Read More): the full text fades in when
+   the clamp is removed. A plain class-triggered animation — no <Transition>,
+   which could hang in out-in mode when motion is reduced. */
+.center-desc-revealed {
+  animation: soft-fade-in 0.25s ease;
+}
+
+@keyframes soft-fade-in {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .center-desc-revealed {
+    animation: none;
+  }
+}

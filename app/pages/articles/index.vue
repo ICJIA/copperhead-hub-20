@@ -144,7 +144,14 @@ const filtered = computed(() => {
 const visibleCount = ref(hubConfig.content.listingPageSize)
 const loadingMore = ref(false)
 const loadMoreStatus = ref('')
-const resultsList = ref<HTMLElement | null>(null)
+// A ref on <TransitionGroup> resolves to the component, not the <ul> — its
+// rendered root is on `$el`. This helper returns the list element either way.
+const resultsList = ref<HTMLElement | { $el?: HTMLElement } | null>(null)
+function resultsListEl(): HTMLElement | null {
+  const value = resultsList.value
+  if (!value) return null
+  return value instanceof HTMLElement ? value : (value.$el ?? null)
+}
 watch([search, selectedType, selectedTopic, selectedAuthor, selectedYear], () => {
   visibleCount.value = hubConfig.content.listingPageSize
   loadMoreStatus.value = ''
@@ -193,7 +200,7 @@ async function loadMore(): Promise<void> {
   setTimeout(() => window.removeEventListener('scroll', guardTopJump), 2000)
   loadMoreStatus.value = `Showing ${visible.value.length} of ${filtered.value.length} articles`
   if (visibleCount.value >= filtered.value.length) {
-    resultsList.value
+    resultsListEl()
       ?.querySelectorAll(':scope > li')[firstNewIndex]
       ?.querySelector('a')
       ?.focus({ preventScroll: true })
@@ -333,9 +340,11 @@ function clearFilters(): void {
       <h2 class="sr-only">
         Results
       </h2>
-      <ul
+      <TransitionGroup
         v-if="view === 'grid'"
         ref="resultsList"
+        tag="ul"
+        name="fade"
         class="mt-8 grid gap-6 [overflow-anchor:none] sm:grid-cols-2 lg:grid-cols-3"
         role="list"
       >
@@ -350,10 +359,12 @@ function clearFilters(): void {
             :optimized="optimizedThumbIds.has(article.documentId)"
           />
         </li>
-      </ul>
-      <ul
+      </TransitionGroup>
+      <TransitionGroup
         v-else
         ref="resultsList"
+        tag="ul"
+        name="fade"
         class="mt-8 space-y-4 [overflow-anchor:none]"
         role="list"
       >
@@ -366,7 +377,7 @@ function clearFilters(): void {
             :highlight="search"
           />
         </li>
-      </ul>
+      </TransitionGroup>
 
       <p
         v-if="!filtered.length"

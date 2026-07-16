@@ -4,6 +4,26 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.23.0] - 2026-07-16
+
+Gentle view transitions, and a centers-card bug fix found along the way.
+
+### Added
+
+- Soft cross-fade between routes on client-side navigation (no fade on the initial/cold load, so
+  Largest Contentful Paint is unaffected).
+- Result cards fade in on the articles, datasets, and apps listings when filters change and when
+  "Load More" appends the next page — opacity-only, so the article listing's scroll-hold is
+  undisturbed (verified: 42→84 cards, scroll held exactly).
+- The centers "Read More" reveal now fades the full text in.
+- All transitions are disabled under `prefers-reduced-motion`.
+
+### Fixed
+
+- **Centers "Read More" now actually reveals the full description.** The equal-height card grid
+  (`items-stretch` + `h-full`) was clamping the expanded text to six lines — the reveal never
+  worked. Center cards now size to their content so an expanded card grows.
+
 ## [0.22.0] - 2026-07-16
 
 In-PDF search-term highlighting (restores a Hub 1.0 capability), plus header and article-reading refinements.
