@@ -21,6 +21,17 @@ const list = computed(() =>
   centers.value?.length ? centers.value : PLACEHOLDER_CENTERS,
 )
 
+// Figma (646:1704) shows short, uniform cards. Centers have no detail
+// pages, so instead of a View link the full description expands in place.
+const expandedIds = ref<Set<string>>(new Set())
+
+function toggleExpanded(documentId: string): void {
+  const next = new Set(expandedIds.value)
+  if (next.has(documentId)) next.delete(documentId)
+  else next.add(documentId)
+  expandedIds.value = next
+}
+
 // Landing copy: authors own it via a pages entry slugged `centers`
 // (fallback preserves the copy from the retired centerhomes type).
 const { data: copy } = await usePageCopy('centers', {
@@ -73,9 +84,24 @@ const { data: copy } = await usePageCopy('centers', {
               >
                 Director: {{ center.author }}
               </p>
-              <p class="text-sm leading-relaxed text-toned">
+              <p
+                :id="`center-description-${center.documentId}`"
+                class="text-sm leading-relaxed text-toned"
+                :class="{ 'line-clamp-6': !expandedIds.has(center.documentId) }"
+              >
                 {{ center.description }}
               </p>
+              <div class="mt-auto pt-3">
+                <UButton
+                  color="primary"
+                  variant="outline"
+                  size="sm"
+                  :label="expandedIds.has(center.documentId) ? 'Show Less' : 'Read More'"
+                  :aria-expanded="expandedIds.has(center.documentId)"
+                  :aria-controls="`center-description-${center.documentId}`"
+                  @click="toggleExpanded(center.documentId)"
+                />
+              </div>
             </div>
           </article>
         </li>

@@ -4,6 +4,36 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.20.0] - 2026-07-16
+
+Design-parity quick wins from the Figma audit (`docs/figma-design-audit.md`), which compared every
+"READY - hub design" frame against the live build.
+
+### Added
+
+- Project detail pages: a **"Major Projects in R&A" mini-nav** rail card listing all projects with
+  the current one highlighted (`aria-current="page"`), matching Figma 646:2156
+- `/projects` cards now show their ✓ focus-area bullets (the homepage cards already did)
+- `/centers` cards: descriptions clamp to six lines with an accessible **Read More / Show Less**
+  toggle (`aria-expanded`/`aria-controls`), giving the design's uniform card heights without
+  hiding content — centers have no detail pages, so in-place expansion stands in for the mock's
+  "View" navigation
+- `docs/figma-design-audit.md` — full design-parity audit with Figma node map, gap
+  classification (code / content / launch decisions / deliberate deviations), and same-day
+  corrections after code review
+
+### Fixed
+
+- Homepage project cards are now actual links (stretched title link + focus ring + the design's
+  outlined **Learn More** affordance) — the section's intro copy said "Click the tiles" but the
+  tiles weren't clickable, unlike their `/projects` counterparts
+
+### Noted
+
+- The design's "All Centers" articles filter is CMS-blocked: Strapi 5 articles carry no center
+  relation (verified via API), and center attribution exists only as corporate author names,
+  which the existing Authors filter already covers
+
 ## [0.19.4] - 2026-07-11
 
 ### Changed

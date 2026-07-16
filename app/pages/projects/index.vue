@@ -82,6 +82,23 @@ const HEADER_PALETTE = ['bg-icjia-800', 'bg-red-900', 'bg-emerald-900']
             <p class="mt-3 line-clamp-4 text-sm leading-relaxed text-white/85">
               {{ project.description }}
             </p>
+            <ul
+              v-if="project.bullets.length"
+              class="mt-4 space-y-1.5"
+            >
+              <li
+                v-for="bullet in project.bullets"
+                :key="bullet"
+                class="flex items-center gap-2 text-sm text-white/90"
+              >
+                <UIcon
+                  name="i-lucide-check-circle"
+                  class="size-4 shrink-0"
+                  aria-hidden="true"
+                />
+                {{ bullet }}
+              </li>
+            </ul>
             <!-- Visual affordance only — the card's stretched link carries
                  the accessible name (Figma: white outline Learn More). -->
             <div

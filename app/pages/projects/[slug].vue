@@ -22,6 +22,12 @@ if (error.value || !data.value) {
 
 const project = computed(() => data.value!.project)
 
+// Figma: the rail's first card is a mini-nav across all five projects
+// (646:2156, "Major Projects in R&A") — current page highlighted.
+const { data: allProjects } = await useAsyncData('projects-nav', () =>
+  fetchAllProjects().catch(() => []),
+)
+
 useSeoMeta({
   title: () => `${project.value.title} — ICJIA Research Hub`,
   description: () => (project.value.description ?? '').slice(0, 158),
@@ -93,6 +99,39 @@ useHead({
           class="space-y-6"
           aria-label="Project context"
         >
+          <nav
+            v-if="(allProjects?.length ?? 0) > 1"
+            class="rounded-lg border border-default bg-default p-5"
+            aria-labelledby="projects-nav-heading"
+          >
+            <h2
+              id="projects-nav-heading"
+              class="text-sm font-bold tracking-wide text-highlighted uppercase"
+            >
+              Major Projects in R&amp;A
+            </h2>
+            <ul
+              class="mt-3 space-y-1"
+              role="list"
+            >
+              <li
+                v-for="item in allProjects"
+                :key="item.documentId"
+              >
+                <NuxtLink
+                  :to="`/projects/${item.slug}`"
+                  class="block rounded-md px-2 py-1.5 text-sm"
+                  :class="item.slug === slug
+                    ? 'bg-icjia-50 font-semibold text-icjia-800 dark:bg-icjia-950 dark:text-icjia-200'
+                    : 'text-toned hover:text-primary'"
+                  :aria-current="item.slug === slug ? 'page' : undefined"
+                >
+                  {{ item.title }}
+                </NuxtLink>
+              </li>
+            </ul>
+          </nav>
+
           <div
             v-if="project.bullets.length"
             class="rounded-lg border border-default bg-default p-5"
