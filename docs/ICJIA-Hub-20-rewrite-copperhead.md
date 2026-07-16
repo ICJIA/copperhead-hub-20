@@ -36,6 +36,7 @@ date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks
   - [6. What we keep (the ~2%, plus lessons)](#6-what-we-keep-the-2-plus-lessons)
   - [7. The plan at a glance (managers' view)](#7-the-plan-at-a-glance-managers-view)
   - [Progress update — July 11, 2026](#progress-update--july-11-2026)
+  - [Progress update — July 16, 2026](#progress-update--july-16-2026)
 - [Part II — For Developers](#part-ii--for-developers)
   - [8. Target architecture](#8-target-architecture)
   - [9. Roadmap](#9-roadmap)
@@ -246,6 +247,20 @@ Build state by phase (engineering detail — "built" below means *working in the
 **Decisions made along the way** (recorded as ADRs in the repository): the content database was consolidated to **one content type per concept** — the redundant `centerhomes`/`projecthomes` singleton types were retired into ordinary `pages` entries (deletion of the empty types is scheduled after July 31, 2026, once the current Strapi developer's engagement ends).
 
 **What the project needs from the content side** (everything is wired to go live automatically when authored in Strapi/Hub Studio): the `hub-home`, `hub-overview`, and `dicra` page entries; corrected copy on the seeded project entries; and decisions on the publications/staff page sources and the newsletter signup integration (both flagged as Phase 4 items).
+
+## Progress update — July 16, 2026
+
+**The one-sentence status: the first draft has moved from "renders end-to-end" to "reads and behaves like the finished product" — a full design-parity pass, an in-document PDF reader, gentle motion, and a manager-facing status/docs layer, all live on the preview.** The version numbers below are the app's own (see the Build changelog at the top of this document); every one passed the full six-gate check before deploying.
+
+- **Design-parity pass against the Figma mockups (v0.20.0–v0.21.0).** A frame-by-frame audit (recorded in `docs/figma-design-audit.md`) drove a batch of fixes: homepage project cards are now real links with the mock's "Learn More" affordance, project pages gained a project-to-project mini-navigator, articles gained a "Next Article" control and a "More Articles from Author(s)" panel, the homepage resources section matches the design, and the centers list opens its first entry by default. The audit also records, with reasons, what was deliberately *not* built (e.g., data-page dropdown filters, premature at today's small catalog) and what is blocked on CMS content (center photos, dataset thumbnails, related-publication links).
+
+- **In-document PDF reader with search-term highlighting (v0.22.0).** This restores a capability from the current Hub. Site search already looks *inside* published PDFs; now, when a search match lands in a report, the reader opens that PDF inside the site with the searched term highlighted, a match counter, and previous/next navigation. It works across every browser (the native browser viewer can only do this in Firefox), keeps the document's text selectable and screen-reader-readable, and only ever opens documents served by the agency's own content system.
+
+- **Gentle motion (v0.23.0).** Soft fades now smooth the transitions between pages, when filtering lists, and when expanding a card — and all of it switches off automatically for readers who prefer reduced motion. Wiring this up surfaced and fixed a real bug: the centers "Read More" control had never actually revealed the hidden text (the equal-height card layout was clipping it).
+
+- **Manager status & docs layer (v0.24.0).** Every page now carries a slim bottom status bar showing the current build version and linking to the code repository, the changelog, this specification (rendered inside the app), and the roadmap. A new `ROADMAP.md` tracks what's next, deferred, and done; this document carries the running Build changelog at the top; and the footer now shows the real ICJIA logo. These documents are treated as living — kept current with every change so leadership can see, at any time, exactly what has shipped.
+
+**What this did not change:** the launch dependencies are the same as on July 11. The nine articles with footnote defects in the stored source still need their **paste-ready corrections applied in the CMS** (a guarded one-command script and a manual-paste package are both ready — this is the top item on the roadmap); the `hub-home`/`hub-overview`/`dicra` entries and real project copy still await authoring; and the design sign-off, screen-reader session, and cutover remain the Phase 6 checklist. Automated coverage is now **46 unit tests and 32 accessibility checks** (light and dark) plus performance budgets, still enforced on every change.
 
 ---
 
