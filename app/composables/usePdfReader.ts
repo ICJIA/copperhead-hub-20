@@ -1,234 +1,157 @@
 /**
- * Client-only PDF reader with search-term highlighting (pdf.js v6).
+ * Client-only PDF reader with search-term highlighting, built on pdf.js's own
+ * viewer components (pdfjs-dist/web/pdf_viewer.mjs) — the same PDFViewer +
+ * PDFFindController that power Firefox's built-in PDF viewer.
  *
- * Why this exists: site search indexes the text *inside* published PDFs, so
- * a hit can land in a 60-page report. This renders that PDF in-app and
- * highlights the searched term — the reliable cross-browser way, since the
- * native browser viewer's `#search=` parameter is honored only by Firefox.
+ * Why the components, not a hand-rolled loop: site search indexes the text
+ * *inside* published PDFs, so a hit can land in a 60-page report. An earlier
+ * version rendered every page sequentially, which took tens of seconds and
+ * stalled on long documents. PDFViewer is pdf.js's production virtualization
+ * engine — it renders only the pages in (and near) view, on scroll, and
+ * manages the worker itself. PDFFindController does the search across the whole
+ * document (highlight-all, match count, prev/next) the same way the reference
+ * viewer does. We drive both through the shared EventBus and surface just the
+ * bits the toolbar needs.
  *
- * Rendering: each page is a canvas (visual) plus pdf.js's real text layer
- * (selectable, screen-reader-readable) positioned over it. The canvas is
- * decorative (aria-hidden); the text layer carries the words. Highlighting
- * uses the CSS Custom Highlight API over the text layer's own text nodes —
- * it never mutates pdf.js's DOM, so selection and a11y stay intact — with a
- * whole-span class fallback where the API is unavailable.
- *
- * Everything here touches the DOM / a worker, so it must run only on the
- * client (call load() from onMounted).
+ * Everything here touches the DOM / a worker, so load() must run only on the
+ * client (the reader page calls it post-mount, once the container exists).
  */
 import type { Ref } from 'vue'
+import type { PDFDocumentLoadingTask } from 'pdfjs-dist'
 
 // The worker ships same-origin as a Vite-emitted asset (URL string only —
 // safe to import at module scope; no DOM touched until load() runs).
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 
-export type ReaderStatus = 'idle' | 'loading' | 'rendering' | 'ready' | 'error'
-
-interface MatchRef {
-  page: number
-  /** The text-layer element to scroll to for this match. */
-  anchor: HTMLElement
-}
+export type ReaderStatus = 'idle' | 'loading' | 'ready' | 'error'
 
 interface LoadOptions {
   url: string
   query: string
-  container: HTMLElement
+  /** The scroll container (must be position:absolute per pdf.js). */
+  container: HTMLDivElement
+  /** The inner `.pdfViewer` element pdf.js renders pages into. */
+  viewer: HTMLDivElement
 }
 
 export interface PdfReader {
   status: Ref<ReaderStatus>
   error: Ref<string>
   pageCount: Ref<number>
-  renderedCount: Ref<number>
   matchCount: Ref<number>
   currentMatch: Ref<number>
-  supportsHighlight: Ref<boolean>
+  /** True once the find scan has settled — lets the UI say "no matches". */
+  searchComplete: Ref<boolean>
   load: (options: LoadOptions) => Promise<void>
-  goToMatch: (index: number) => void
   nextMatch: () => void
   prevMatch: () => void
   destroy: () => void
 }
 
-const HIGHLIGHT_ALL = 'pdf-term'
-const HIGHLIGHT_CURRENT = 'pdf-term-current'
+// PDFFindController FindState.PENDING — search still scanning pages.
+const FIND_STATE_PENDING = 3
 
 export function usePdfReader(): PdfReader {
   const status = ref<ReaderStatus>('idle')
   const error = ref('')
   const pageCount = ref(0)
-  const renderedCount = ref(0)
   const matchCount = ref(0)
   const currentMatch = ref(0)
-  const supportsHighlight = ref(true)
+  const searchComplete = ref(false)
 
-  const matches: MatchRef[] = []
-  // Ranges kept per highlight bucket so we can rebuild the "current" one.
-  let allRanges: Range[] = []
-  let reduceMotion = false
   let destroyed = false
+  let query = ''
+  // Kept for teardown: destroying the loading task aborts the worker and the
+  // document (PDFDocumentProxy has no public destroy of its own).
+  let loadingTask: PDFDocumentLoadingTask | null = null
+  // The shared event bus — typed just to the two methods we call on it.
+  let eventBus: { dispatch: (name: string, payload: object) => void, on: (name: string, fn: (e: never) => void) => void } | null = null
 
-  function normalize(value: string): string {
-    return value.toLowerCase().replace(/\s+/g, ' ').trim()
-  }
-
-  /** Highlight every occurrence of `q` inside one rendered text layer. */
-  function highlightPage(textDivs: HTMLElement[], itemsStr: string[], q: string, page: number): void {
-    for (let i = 0; i < textDivs.length; i++) {
-      const div = textDivs[i]!
-      const node = div.firstChild
-      if (!node || node.nodeType !== 3) continue
-      const hay = (itemsStr[i] ?? '').toLowerCase()
-      if (!hay) continue
-      let from = hay.indexOf(q)
-      while (from !== -1) {
-        if (supportsHighlight.value) {
-          const range = document.createRange()
-          range.setStart(node, from)
-          range.setEnd(node, from + q.length)
-          allRanges.push(range)
-        }
-        else {
-          div.classList.add('pdf-term-fallback')
-        }
-        matches.push({ page, anchor: div })
-        from = hay.indexOf(q, from + q.length)
-      }
-    }
-  }
-
-  function paintHighlights(): void {
-    if (!supportsHighlight.value || typeof CSS === 'undefined' || !CSS.highlights) return
-    CSS.highlights.set(HIGHLIGHT_ALL, new Highlight(...allRanges))
-  }
-
-  function setCurrentHighlight(index: number): void {
-    if (!supportsHighlight.value || typeof CSS === 'undefined' || !CSS.highlights) return
-    const range = allRanges[index]
-    if (range) CSS.highlights.set(HIGHLIGHT_CURRENT, new Highlight(range.cloneRange()))
-  }
-
-  function goToMatch(index: number): void {
-    if (!matches.length) return
-    const clamped = ((index % matches.length) + matches.length) % matches.length
-    currentMatch.value = clamped + 1
-    const match = matches[clamped]!
-    if (allRanges.length) setCurrentHighlight(clamped)
-    else match.anchor.classList.add('pdf-term-current-fallback')
-    match.anchor.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'center',
+  /**
+   * Drive the find controller. type '' starts a fresh search (debounced, then
+   * scrolls to the first match); 'again' walks to the next/previous match.
+   */
+  function dispatchFind(type: '' | 'again', findPrevious = false): void {
+    if (!eventBus || !query) return
+    eventBus.dispatch('find', {
+      source: null,
+      type,
+      query,
+      caseSensitive: false,
+      entireWord: false,
+      highlightAll: true,
+      findPrevious,
     })
   }
 
   function nextMatch(): void {
-    goToMatch(currentMatch.value) // currentMatch is 1-based; passing it lands on the next
+    dispatchFind('again', false)
   }
 
   function prevMatch(): void {
-    goToMatch(currentMatch.value - 2)
+    dispatchFind('again', true)
   }
 
-  async function load({ url, query, container }: LoadOptions): Promise<void> {
+  async function load({ url, query: rawQuery, container, viewer }: LoadOptions): Promise<void> {
     status.value = 'loading'
     error.value = ''
-    reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    supportsHighlight.value = typeof CSS !== 'undefined' && !!CSS.highlights
-    const q = normalize(query)
+    matchCount.value = 0
+    currentMatch.value = 0
+    searchComplete.value = false
+    query = rawQuery.trim()
 
     try {
       const pdfjs = await import('pdfjs-dist')
+      const { EventBus, PDFViewer, PDFFindController, PDFLinkService }
+        = await import('pdfjs-dist/web/pdf_viewer.mjs')
       pdfjs.GlobalWorkerOptions.workerSrc = workerUrl
 
-      // Download the whole file once rather than let pdf.js range-fetch each
-      // page over the network — for typical report-sized PDFs that turns
-      // ~1 network round-trip per page into a single fetch, and rendering
-      // then runs from local bytes.
+      // Download the whole file once (CORS-enabled CMS origin) rather than let
+      // pdf.js range-fetch per page — one request, then render from local bytes.
       const response = await fetch(url)
       if (!response.ok) throw new Error(`Could not fetch the document (HTTP ${response.status}).`)
       const data = await response.arrayBuffer()
       if (destroyed) return
 
-      const loadingTask = pdfjs.getDocument({ data })
-      const pdf = await loadingTask.promise
-      if (destroyed) return
-      pageCount.value = pdf.numPages
-      status.value = 'rendering'
-      let jumpedToFirst = false
+      const bus = new EventBus()
+      eventBus = bus
+      const linkService = new PDFLinkService({ eventBus: bus })
+      const findController = new PDFFindController({ eventBus: bus, linkService })
+      const pdfViewer = new PDFViewer({ container, viewer, eventBus: bus, linkService, findController })
+      linkService.setViewer(pdfViewer)
 
-      const outputScale = window.devicePixelRatio || 1
-      const containerWidth = container.clientWidth || 800
-
-      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-        const page = await pdf.getPage(pageNumber)
+      // Pages laid out → fit to width, mark ready, and kick off the search.
+      bus.on('pagesinit', () => {
         if (destroyed) return
+        pdfViewer.currentScaleValue = 'page-width'
+        status.value = 'ready'
+        dispatchFind('')
+      })
 
-        const base = page.getViewport({ scale: 1 })
-        // Fit the page to the container, but never upscale past 1.6×.
-        const scale = Math.min(1.6, Math.max(0.5, (containerWidth - 4) / base.width))
-        const viewport = page.getViewport({ scale })
-
-        const wrapper = document.createElement('div')
-        wrapper.className = 'pdf-page'
-        wrapper.style.width = `${Math.floor(viewport.width)}px`
-        wrapper.style.height = `${Math.floor(viewport.height)}px`
-        wrapper.setAttribute('role', 'group')
-        wrapper.setAttribute('aria-label', `Page ${pageNumber} of ${pdf.numPages}`)
-
-        const canvas = document.createElement('canvas')
-        canvas.className = 'pdf-canvas'
-        canvas.width = Math.floor(viewport.width * outputScale)
-        canvas.height = Math.floor(viewport.height * outputScale)
-        canvas.style.width = `${Math.floor(viewport.width)}px`
-        canvas.style.height = `${Math.floor(viewport.height)}px`
-        canvas.setAttribute('aria-hidden', 'true')
-        wrapper.appendChild(canvas)
-
-        const textLayerDiv = document.createElement('div')
-        textLayerDiv.className = 'pdf-text-layer'
-        // v6 text divs size themselves via calc(px * var(--total-scale-factor));
-        // pdf.js reads this but never sets it, so the container must.
-        textLayerDiv.style.setProperty('--total-scale-factor', String(scale))
-        wrapper.appendChild(textLayerDiv)
-
-        container.appendChild(wrapper)
-
-        const canvasContext = canvas.getContext('2d')!
-        await page.render({
-          canvas,
-          canvasContext,
-          viewport,
-          transform: outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : undefined,
-        }).promise
+      // The find controller reports match counts as it scans and as the user
+      // navigates. { current, total } is 1-based; current is 0 until a match
+      // is selected.
+      const onMatches = ({ matchesCount }: { matchesCount: { current: number, total: number } }) => {
         if (destroyed) return
-
-        const textLayer = new pdfjs.TextLayer({
-          textContentSource: page.streamTextContent(),
-          container: textLayerDiv,
-          viewport,
-        })
-        await textLayer.render()
-        if (destroyed) return
-
-        if (q) {
-          const before = matches.length
-          highlightPage(textLayer.textDivs, textLayer.textContentItemsStr, q, pageNumber)
-          // Surface matches as they're found rather than after the last page,
-          // and jump to the first one the moment it exists.
-          if (matches.length > before) {
-            matchCount.value = matches.length
-            paintHighlights()
-            if (!jumpedToFirst) {
-              jumpedToFirst = true
-              goToMatch(0)
-            }
-          }
-        }
-        renderedCount.value = pageNumber
+        matchCount.value = matchesCount.total || 0
+        currentMatch.value = matchesCount.current || 0
       }
+      bus.on('updatefindmatchescount', onMatches as (e: never) => void)
+      bus.on('updatefindcontrolstate', ((e: { state: number, matchesCount: { current: number, total: number } }) => {
+        onMatches(e)
+        if (e.state !== FIND_STATE_PENDING) searchComplete.value = true
+      }) as (e: never) => void)
 
-      status.value = 'ready'
+      loadingTask = pdfjs.getDocument({ data })
+      const pdf = await loadingTask.promise
+      if (destroyed) {
+        loadingTask.destroy()
+        return
+      }
+      pageCount.value = pdf.numPages
+      pdfViewer.setDocument(pdf)
+      linkService.setDocument(pdf, null)
+      // status flips to 'ready' from the pagesinit handler above.
     }
     catch (cause) {
       if (destroyed) return
@@ -239,12 +162,9 @@ export function usePdfReader(): PdfReader {
 
   function destroy(): void {
     destroyed = true
-    matches.length = 0
-    allRanges = []
-    if (typeof CSS !== 'undefined' && CSS.highlights) {
-      CSS.highlights.delete(HIGHLIGHT_ALL)
-      CSS.highlights.delete(HIGHLIGHT_CURRENT)
-    }
+    eventBus = null
+    loadingTask?.destroy()
+    loadingTask = null
   }
 
   onBeforeUnmount(destroy)
@@ -253,12 +173,10 @@ export function usePdfReader(): PdfReader {
     status,
     error,
     pageCount,
-    renderedCount,
     matchCount,
     currentMatch,
-    supportsHighlight,
+    searchComplete,
     load,
-    goToMatch,
     nextMatch,
     prevMatch,
     destroy,

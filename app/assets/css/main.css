@@ -139,68 +139,19 @@
   color: var(--ui-text-muted);
 }
 /* ── PDF reader (/reader) ───────────────────────────────────────────────
-   pdf.js v6 text layer. The divs position themselves with
-   calc(px * var(--total-scale-factor)); the composable sets that var per
-   page. Text is transparent — the canvas underneath shows the glyphs; the
-   text layer exists for selection, screen readers, and highlight ranges. */
-.pdf-page {
-  position: relative;
-  direction: ltr;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
-  background: #fff;
-}
-
-.pdf-canvas {
-  display: block;
-}
-
-.pdf-text-layer {
-  position: absolute;
-  text-align: initial;
-  inset: 0;
-  overflow: clip;
-  opacity: 1;
-  line-height: 1;
-  text-size-adjust: none;
-  forced-color-adjust: none;
-  transform-origin: 0 0;
-  caret-color: CanvasText;
-  z-index: 0;
-}
-
-.pdf-text-layer :is(span, br) {
-  color: transparent;
-  position: absolute;
-  white-space: pre;
-  cursor: text;
-  transform-origin: 0% 0%;
-}
-
-.pdf-text-layer span.markedContent {
-  top: 0;
-  height: 0;
-}
-
-/* Search-term highlighting via the CSS Custom Highlight API — no DOM
-   mutation, so selection and the a11y text layer stay intact. */
-::highlight(pdf-term) {
-  background-color: rgb(253 224 71 / 0.5);
-}
-
-::highlight(pdf-term-current) {
-  background-color: rgb(251 146 60 / 0.75);
-}
-
-/* Fallback for browsers without the Custom Highlight API: colour the whole
-   text span that contains the term. */
-.pdf-text-layer .pdf-term-fallback {
-  color: transparent;
-  background-color: rgb(253 224 71 / 0.5);
-  border-radius: 2px;
-}
-
-.pdf-text-layer .pdf-term-current-fallback {
-  background-color: rgb(251 146 60 / 0.75);
+   Page rendering, the text layer, and search highlights all come from
+   pdf.js's own viewer stylesheet (pdfjs-dist/web/pdf_viewer.css, imported by
+   the reader page). We only re-tint the find highlights to the site's search
+   palette — yellow for every match, orange for the current one — overriding
+   pdf.js's default magenta/green. The extra `.pdfViewer` raises specificity
+   above pdf.js's own `.textLayer .highlight`, so it wins regardless of
+   stylesheet order; `.selected` (the current match) reads the second var. The
+   PDF page is always white, so these read the same in light and dark. */
+.pdfViewer .textLayer .highlight {
+  --highlight-bg-color: rgb(253 224 71 / 0.5);
+  --highlight-selected-bg-color: rgb(251 146 60 / 0.75);
+  --highlight-backdrop-filter: none;
+  --highlight-selected-backdrop-filter: none;
 }
 
 /* ── Gentle view transitions ────────────────────────────────────────────

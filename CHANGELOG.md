@@ -4,6 +4,30 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.25.0] - 2026-07-16
+
+A faster, lazily-rendered in-app PDF reader, rebuilt on pdf.js's own viewer engine.
+
+### Changed
+
+- **The in-app PDF reader now renders lazily.** It is rebuilt on pdf.js's official viewer components
+  (`PDFViewer` + `PDFFindController` — the same engine behind Firefox's built-in PDF viewer), which
+  render only the pages in (and near) view and manage the pdf.js worker themselves. A long report now
+  opens to its first match in a few seconds instead of rendering every page up front. Search across
+  the whole document — full match count, highlight-all, previous/next — is handled by pdf.js's find
+  controller.
+- Search-term highlighting is now drawn by pdf.js's own text-highlight layer, so it no longer depends
+  on the CSS Custom Highlight API and works in every supported browser. The site's palette is kept:
+  yellow for every match, orange for the current one.
+
+### Notes
+
+- A first lazy-rendering attempt was reverted under v0.24.x after it appeared to stall mid-render. The
+  stall was a background-tab rendering gate hit during automated testing, not a code defect — pdf.js
+  deliberately pauses page rendering while a tab is hidden. Verified in a foreground tab against a
+  22-page report: first match in seconds, 121 matches counted, lazy render on scroll, highlight-all,
+  and previous/next navigation, with no console errors. All six CI gates pass.
+
 ## [0.24.0] - 2026-07-16
 
 Manager-facing docs and status surface, plus the real agency logo.

@@ -5,10 +5,18 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-16 · Current version: v0.24.0_
+_Last updated: 2026-07-16 · Current version: v0.25.0_
 
 ## Done (recent)
 
+- **Reader performance — lazy rendering** (v0.25.0) — the in-app PDF reader is rebuilt on pdf.js's own
+  viewer components (`PDFViewer` + `PDFFindController`, the engine behind Firefox's built-in viewer):
+  only the pages in (and near) view render, and pdf.js manages its worker. Long reports open to the
+  first match in seconds instead of rendering every page up front; search-term highlighting is drawn
+  by pdf.js's own highlight layer (no longer dependent on the CSS Custom Highlight API). The v0.24.x
+  attempt that was reverted turned out to have been blocked by a background-tab rendering gate in
+  testing, not a code defect — verified working in a foreground tab (22-page report, 121 matches,
+  lazy render + highlight + match navigation, clean console, all six CI gates green).
 - **In-app PDF reader with search-term highlighting** (v0.22.0) — search results that match inside a
   PDF open the document in-app with the term highlighted, match counter, prev/next.
 - **Gentle view transitions** (v0.23.0) — page cross-fade, filter/Load-More card fades, centers
@@ -34,16 +42,6 @@ _Last updated: 2026-07-16 · Current version: v0.24.0_
 
 ## Next (proposed)
 
-- **Reader performance on multi-page PDFs** (code). The reader renders every page sequentially, so a
-  22-page report takes tens of seconds to fully render (the first match still appears via auto-jump,
-  but later pages lag). A lazy-rendering rewrite was **attempted 2026-07-16 and reverted**: the fast
-  first-match, full match count, highlighting, and match navigation all worked, but rendering the
-  remaining page canvases stalled on the pdf.js worker (pages beyond the first few wouldn't
-  rasterize), and an `IntersectionObserver` did not fire on the page elements in this layout. It
-  needs deeper investigation in a controlled environment (pdf.js worker profiling) or a different
-  approach — e.g. the prebuilt pdf.js viewer served same-origin, or capping `devicePixelRatio` to cut
-  per-page raster cost. The current reader is accessible and functional; this is a
-  perceived-performance improvement, not a correctness fix.
 - **Author the `hub-home` CMS entry** — unlocks the homepage hero photo, the "Topics in R&A"
   image, and real homepage copy (currently placeholders).
 - **Real copy for the five project pages** — they currently share the seeded Justice Counts body.

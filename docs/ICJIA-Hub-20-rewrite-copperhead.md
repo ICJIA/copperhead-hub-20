@@ -1,7 +1,7 @@
 ---
 title: "Project Copperhead"
 subtitle: "ICJIA Research Hub 2.0 — Assessment of the Unfinished Rewrite and Roadmap to Completion"
-date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks app v0.24.0)"
+date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks app v0.25.0)"
 ---
 
 > **Document purpose.** This document does three things: (1) it explains, in plain English, where the ICJIA Research Hub stands today and why it must be rebuilt; (2) it assesses the unfinished rewrite attempt (`ICJIA/hub-frontend`, March–July 2026) in enough technical detail to justify the path chosen; and (3) it lays out a concrete, phased roadmap for **Copperhead**, the new Research Hub public site, built on Nuxt 4.4.x and Nuxt UI 4.x against the already-completed Strapi 5 content database.
@@ -16,6 +16,7 @@ date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks
 
 | Version | Date | What shipped |
 |---|---|---|
+| **v0.25.0** | 2026-07-16 | The in-app PDF reader now renders lazily — rebuilt on pdf.js's own viewer engine (the same one behind Firefox's built-in PDF viewer), it draws only the pages you're looking at, so a long report opens to the first search match in a few seconds instead of pausing to render every page first. |
 | **v0.24.0** | 2026-07-16 | Manager-facing docs and a bottom status bar (current version, GitHub repo, changelog, this spec, roadmap); the real ICJIA logo in the footer; this spec rendered inside the app with `.md`/`.docx` downloads. |
 | **v0.23.0** | 2026-07-16 | Gentle view transitions — soft fades between pages, on filtering, and on the centers "Read More" reveal (all disabled when the reader prefers reduced motion). Fixed a bug where the centers "Read More" never actually revealed the full text. |
 | **v0.22.0** | 2026-07-16 | In-app PDF reader with search-term highlighting: a search hit inside a published PDF now opens the document in the app with the searched term highlighted, a match counter, and previous/next navigation. |
@@ -260,7 +261,9 @@ Build state by phase (engineering detail — "built" below means *working in the
 
 - **Manager status & docs layer (v0.24.0).** Every page now carries a slim bottom status bar showing the current build version and linking to the code repository, the changelog, this specification (rendered inside the app), and the roadmap. A new `ROADMAP.md` tracks what's next, deferred, and done; this document carries the running Build changelog at the top; and the footer now shows the real ICJIA logo. These documents are treated as living — kept current with every change so leadership can see, at any time, exactly what has shipped.
 
-**What this did not change:** the launch dependencies are the same as on July 11. The nine articles with footnote defects in the stored source still need their **paste-ready corrections applied in the CMS** (a guarded one-command script and a manual-paste package are both ready — this is the top item on the roadmap); the `hub-home`/`hub-overview`/`dicra` entries and real project copy still await authoring; and the design sign-off, screen-reader session, and cutover remain the Phase 6 checklist. Automated coverage is now **46 unit tests and 32 accessibility checks** (light and dark) plus performance budgets, still enforced on every change.
+- **Faster PDF reader — lazy rendering (v0.25.0).** The in-document reader was rebuilt on pdf.js's own viewer engine — the same one behind Firefox's built-in PDF viewer — which renders only the pages in view rather than every page up front. A long report now opens to its first search match in a few seconds, with the full match count, highlight-all, and previous/next handled by pdf.js's own find machinery; the searched term is highlighted in the site's yellow/orange palette, and the document's text stays selectable and screen-reader-readable. (An earlier attempt at this was reverted the same day after it appeared to stall; the stall proved to be a background-tab rendering pause triggered by the automated test harness — not a fault in the code — and the rebuilt reader is verified working in a normal foreground tab.)
+
+**What this did not change:** the launch dependencies are the same as on July 11. The nine articles with footnote defects in the stored source still need their **paste-ready corrections applied in the CMS** (a guarded one-command script and a manual-paste package are both ready — this is the top item on the roadmap); the `hub-home`/`hub-overview`/`dicra` entries and real project copy still await authoring; and the design sign-off, screen-reader session, and cutover remain the Phase 6 checklist. Automated coverage is now **46 unit tests and 34 accessibility checks** (light and dark) plus performance budgets, still enforced on every change.
 
 ---
 
