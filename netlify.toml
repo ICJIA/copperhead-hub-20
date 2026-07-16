@@ -29,8 +29,13 @@
 # - script-src 'unsafe-inline' is required by Nuxt's inline payload/head
 #   scripts (static sites cannot use nonces); no external script origins
 #   except the Plausible instance.
-# - 'wasm-unsafe-eval' is required by Pagefind's WebAssembly engine.
-# - img/connect allow the CMS (media) and Plausible (events).
+# - 'wasm-unsafe-eval' is required by Pagefind's WebAssembly engine (and by
+#   pdf.js's image decoders in the /reader document viewer).
+# - img/connect allow the CMS: media images, and pdf.js fetching PDF bytes
+#   cross-origin for the search-term reader (the CMS reflects CORS and
+#   serves range requests — verified 2026-07-16).
+# - worker-src allows the same-origin pdf.js worker (blob: covers pdf.js's
+#   fallback path when a module worker can't load directly).
 [[headers]]
   for = "/*"
   [headers.values]
@@ -39,4 +44,4 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=31536000"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://plausible.icjia.cloud; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://v2.hub.icjia-api.cloud; font-src 'self' data:; connect-src 'self' https://plausible.icjia.cloud; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://plausible.icjia.cloud; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://v2.hub.icjia-api.cloud; font-src 'self' data:; connect-src 'self' https://v2.hub.icjia-api.cloud https://plausible.icjia.cloud; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"

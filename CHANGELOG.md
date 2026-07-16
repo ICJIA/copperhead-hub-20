@@ -4,6 +4,38 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.22.0] - 2026-07-16
+
+In-PDF search-term highlighting (restores a Hub 1.0 capability), plus header and article-reading refinements.
+
+### Added
+
+- **In-app PDF reader with search-term highlighting** (`/reader`). Site search already indexes
+  the text *inside* published PDFs; a match could land in a 60-page report with no way to see
+  where. Search results that matched inside a PDF now offer "Open PDF with '<term>' highlighted",
+  which opens the document in-app with every occurrence highlighted, auto-scrolls to the first,
+  and gives a match counter with previous/next navigation. Built on pdf.js (`pdfjs-dist`), because
+  the native browser viewer's `#search=` parameter is honored only by Firefox — this works across
+  all browsers. Highlighting uses the CSS Custom Highlight API over pdf.js's own text layer, so it
+  never mutates the DOM and selection/screen-reader text stay intact (with a whole-span fallback
+  where the API is unavailable). The reader is client-rendered; the prerendered shell is an
+  accessible "no document" state, and only CMS-served PDFs may be opened (no arbitrary-URL proxy).
+- The build badge now shows the deployed version (e.g. "Copperhead build · v0.22.0") and links to
+  the project changelog in a new tab.
+
+### Changed
+
+- The article Table of Contents now sticks in the right column while the body scrolls (desktop),
+  with an internal scroll for very long contents.
+- All links inside article bodies now open in a new tab; same-page anchors (footnote references and
+  section links) still navigate in place.
+
+### Security / infrastructure
+
+- CSP: the CMS origin is added to `connect-src` so pdf.js can fetch PDF bytes (the CMS reflects
+  CORS and serves range requests — verified), and `worker-src 'self' blob:` allows the same-origin
+  pdf.js worker. `frame-src 'none'` is retained (the reader is a native route, not an iframe).
+
 ## [0.21.0] - 2026-07-16
 
 The Figma audit's bigger enhancements — each either shipped or deferred with a recorded rationale

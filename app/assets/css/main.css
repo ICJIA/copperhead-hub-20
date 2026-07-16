@@ -138,3 +138,67 @@
   font-size: 0.9375rem;
   color: var(--ui-text-muted);
 }
+/* ── PDF reader (/reader) ───────────────────────────────────────────────
+   pdf.js v6 text layer. The divs position themselves with
+   calc(px * var(--total-scale-factor)); the composable sets that var per
+   page. Text is transparent — the canvas underneath shows the glyphs; the
+   text layer exists for selection, screen readers, and highlight ranges. */
+.pdf-page {
+  position: relative;
+  direction: ltr;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  background: #fff;
+}
+
+.pdf-canvas {
+  display: block;
+}
+
+.pdf-text-layer {
+  position: absolute;
+  text-align: initial;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 0;
+}
+
+.pdf-text-layer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+
+.pdf-text-layer span.markedContent {
+  top: 0;
+  height: 0;
+}
+
+/* Search-term highlighting via the CSS Custom Highlight API — no DOM
+   mutation, so selection and the a11y text layer stay intact. */
+::highlight(pdf-term) {
+  background-color: rgb(253 224 71 / 0.5);
+}
+
+::highlight(pdf-term-current) {
+  background-color: rgb(251 146 60 / 0.75);
+}
+
+/* Fallback for browsers without the Custom Highlight API: colour the whole
+   text span that contains the term. */
+.pdf-text-layer .pdf-term-fallback {
+  color: transparent;
+  background-color: rgb(253 224 71 / 0.5);
+  border-radius: 2px;
+}
+
+.pdf-text-layer .pdf-term-current-fallback {
+  background-color: rgb(251 146 60 / 0.75);
+}

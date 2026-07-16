@@ -60,7 +60,10 @@ for (const file of files) {
   const fixed = await readFile(path.join(FIXES_DIR, file), 'utf8')
 
   const published = await getArticle(slug, 'published')
-  if (!published) { results.push(['MISSING', short]); continue }
+  if (!published) {
+    results.push(['MISSING', short])
+    continue
+  }
   if ((published.markdown ?? '').trim() === fixed.trim()) {
     results.push(['APPLIED', short])
     continue

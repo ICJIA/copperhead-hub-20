@@ -42,6 +42,7 @@ interface AttachmentHit {
   parentTitle: string
   parentTo: string
   fileType: string
+  fileUrl: string
   excerptHtml: string
 }
 
@@ -105,6 +106,7 @@ async function runSearch(term: string): Promise<void> {
         parentTitle: row.meta.parentTitle ?? 'Document',
         parentTo: row.meta.parentUrl ?? '/',
         fileType: row.meta.fileType ?? 'FILE',
+        fileUrl: row.meta.fileUrl ?? '',
         excerptHtml,
       })
     }
@@ -144,6 +146,19 @@ const totalCount = computed(() =>
   groups.value.length
   + groups.value.reduce((sum, g) => sum + g.attachments.length, 0)
   + orphanAttachments.value.length)
+
+// PDF hits can open in the in-app reader with the search term highlighted.
+// Other file types (docx/pptx/xlsx) have no in-browser highlighter, so they
+// keep linking to their parent item only.
+function readerLink(attachment: AttachmentHit): string | null {
+  if (attachment.fileType !== 'PDF' || !attachment.fileUrl) return null
+  const params = new URLSearchParams({
+    file: attachment.fileUrl,
+    q: query.value,
+    title: attachment.parentTitle,
+  })
+  return `/reader?${params.toString()}`
+}
 </script>
 
 <template>
@@ -227,6 +242,16 @@ const totalCount = computed(() =>
               class="mt-0.5 text-sm text-muted [overflow-wrap:anywhere] [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
               v-html="attachment.excerptHtml"
             />
+            <UButton
+              v-if="readerLink(attachment)"
+              :to="readerLink(attachment)!"
+              color="primary"
+              variant="link"
+              size="xs"
+              class="mt-1 px-0"
+              icon="i-lucide-book-open"
+              :label="`Open PDF with “${query}” highlighted`"
+            />
           </li>
         </ul>
       </li>
@@ -255,6 +280,16 @@ const totalCount = computed(() =>
         <p
           class="mt-1.5 text-sm text-muted [overflow-wrap:anywhere] [&_mark]:rounded-sm [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-400/30"
           v-html="attachment.excerptHtml"
+        />
+        <UButton
+          v-if="readerLink(attachment)"
+          :to="readerLink(attachment)!"
+          color="primary"
+          variant="link"
+          size="xs"
+          class="mt-1 px-0"
+          icon="i-lucide-book-open"
+          :label="`Open PDF with “${query}” highlighted`"
         />
       </li>
     </ol>

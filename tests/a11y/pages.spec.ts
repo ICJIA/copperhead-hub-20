@@ -21,6 +21,8 @@ const ROUTES = [
   { name: 'apps listing', path: `${hub.site.baseURL}apps/` },
   { name: 'app detail', path: `${hub.site.baseURL}apps/${APP_SLUG}/` },
   { name: 'search', path: `${hub.site.baseURL}search/` },
+  // Reader with no ?file — the accessible "no document" shell that prerenders.
+  { name: 'reader (empty state)', path: `${hub.site.baseURL}reader/` },
   { name: 'centers', path: `${hub.site.baseURL}centers/` },
   { name: 'projects listing', path: `${hub.site.baseURL}projects/` },
   { name: 'publications', path: `${hub.site.baseURL}publications/` },

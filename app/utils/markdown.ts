@@ -96,8 +96,19 @@ DOMPurify.addHook('afterSanitizeElements', (node) => {
 // CMS origin — served from this site they would 404 (and images would
 // violate the CSP once broken references were "fixed" by hand).
 DOMPurify.addHook('afterSanitizeAttributes', (node) => {
-  if (node.tagName === 'A' && node.getAttribute('target') === '_blank') {
-    node.setAttribute('rel', 'noopener noreferrer')
+  if (node.tagName === 'A') {
+    const href = node.getAttribute('href')
+    // Every link out of the article opens in a new tab (user request), so a
+    // reference never navigates the reader away from what they were reading.
+    // Same-page anchors — footnote refs/back-refs and section links (href
+    // starts with '#') — must stay in-page.
+    if (href && !href.startsWith('#')) {
+      node.setAttribute('target', '_blank')
+      node.setAttribute('rel', 'noopener noreferrer')
+    }
+    else if (node.getAttribute('target') === '_blank') {
+      node.setAttribute('rel', 'noopener noreferrer')
+    }
   }
   for (const attr of ['src', 'href'] as const) {
     const value = node.getAttribute?.(attr)

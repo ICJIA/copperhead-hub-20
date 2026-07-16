@@ -42,6 +42,10 @@ const sectionNav = [
   { label: 'Data', to: '/datasets' },
   { label: 'Projects', to: '/projects' },
 ]
+
+// Build badge: shows the deployed version and links to the changelog.
+const version = useRuntimeConfig().public.version
+const changelogUrl = 'https://github.com/ICJIA/copperhead-hub-20/blob/main/CHANGELOG.md'
 </script>
 
 <template>
@@ -150,11 +154,20 @@ const sectionNav = [
           </NuxtLink>
         </div>
         <div class="flex shrink-0 items-center gap-2">
-          <UBadge
-            color="neutral"
-            variant="subtle"
-            label="Copperhead build"
-          />
+          <a
+            :href="changelogUrl"
+            target="_blank"
+            rel="noopener"
+            :aria-label="`Copperhead build version ${version} — open changelog in a new tab`"
+            class="rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <UBadge
+              color="neutral"
+              variant="subtle"
+              :label="`Copperhead build · v${version}`"
+              class="cursor-pointer transition-colors hover:bg-accented"
+            />
+          </a>
           <ColorModeToggle />
         </div>
       </nav>

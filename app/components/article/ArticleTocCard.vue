@@ -31,7 +31,7 @@ function scrollToSection(id: string): void {
   <nav
     v-if="toc.length"
     aria-labelledby="toc-heading"
-    class="rounded-lg border border-default bg-default p-5"
+    class="rounded-lg border border-default bg-default p-5 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto"
   >
     <h2
       id="toc-heading"

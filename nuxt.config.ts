@@ -2,6 +2,7 @@
 // Architecture baseline: docs/adr/0001-phase-0-architecture-baseline.md
 // Critical values come from hub.config.mjs — the single source of truth.
 import { hub } from './hub.config.mjs'
+import pkg from './package.json' with { type: 'json' }
 
 export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/image'],
@@ -41,6 +42,9 @@ export default defineNuxtConfig({
     public: {
       // Override with NUXT_PUBLIC_STRAPI_URL if the CMS moves.
       strapiUrl: hub.cms.origin,
+      // Surfaced in the build badge (AppHeader). Sourced from package.json
+      // so the chip and the release tag never drift.
+      version: pkg.version,
     },
   },
 
@@ -54,7 +58,7 @@ export default defineNuxtConfig({
       // click-time (correct) rather than fail the build (Phase 4's link
       // audit reports them to the content team).
       crawlLinks: false,
-      routes: ['/', '/articles', '/datasets', '/apps', '/centers', '/projects', '/publications', '/hub-staff', '/search'],
+      routes: ['/', '/articles', '/datasets', '/apps', '/centers', '/projects', '/publications', '/hub-staff', '/search', '/reader'],
       // A registered page that fails to render must fail the build.
       failOnError: true,
     },
@@ -119,6 +123,13 @@ export default defineNuxtConfig({
         'lucide:x',
         'lucide:book-open',
         'lucide:external-link',
+        // /reader toolbar + states (some render only mid-interaction).
+        'lucide:arrow-left',
+        'lucide:chevron-up',
+        'lucide:chevron-down',
+        'lucide:download',
+        'lucide:file-x',
+        'lucide:alert-triangle',
       ],
     },
     fallbackToApi: false,
