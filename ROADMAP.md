@@ -21,12 +21,15 @@ _Last updated: 2026-07-16 · Current version: v0.24.0_
   spec, roadmap), in-app rendered spec, real ICJIA footer logo, this roadmap.
 - Footnote-rendering pipeline hardening + a paste-ready content-fix package for 9 articles
   (v0.19.x, in `docs/footnote-fixes/`).
+- **The 9 footnote content fixes are applied to Strapi and live** (2026-07-16, via
+  `scripts/apply-footnote-fixes.mjs --apply` with per-article backups in
+  `docs/footnote-fixes/backups-2026-07-16/`). Verified live: zero leaked `[^…]` markers, the
+  recovered values (opioid 2018, InfoNet 2013, LGBTQ p = .015), the two citations recovered from
+  the original PDF (Brody/Ge, Ingoldsby), and the corrected criminal-history renumbering
+  (footnote 3 = Holzer, cascading through 15).
 
 ## Next (proposed)
 
-- **Apply the 9 footnote content fixes to Strapi** (`docs/footnote-fixes/`), then rebuild and
-  spot-check the renumbered references. Needs a short-lived write token or manual paste — see
-  `scripts/apply-footnote-fixes.mjs`.
 - **Author the `hub-home` CMS entry** — unlocks the homepage hero photo, the "Topics in R&A"
   image, and real homepage copy (currently placeholders).
 - **Real copy for the five project pages** — they currently share the seeded Justice Counts body.
