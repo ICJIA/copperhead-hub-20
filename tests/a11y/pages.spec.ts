@@ -25,6 +25,8 @@ const ROUTES = [
   { name: 'reader (empty state)', path: `${hub.site.baseURL}reader/` },
   // In-app spec doc render (large document — heading order, tables, links).
   { name: 'spec', path: `${hub.site.baseURL}spec/` },
+  // In-app roadmap render (same markdown pipeline, manager-facing).
+  { name: 'roadmap', path: `${hub.site.baseURL}roadmap/` },
   { name: 'centers', path: `${hub.site.baseURL}centers/` },
   { name: 'projects listing', path: `${hub.site.baseURL}projects/` },
   { name: 'publications', path: `${hub.site.baseURL}publications/` },

@@ -5,10 +5,13 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-16 · Current version: v0.25.1_
+_Last updated: 2026-07-16 · Current version: v0.26.0_
 
 ## Done (recent)
 
+- **In-app roadmap page** (v0.26.0) — this roadmap now renders inside the app at `/roadmap`, from this
+  same `ROADMAP.md`, so managers can read it alongside the in-app spec and the status bar. Linked from
+  the bottom status bar.
 - **Header build-chip accessibility fix** (v0.25.1) — the version chip's screen-reader label now
   matches its visible text (WCAG 2.5.3 Label in Name, Level A; the chip is site-wide). Surfaced while
   auditing the rebuilt reader.

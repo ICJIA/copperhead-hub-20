@@ -4,6 +4,23 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.26.0] - 2026-07-16
+
+The roadmap now renders inside the app, alongside the spec and status.
+
+### Added
+
+- **In-app roadmap page** (`/roadmap`): renders the repository's `ROADMAP.md` through the site's
+  markdown pipeline, so managers can read done / next / deferred in the app next to the in-app spec
+  (`/spec`) and the bottom status bar. Single source of truth — the page renders the same `ROADMAP.md`
+  the repo uses, so the two cannot drift; the raw `.md` is published to `/roadmap/` and offered as a
+  download, with a link to the file on GitHub.
+
+### Changed
+
+- The bottom status bar's **Roadmap** link now opens the in-app `/roadmap` page instead of GitHub (the
+  Repository link still points at GitHub).
+
 ## [0.25.1] - 2026-07-16
 
 ### Fixed

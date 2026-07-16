@@ -8,7 +8,6 @@
 const version = useRuntimeConfig().public.version
 const repoUrl = 'https://github.com/ICJIA/copperhead-hub-20'
 const changelogUrl = `${repoUrl}/blob/main/CHANGELOG.md`
-const roadmapUrl = `${repoUrl}/blob/main/ROADMAP.md`
 </script>
 
 <template>
@@ -39,14 +38,12 @@ const roadmapUrl = `${repoUrl}/blob/main/ROADMAP.md`
         >
           Changelog
         </a>
-        <a
-          :href="roadmapUrl"
-          target="_blank"
-          rel="noopener"
+        <NuxtLink
+          to="/roadmap"
           class="hover:text-white hover:underline"
         >
           Roadmap
-        </a>
+        </NuxtLink>
         <a
           :href="repoUrl"
           target="_blank"

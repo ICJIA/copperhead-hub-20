@@ -1,14 +1,14 @@
 # Copperhead — ICJIA Research Hub 2.0 (public frontend)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/build-v0.25.1-1b365d.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/build-v0.26.0-1b365d.svg)](CHANGELOG.md)
 
-> **Current build: v0.25.1 · updated 2026-07-16.** Living docs, always current:
+> **Current build: v0.26.0 · updated 2026-07-16.** Living docs, always current:
 > [CHANGELOG](CHANGELOG.md) (what shipped, per version) · [ROADMAP](ROADMAP.md) (next / deferred / done) ·
 > the full [spec & status doc](docs/ICJIA-Hub-20-rewrite-copperhead.md). The running preview also
 > surfaces these from its bottom status bar, and renders the spec in-app at `/researchhub/spec`.
 
-> **Status: FIRST DRAFT — private preview, not public, not final.** A complete working draft of the new Research Hub exists at **https://copperhead-hub-20.netlify.app/researchhub/** (internal review only; hidden from search engines). All ~540 pages, every page type, and search — including search *inside* published PDF documents with an **in-app reader that highlights the searched term** — work in the draft, and every change passes automated accessibility, performance, and correctness checks before it deploys. Recent work has added the in-PDF search-term reader (v0.22.0), gentle reduced-motion-aware view transitions (v0.23.0), two Figma design-parity passes (v0.20–0.21), a manager-facing docs/status layer (v0.24.0), and a lazily-rendered rebuild of that PDF reader on pdf.js's own viewer engine so long reports open to the first match in seconds (v0.25.0). Still ahead: design review, real copy for the placeholder sections, and the launch checklist.
+> **Status: FIRST DRAFT — private preview, not public, not final.** A complete working draft of the new Research Hub exists at **https://copperhead-hub-20.netlify.app/researchhub/** (internal review only; hidden from search engines). All ~540 pages, every page type, and search — including search *inside* published PDF documents with an **in-app reader that highlights the searched term** — work in the draft, and every change passes automated accessibility, performance, and correctness checks before it deploys. Recent work has added the in-PDF search-term reader (v0.22.0), gentle reduced-motion-aware view transitions (v0.23.0), two Figma design-parity passes (v0.20–0.21), a manager-facing docs/status layer (v0.24.0), and a lazily-rendered rebuild of that PDF reader on pdf.js's own viewer engine so long reports open to the first match in seconds (v0.25.0), and an in-app roadmap page so managers read the roadmap in the app alongside the spec (v0.26.0). Still ahead: design review, real copy for the placeholder sections, and the launch checklist.
 
 **For non-technical readers:** the rewrite is underway and further along than "started" — think of the preview as a full first-draft manuscript: every chapter written and readable end-to-end, now entering editing. Real today: all current articles, datasets, and dashboards in the new design; working deep search; the same web addresses the Hub uses now. Still to come: the designer's review against the mockups, real content where placeholder text stands in (homepage narrative, project descriptions, publications/staff pages), the ~17 newest Hub articles (they sync over at cutover), a human accessibility walkthrough, and the coordinated public launch. The plan document in [`docs/`](docs/ICJIA-Hub-20-rewrite-copperhead.md) has a plain-English progress section and the remaining asks of leadership.
 
@@ -30,7 +30,7 @@
 |---|---|---|
 | **Strapi 5 content database** | stores all Hub content (migrated from Strapi 3 via [`hub-migration-tools`](https://github.com/ICJIA/hub-migration-tools)) | ✅ Complete — full parity verified, March 2026 |
 | **Hub Studio 2.0** ([`hub-studio-2026`](https://github.com/ICJIA/hub-studio-2026)) | internal tool where R&A staff write, preview, and publish | ✅ Built and working in development; pre-launch |
-| **Copperhead** (this repository) | the public Research Hub website | 🚧 Working first draft (v0.25.1) — this repo |
+| **Copperhead** (this repository) | the public Research Hub website | 🚧 Working first draft (v0.26.0) — this repo |
 
 ## What's in this repository today
 
