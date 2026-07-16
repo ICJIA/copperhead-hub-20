@@ -27,15 +27,32 @@ const items = computed(() =>
     <p class="mt-4 max-w-3xl text-sm leading-relaxed text-toned">
       {{ intro }}
     </p>
+    <!-- First center open on load (Figma 646:212 shows the accordion with
+         its lead entry expanded and a "View center" link). -->
     <UAccordion
       :items="items"
       class="mt-6"
       :unmount-on-hide="false"
+      default-value="0"
     >
-      <template #content="{ item }">
-        <p class="pb-4 text-sm leading-relaxed text-toned">
-          {{ item.content }}
-        </p>
+      <template #content="{ item, index }">
+        <div class="pb-4">
+          <p class="text-sm leading-relaxed text-toned">
+            {{ item.content }}
+          </p>
+          <NuxtLink
+            v-if="centers[index]"
+            :to="`/centers#center-${centers[index].documentId}`"
+            class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+          >
+            View center<span class="sr-only">: {{ centers[index].title }}</span>
+            <UIcon
+              name="i-lucide-arrow-right"
+              class="size-4"
+              aria-hidden="true"
+            />
+          </NuxtLink>
+        </div>
       </template>
     </UAccordion>
   </section>

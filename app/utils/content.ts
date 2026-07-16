@@ -107,6 +107,22 @@ export async function fetchArticleSummaries(): Promise<ArticleSummary[]> {
   return rows.map(row => normalizeArticleSummary(row, cms.origin))
 }
 
+/**
+ * Build-time memo over fetchArticleSummaries(): every article page derives
+ * its Next Article and more-from-authors refs from the same ordered list,
+ * so the prerender makes one summaries fetch per process instead of one
+ * per page. A failed fetch clears the memo so the next caller retries
+ * instead of inheriting a poisoned promise.
+ */
+let articleSummariesShared: Promise<ArticleSummary[]> | null = null
+export function fetchArticleSummariesShared(): Promise<ArticleSummary[]> {
+  articleSummariesShared ??= fetchArticleSummaries().catch((error) => {
+    articleSummariesShared = null
+    throw error
+  })
+  return articleSummariesShared
+}
+
 export async function fetchLatestArticles(count: number): Promise<Article[]> {
   const cms = cmsConfig()
   const res = await fetchPage(cms, 'articles', {

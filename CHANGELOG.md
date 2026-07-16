@@ -4,6 +4,37 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.21.0] - 2026-07-16
+
+The Figma audit's bigger enhancements — each either shipped or deferred with a recorded rationale
+(`docs/figma-design-audit.md`).
+
+### Added
+
+- Article pages: a **"Next Article"** button in the title band walking the listing order
+  (newest-first, so next = one older; hidden on the last article), with the destination title in
+  the accessible name
+- Article pages: a **"More Articles from Author(s)"** rail card — up to three most-recent
+  articles sharing an author — via `RelatedContentCard`, which now takes an optional title;
+  the rail now follows the Figma order (TOC, more-from-authors, related content, funding,
+  report file)
+- Homepage centers accordion: first center expanded on load, and every expanded entry gains a
+  **"View center"** link to its anchored card on `/centers`
+- Homepage resources section: retitled **"View Resources"** (design copy) with the outlined View
+  affordance on each tile
+- Build-time memo for article summaries (`fetchArticleSummariesShared`) so the 236 article pages
+  derive next/related refs from one fetch per process instead of one each
+
+### Deferred (recorded in the audit, not built)
+
+- In-page PDF viewer dialog (heavy dependency, a11y risk against the axe/Lighthouse gates;
+  browser viewer covers view/download/search)
+- Homepage hero + Topics photos (mock imagery has unknown licensing — ships with the pending
+  `hub-home` CMS entry instead)
+- Dataset/app dropdown filter row and grid/list toggle (premature at 5 datasets / 13 apps)
+- "See Archives" section-nav button (launch decision: shares the slot with the build badge and
+  theme toggle)
+
 ## [0.20.0] - 2026-07-16
 
 Design-parity quick wins from the Figma audit (`docs/figma-design-audit.md`), which compared every

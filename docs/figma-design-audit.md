@@ -54,18 +54,18 @@ Implemented July 16, 2026 (v0.20.0):
 | 3 | Project detail | **"Major Projects in R&A" mini-nav** sidebar card (646:2156) | Nav card added at the top of the rail listing all projects, current page highlighted with `aria-current` |
 | 4 | `/centers` cards | Short excerpt + outlined **View** button, uniform card heights | Descriptions clamp to six lines with an accessible Read More / Show Less toggle (centers have no detail pages, so in-place expansion replaces the design's View navigation) |
 
-## Gaps — bigger enhancements (worth a design decision first)
+## Gaps — bigger enhancements (decisions taken July 16, 2026, v0.21.0)
 
-| # | Page | Design shows | Notes |
+| # | Page | Design shows | Decision |
 |---|---|---|---|
-| 9 | Article detail | **"Next Article >"** button in the title row | Needs an ordering rule (date? same category?) |
-| 10 | Article detail | **"More Articles from Author(s)"** sidebar card | Author relation exists in CMS; query + card |
-| 11 | Article detail + anywhere PDFs open | **Pdf-Dialog** (646:4468): in-page dark PDF viewer overlay with page nav + in-document search | App opens PDFs via the browser. In-page viewer is a real project (focus trap, a11y, mobile) — the current behavior is defensible |
-| 12 | Homepage hero | Photo (gavel/book) behind the navy overlay | Flat navy gradient. Image could ship with the `hub-home` CMS entry (still pending) or as a static asset |
-| 13 | Homepage "Topics in R&A" | Photo beside the Key Focus Areas checklist | Text/checklist only — right side is empty at desktop widths |
-| 14 | Homepage resource tiles | Section titled "View Resources", cards with outlined **View** buttons | "Latest Resources" tiles, whole-tile click, no button. Cosmetic |
-| 15 | Homepage centers accordion | First entry expanded by default with a "View center →" link visible | All collapsed on load |
-| 16 | `/datasets` `/apps` | Full dropdown filter row + grid/list toggle on the data page too | Search + sort only. With 5 datasets / 13 apps, dropdowns are arguably premature — revisit when catalog grows |
+| 9 | Article detail | **"Next Article >"** button in the title row | **Shipped.** Ordering rule: the listing order (newest-first), so Next = the next-older article; hidden on the last one. Computed at build from a shared summaries list — payloads carry only the slim ref |
+| 10 | Article detail | **"More Articles from Author(s)"** sidebar card | **Shipped.** Up to three most-recent articles sharing at least one author, via the generalized `RelatedContentCard`. Rail reordered to the Figma order (TOC → more-from-authors → related → funding → report file) |
+| 11 | Article detail + anywhere PDFs open | **Pdf-Dialog** (646:4468): in-page dark PDF viewer overlay with page nav + in-document search | **Deferred deliberately.** A pdf.js-style embed is a heavy dependency with real a11y risk (focus trap, SR paging, mobile) against strict axe/Lighthouse gates; the browser's native viewer already gives view/download/search. Revisit only if stakeholders ask |
+| 12 | Homepage hero | Photo (gavel/book) behind the navy overlay | **Deferred — content.** The mock's photo has unknown licensing; shipping a random stand-in would misrepresent the agency. The image should arrive with the pending `hub-home` CMS entry (owned imagery), then wiring it is trivial |
+| 13 | Homepage "Topics in R&A" | Photo beside the Key Focus Areas checklist | **Deferred — content.** Same licensing/ownership reasoning as the hero |
+| 14 | Homepage resource tiles | Section titled "View Resources", cards with outlined **View** buttons | **Shipped.** Heading renamed, outlined View affordance added (visual only — the tile link keeps the accessible name) |
+| 15 | Homepage centers accordion | First entry expanded by default with a "View center →" link visible | **Shipped.** First item opens by default; each expanded entry links to its anchored card on `/centers` (`#center-<documentId>`, `scroll-mt` offset) |
+| 16 | `/datasets` `/apps` | Full dropdown filter row + grid/list toggle on the data page too | **Deferred deliberately.** With 5 datasets / 13 apps, five dropdowns add chrome, not findability; search + sort covers the catalog. Revisit when the catalog grows |
 
 ## Gaps — blocked on CMS content (not code)
 

@@ -18,7 +18,7 @@ const resources = [
       id="resources-heading"
       class="text-2xl font-bold text-highlighted"
     >
-      Latest Resources
+      View Resources
     </h2>
     <ul
       class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
@@ -44,6 +44,14 @@ const resources = [
           <span>
             <span class="block font-semibold text-highlighted">{{ resource.label }}</span>
             <span class="block text-xs text-muted">{{ resource.description }}</span>
+          </span>
+          <!-- Visual affordance only — the tile link carries the name
+               (Figma: outlined View button on each resource card). -->
+          <span
+            class="ml-auto inline-flex shrink-0 items-center rounded-md border border-default px-2.5 py-1 text-xs font-semibold text-primary"
+            aria-hidden="true"
+          >
+            View
           </span>
         </NuxtLink>
       </li>

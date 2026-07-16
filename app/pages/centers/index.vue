@@ -63,7 +63,10 @@ const { data: copy } = await usePageCopy('centers', {
           v-for="center in list"
           :key="center.documentId"
         >
-          <article class="flex h-full flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm">
+          <article
+            :id="`center-${center.documentId}`"
+            class="flex h-full scroll-mt-24 flex-col overflow-hidden rounded-lg border border-default bg-default shadow-sm"
+          >
             <!-- Figma shows imagery per center; the CMS center type has no
                  media field yet, so a branded panel stands in (authors get
                  real images once the field exists — content decision). -->

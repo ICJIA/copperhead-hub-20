@@ -11,15 +11,46 @@ const route = useRoute()
 const slug = route.params.slug as string
 
 const { data, error } = await useAsyncData(`article-${slug}`, async () => {
+  // Started before any await — cmsConfig() must run synchronously inside
+  // the Nuxt context (see app/utils/content.ts header). Soft-fails: these
+  // refs are enhancements, the article itself still fails loud.
+  const summariesPromise = fetchArticleSummariesShared().catch((cause) => {
+    console.warn(`[article ${slug}] summaries unavailable, skipping next/related refs:`, cause)
+    return []
+  })
   const article = await fetchArticleBySlug(slug)
   // Rendered at build time so the payload carries sanitized HTML + TOC.
   const rendered = renderMarkdown(article.markdown)
+
+  // Figma 646:4085: "Next Article" walks the listing order (newest-first,
+  // so next = one older); "More Articles from Author(s)" shares ≥1 author.
+  // Derived from the shared summaries list at build — the payload carries
+  // only these slim refs, never the whole list.
+  const summaries = await summariesPromise
+  const index = summaries.findIndex(summary => summary.slug === slug)
+  const next = index >= 0 ? summaries[index + 1] : undefined
+  const authorNames = new Set(article.authors.map(author => author.name))
+  const moreFromAuthors = authorNames.size
+    ? summaries
+        .filter(summary =>
+          summary.slug !== slug
+          && summary.authors.some(author => authorNames.has(author.name)))
+        .slice(0, 3)
+        .map(summary => ({
+          documentId: summary.documentId,
+          title: summary.title,
+          to: `/articles/${summary.slug}`,
+        }))
+    : []
+
   return {
     article,
     html: rendered.html,
     toc: rendered.toc,
     citationHtml: article.citation ? sanitizeHtml(article.citation) : '',
     fundingHtml: article.funding ? sanitizeHtml(article.funding) : '',
+    nextArticle: next ? { slug: next.slug, title: next.title } : null,
+    moreFromAuthors,
   }
 })
 
@@ -78,6 +109,7 @@ const relatedItems = computed(() => [
     <ArticleTitleBand
       :article="article"
       :show-cite-link="!!data.citationHtml"
+      :next-article="data.nextArticle"
     />
 
     <div class="mx-auto max-w-7xl px-4 pb-16">
@@ -97,13 +129,18 @@ const relatedItems = computed(() => [
           <KeywordsSection :terms="[...article.categories, ...article.tags]" />
         </div>
 
-        <!-- Right rail: card order lives here -->
+        <!-- Right rail: card order lives here (Figma order: TOC, more
+             from authors, related content, funding, report file) -->
         <aside
           class="space-y-6"
           aria-label="Article context"
         >
-          <RelatedContentCard :items="relatedItems" />
           <ArticleTocCard :toc="data.toc" />
+          <RelatedContentCard
+            :items="data.moreFromAuthors"
+            title="More Articles from Author(s)"
+          />
+          <RelatedContentCard :items="relatedItems" />
           <FundingCard :html="data.fundingHtml" />
           <ArticleFileCard
             v-if="article.mainfile"

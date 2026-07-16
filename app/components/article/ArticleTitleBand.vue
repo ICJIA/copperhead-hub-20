@@ -6,25 +6,38 @@ import type { Article } from '../../types/content'
 defineProps<{
   article: Article
   showCiteLink: boolean
+  /** Next entry in listing order (Figma: navy button, top right). */
+  nextArticle?: { slug: string, title: string } | null
 }>()
 </script>
 
 <template>
   <div class="bg-default">
     <div class="mx-auto max-w-7xl px-4 pt-10 pb-6">
-      <div class="flex items-start gap-4">
-        <span
-          class="mt-1 flex size-12 shrink-0 items-center justify-center rounded-lg bg-icjia-800"
-          aria-hidden="true"
-        >
-          <UIcon
-            name="i-lucide-file-text"
-            class="size-6 text-white"
-          />
-        </span>
-        <h1 class="text-3xl font-bold text-icjia-800 sm:text-4xl dark:text-icjia-200">
-          {{ article.title }}
-        </h1>
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="flex items-start gap-4">
+          <span
+            class="mt-1 flex size-12 shrink-0 items-center justify-center rounded-lg bg-icjia-800"
+            aria-hidden="true"
+          >
+            <UIcon
+              name="i-lucide-file-text"
+              class="size-6 text-white"
+            />
+          </span>
+          <h1 class="text-3xl font-bold text-icjia-800 sm:text-4xl dark:text-icjia-200">
+            {{ article.title }}
+          </h1>
+        </div>
+        <UButton
+          v-if="nextArticle"
+          :to="`/articles/${nextArticle.slug}`"
+          color="primary"
+          trailing-icon="i-lucide-chevron-right"
+          label="Next Article"
+          :aria-label="`Next article: ${nextArticle.title}`"
+          class="shrink-0"
+        />
       </div>
       <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
         <span class="inline-flex items-center gap-1.5 text-muted">

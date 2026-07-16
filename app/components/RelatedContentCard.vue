@@ -1,7 +1,10 @@
 <script setup lang="ts">
-defineProps<{
+withDefaults(defineProps<{
   items: { documentId: string, title: string, to: string }[]
-}>()
+  title?: string
+}>(), {
+  title: 'Related Content',
+})
 </script>
 
 <template>
@@ -10,7 +13,7 @@ defineProps<{
     class="rounded-lg bg-icjia-50 p-5 dark:bg-icjia-950"
   >
     <h2 class="text-sm font-bold tracking-wide text-highlighted uppercase">
-      Related Content
+      {{ title }}
     </h2>
     <ul class="mt-3 space-y-2">
       <li
