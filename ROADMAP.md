@@ -34,11 +34,16 @@ _Last updated: 2026-07-16 · Current version: v0.24.0_
 
 ## Next (proposed)
 
-- **Reader performance on multi-page PDFs** (code — I can do this). The reader renders every page
-  sequentially, so a 22-page report takes tens of seconds to fully render (the first match still
-  appears fast via auto-jump, but later pages lag). Fix: a quick text-only pass to find and jump to
-  the first match's page, then render page canvases lazily on scroll (IntersectionObserver). The
-  reader is accessible and functional today — this is a perceived-performance improvement.
+- **Reader performance on multi-page PDFs** (code). The reader renders every page sequentially, so a
+  22-page report takes tens of seconds to fully render (the first match still appears via auto-jump,
+  but later pages lag). A lazy-rendering rewrite was **attempted 2026-07-16 and reverted**: the fast
+  first-match, full match count, highlighting, and match navigation all worked, but rendering the
+  remaining page canvases stalled on the pdf.js worker (pages beyond the first few wouldn't
+  rasterize), and an `IntersectionObserver` did not fire on the page elements in this layout. It
+  needs deeper investigation in a controlled environment (pdf.js worker profiling) or a different
+  approach — e.g. the prebuilt pdf.js viewer served same-origin, or capping `devicePixelRatio` to cut
+  per-page raster cost. The current reader is accessible and functional; this is a
+  perceived-performance improvement, not a correctness fix.
 - **Author the `hub-home` CMS entry** — unlocks the homepage hero photo, the "Topics in R&A"
   image, and real homepage copy (currently placeholders).
 - **Real copy for the five project pages** — they currently share the seeded Justice Counts body.
