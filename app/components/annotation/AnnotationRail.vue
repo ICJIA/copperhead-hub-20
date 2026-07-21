@@ -97,7 +97,7 @@ onMounted(() => {
       v-if="loadFailed"
       class="p-3 text-sm text-warning"
     >
-      Comments unavailable — couldn't reach the comment service.
+      Comments unavailable — couldn’t reach the comment service.
     </p>
     <p
       v-else-if="visible.length === 0"
@@ -135,7 +135,7 @@ onMounted(() => {
         :aria-label="`Go to highlight: ${t.annotation.anchor.exact}`"
         @click="emit('jump', t.annotation.id)"
       >
-        "{{ t.annotation.anchor.exact }}"
+        “{{ t.annotation.anchor.exact }}”
       </button>
       <p
         v-if="t.orphan"
