@@ -36,6 +36,7 @@
 #   serves range requests — verified 2026-07-16).
 # - worker-src allows the same-origin pdf.js worker (blob: covers pdf.js's
 #   fallback path when a module worker can't load directly).
+# - connect-src allows the Supabase origin for manager annotations (removed at go-live — see README runbook).
 [[headers]]
   for = "/*"
   [headers.values]
@@ -44,4 +45,4 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=31536000"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://plausible.icjia.cloud; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://v2.hub.icjia-api.cloud; font-src 'self' data:; connect-src 'self' https://v2.hub.icjia-api.cloud https://plausible.icjia.cloud; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://plausible.icjia.cloud; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://v2.hub.icjia-api.cloud; font-src 'self' data:; connect-src 'self' https://v2.hub.icjia-api.cloud https://plausible.icjia.cloud https://efgevsdftkrancswojcz.supabase.co; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"

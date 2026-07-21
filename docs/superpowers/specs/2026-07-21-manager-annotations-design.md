@@ -82,7 +82,7 @@ annotations: {
   supabase: {
     url: 'https://efgevsdftkrancswojcz.supabase.co',
     /** Publishable key — public by design; RLS is the security boundary. */
-    publishableKey: '<filled at implementation>',
+    publishableKey: 'sb_publishable_xYEjTCTxp-UaYGsFQMay6g_HA7BM9cn',
     table: 'copperhead_annotations',
   },
 },

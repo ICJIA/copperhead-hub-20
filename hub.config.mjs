@@ -69,6 +69,25 @@ export const hub = {
      */
     domain: 'icjia.illinois.gov',
   },
+
+  annotations: {
+    /**
+     * Manager review annotations (spec: docs/superpowers/specs/
+     * 2026-07-21-manager-annotations-design.md). KILL SWITCH: set
+     * `enabled: false` before go-live — the layer, its CSS, and every
+     * Supabase reference drop out of the build. Also remove the Supabase
+     * origin from netlify.toml connect-src (runbook in README).
+     */
+    enabled: true,
+    supabase: {
+      /** Project "holdem-simulator" (efgevsdftkrancswojcz), us-east-1. */
+      url: 'https://efgevsdftkrancswojcz.supabase.co',
+      /** Publishable key — safe to commit by design (it ships in the client
+       *  bundle regardless); the RLS policies are the security boundary. */
+      publishableKey: 'sb_publishable_xYEjTCTxp-UaYGsFQMay6g_HA7BM9cn',
+      table: 'copperhead_annotations',
+    },
+  },
 }
 
 export default hub
