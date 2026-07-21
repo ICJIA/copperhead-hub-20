@@ -8,28 +8,28 @@ export type AnnotationColor = (typeof ANNOTATION_COLORS)[number]
 
 /** W3C-style text-quote anchor over the container's concatenated text-node content. */
 export interface AnnotationAnchor {
-  exact: string   // the highlighted text (≤ 1000 chars)
-  prefix: string  // ≤ 32 chars of container text before `exact`
-  suffix: string  // ≤ 32 chars after
-  offset: number  // char offset of `exact` at capture time (disambiguation hint)
+  exact: string // the highlighted text (≤ 1000 chars)
+  prefix: string // ≤ 32 chars of container text before `exact`
+  suffix: string // ≤ 32 chars after
+  offset: number // char offset of `exact` at capture time (disambiguation hint)
 }
 
 export interface AnnotationComment {
   id: string
-  body: string          // plain text — rendered via Vue interpolation ONLY
-  authorName: string    // required ("name or initials")
-  createdAt: string     // ISO 8601
+  body: string // plain text — rendered via Vue interpolation ONLY
+  authorName: string // required ("name or initials")
+  createdAt: string // ISO 8601
 }
 
 export interface PageAnnotation {
   id: string
-  pagePath: string      // normalized route path, e.g. '/articles/foo'
+  pagePath: string // normalized route path, e.g. '/articles/foo'
   anchor: AnnotationAnchor
   color: AnnotationColor
   resolved: boolean
   createdAt: string
-  authorName: string    // thread creator = comments[0].authorName
-  comments: AnnotationComment[]  // comments[0] is the initial note; the rest are replies
+  authorName: string // thread creator = comments[0].authorName
+  comments: AnnotationComment[] // comments[0] is the initial note; the rest are replies
 }
 
 /** PageAnnotation minus the server-assigned fields. */
@@ -48,6 +48,6 @@ export interface AnnotationStore {
  *  (Lives here, not in the SFC — `<script setup>` cannot have named exports.) */
 export interface RailThread {
   annotation: PageAnnotation
-  orphan: boolean         // quote no longer found in the rendered text
-  start: number | null    // resolved char offset (document order); null when orphaned
+  orphan: boolean // quote no longer found in the rendered text
+  start: number | null // resolved char offset (document order); null when orphaned
 }

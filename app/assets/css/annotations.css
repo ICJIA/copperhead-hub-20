@@ -1,0 +1,60 @@
+/* app/assets/css/annotations.css
+   Manager-annotation marks + print rules. Ported from copperhead-studio-20
+   with the requested different palette (orange/violet/teal/lime instead of
+   yellow/green/blue/pink) plus a colored underline so highlights read
+   distinctly from the studio's. Unlike the studio (always-light preview
+   surface), this site has a real dark mode — marks force near-black ink so
+   text on the pastel stays ≥ 9:1 in BOTH modes (#111827 on every tint
+   below is ≥ 9.5:1). Bar/rail chrome styles itself with Nuxt UI utilities
+   in the components and inherits the app theme. */
+
+mark.ann {
+  padding: 0 0.08em;
+  border-radius: 2px;
+  cursor: pointer;
+  color: #111827;
+  border-bottom: 2px solid transparent;
+}
+mark.ann--orange { background-color: #fed7aa; border-bottom-color: #f97316; }
+mark.ann--violet { background-color: #ddd6fe; border-bottom-color: #8b5cf6; }
+mark.ann--teal   { background-color: #99f6e4; border-bottom-color: #14b8a6; }
+mark.ann--lime   { background-color: #d9f99d; border-bottom-color: #84cc16; }
+
+/* Armed live-selection tint: while the highlighter is armed the layer sets
+   ann-arming--<color> on <body>, so the click-drag selection previews the
+   chosen tint instead of the browser default. Forced dark ink keeps the
+   preview readable in dark mode too. */
+body.ann-arming main { cursor: text; }
+body.ann-arming--orange main ::selection { background-color: #fed7aa; color: #111827; }
+body.ann-arming--violet main ::selection { background-color: #ddd6fe; color: #111827; }
+body.ann-arming--teal   main ::selection { background-color: #99f6e4; color: #111827; }
+body.ann-arming--lime   main ::selection { background-color: #d9f99d; color: #111827; }
+
+mark.ann:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 1px;
+}
+mark.ann.ann--active {
+  box-shadow: 0 0 0 2px #1d4ed8;
+}
+mark.ann.ann--resolved {
+  opacity: 0.55;
+  text-decoration: underline dotted;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  mark.ann { transition: box-shadow 120ms ease-in-out; }
+}
+
+/* Print: review chrome never prints; tints and underlines are stripped. */
+@media print {
+  .ann-bar-row, .ann-rail-drawer, .ann-composer, .ann-clean-pill { display: none !important; }
+  mark.ann {
+    background: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    text-decoration: none !important;
+    padding: 0;
+  }
+}

@@ -31,7 +31,9 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['~/assets/css/main.css'],
+  // annotations.css ships only while the manager-annotation tool is enabled
+  // (hub.annotations.enabled — the go-live kill switch).
+  css: ['~/assets/css/main.css', ...(hub.annotations.enabled ? ['~/assets/css/annotations.css'] : [])],
 
   colorMode: {
     preference: hub.colorMode.preference,

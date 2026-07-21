@@ -14,8 +14,14 @@ function rangeAt(start: number, end: number): Range {
   while ((node = walker.nextNode())) {
     const t = node as Text
     const next = pos + t.data.length
-    if (!startSet && start < next) { range.setStart(t, start - pos); startSet = true }
-    if (startSet && end <= next) { range.setEnd(t, end - pos); return range }
+    if (!startSet && start < next) {
+      range.setStart(t, start - pos)
+      startSet = true
+    }
+    if (startSet && end <= next) {
+      range.setEnd(t, end - pos)
+      return range
+    }
     pos = next
   }
   throw new Error('offsets out of bounds')
@@ -57,7 +63,8 @@ describe('captureAnchor', () => {
     if (res.ok) expect(res.anchor.exact).toBe('brown fox.It jumps')
   })
   it('rejects a collapsed selection', () => {
-    const r = rangeAt(3, 4); r.collapse(true)
+    const r = rangeAt(3, 4)
+    r.collapse(true)
     expect(captureAnchor(container, r)).toEqual({ ok: false, reason: 'empty' })
   })
   it('rejects a whitespace-only selection', () => {
@@ -70,7 +77,8 @@ describe('captureAnchor', () => {
     outside.textContent = 'elsewhere'
     document.body.appendChild(outside)
     const r = document.createRange()
-    r.setStart(outside.firstChild!, 0); r.setEnd(outside.firstChild!, 4)
+    r.setStart(outside.firstChild!, 0)
+    r.setEnd(outside.firstChild!, 4)
     expect(captureAnchor(container, r)).toEqual({ ok: false, reason: 'outside' })
   })
   it('rejects a selection intersecting KaTeX output', () => {

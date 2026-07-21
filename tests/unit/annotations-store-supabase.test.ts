@@ -68,8 +68,8 @@ describe('createSupabaseAnnotationStore', () => {
     const reply = { id: 'c2', body: 'a reply', authorName: 'KB', createdAt: '2026-07-21T01:00:00Z' }
     const patched = { ...ROW, comments: [...(ROW.comments as unknown[]), reply] }
     const fetcher = vi.fn()
-      .mockResolvedValueOnce([ROW])      // read
-      .mockResolvedValueOnce([patched])  // patch
+      .mockResolvedValueOnce([ROW]) // read
+      .mockResolvedValueOnce([patched]) // patch
     const store = createSupabaseAnnotationStore({ ...OPTS, fetcher })
     const out = await store.addComment('a1', reply)
     expect(fetcher).toHaveBeenNthCalledWith(1, ENDPOINT, {

@@ -18,21 +18,30 @@ export interface AnnotationPrefs {
 export function createAnnotationPrefs(storage?: Storage | null): AnnotationPrefs {
   const memory = new Map<string, string>()
   function read(key: string): string {
-    try { return storage?.getItem(key) ?? memory.get(key) ?? '' }
-    catch { return memory.get(key) ?? '' }
+    try {
+      return storage?.getItem(key) ?? memory.get(key) ?? ''
+    }
+    catch {
+      return memory.get(key) ?? ''
+    }
   }
   function write(key: string, value: string): void {
     memory.set(key, value)
-    try { storage?.setItem(key, value) } catch { /* preference only */ }
+    try {
+      storage?.setItem(key, value)
+    }
+    catch {
+      /* preference only */
+    }
   }
   return {
     getName: () => read(NAME_KEY),
-    setName: (name) => write(NAME_KEY, name),
+    setName: name => write(NAME_KEY, name),
     getColor: () => {
       const c = read(COLOR_KEY)
       return (ANNOTATION_COLORS as readonly string[]).includes(c) ? (c as AnnotationColor) : null
     },
-    setColor: (c) => write(COLOR_KEY, c),
+    setColor: c => write(COLOR_KEY, c),
   }
 }
 

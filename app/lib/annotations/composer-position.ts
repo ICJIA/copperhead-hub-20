@@ -15,15 +15,15 @@ const CLAMP_W = 336
 const CLAMP_H = 260
 const GUTTER = 16
 
-export interface ComposerContainerRect { left: number; top: number; right: number; bottom: number }
+export interface ComposerContainerRect { left: number, top: number, right: number, bottom: number }
 
 export function composerPosition(opts: {
   /** Selection anchor in viewport coordinates (selection rect left / bottom+8). */
-  desired: { x: number; y: number }
-  viewport: { width: number; height: number }
+  desired: { x: number, y: number }
+  viewport: { width: number, height: number }
   /** Containing-block rect in viewport coordinates, or null when `fixed` is truly viewport-anchored. */
   container: ComposerContainerRect | null
-}): { left: number; top: number } {
+}): { left: number, top: number } {
   const { desired, viewport, container } = opts
   const clipRight = Math.min(viewport.width, container?.right ?? viewport.width)
   const clipBottom = Math.min(viewport.height, container?.bottom ?? viewport.height)

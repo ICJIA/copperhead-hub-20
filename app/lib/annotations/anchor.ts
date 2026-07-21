@@ -9,9 +9,9 @@ export const CONTEXT_LENGTH = 32
 // How many chars of prefix-tail/suffix-head still count as partial agreement — tune alongside CONTEXT_LENGTH.
 const PARTIAL_CONTEXT_CHARS = 8
 
-export type CaptureResult =
-  | { ok: true; anchor: AnnotationAnchor }
-  | { ok: false; reason: 'empty' | 'outside' | 'katex' | 'too-long' }
+export type CaptureResult
+  = | { ok: true, anchor: AnnotationAnchor }
+    | { ok: false, reason: 'empty' | 'outside' | 'katex' | 'too-long' }
 
 function textNodesOf(container: Element): Text[] {
   const doc = container.ownerDocument
@@ -25,7 +25,7 @@ function textNodesOf(container: Element): Text[] {
 
 /** The container's annotatable text: all text nodes concatenated in document order. */
 export function textContentOf(container: Element): string {
-  return textNodesOf(container).map((t) => t.data).join('')
+  return textNodesOf(container).map(t => t.data).join('')
 }
 
 /** Char offset of a Range boundary point within the container text. Uses Range
@@ -40,7 +40,7 @@ function pointOffset(container: Element, node: Node, offset: number): number {
 }
 
 /** Character span [start, end) that `el`'s text occupies within the container text. */
-function elementSpan(container: Element, el: Element): { start: number; end: number } {
+function elementSpan(container: Element, el: Element): { start: number, end: number } {
   return {
     start: pointOffset(container, el, 0),
     end: pointOffset(container, el, el.childNodes.length),
@@ -106,7 +106,7 @@ export function rangeFromOffsets(container: Element, start: number, end: number)
 export function resolveAnchor(
   container: Element,
   anchor: AnnotationAnchor,
-): { start: number; end: number } | null {
+): { start: number, end: number } | null {
   const { exact, prefix, suffix, offset } = anchor
   if (!exact) return null
   const text = textContentOf(container)
