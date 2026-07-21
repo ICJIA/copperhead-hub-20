@@ -207,9 +207,13 @@ go-live.
 - Headers: `apikey: <publishableKey>` (+ `Authorization: Bearer` when the
   key is a legacy JWT-format anon key — decided at implementation from what
   `get_publishable_keys` returns).
-- Every failure surfaces a Nuxt UI toast ("Couldn't save comment — retry");
-  the composable re-syncs state from the store response on success
-  (studio's `replaceOne` pattern). No debounce, no batching, no realtime.
+- Failure handling: every **mutation** failure surfaces a Nuxt UI toast
+  ("Couldn't save the comment…") and rethrows so the invoking UI stays open
+  for a retry; the initial **load** failure is quiet (an inline
+  "Comments unavailable" note in the rail) — a toast on every page
+  navigation would spam offline sessions. The composable re-syncs state
+  from the store response on success (studio's `replaceOne` pattern).
+  No debounce, no batching, no realtime.
 
 ## 6. UI (ported from studio; palette and name capture are the deltas)
 
@@ -233,7 +237,7 @@ saving clears the selection, paints, focuses the new mark, and announces
 focus trap, Esc closes). Cards stack in document order — sorted by each
 thread's resolved start offset, orphans last (the studio's aligned-mode
 collision layout is not ported; see D2). Card: color dot · author name ·
-relative-time · quote snippet (button — click scrolls to and flashes the
+timestamp · quote snippet (button — click scrolls to and flashes the
 mark) · full thread · reply input (Enter or send; requires a stored name —
 if none, an inline name field appears above the reply input) · footer:
 Resolve/Reopen · Delete. Delete asks an inline "Delete thread?"
