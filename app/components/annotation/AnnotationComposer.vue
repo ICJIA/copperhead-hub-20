@@ -77,7 +77,7 @@ function save() {
     @keydown="onKeydown"
   >
     <p class="mb-2 line-clamp-2 text-xs italic text-muted">
-      "{{ quote }}"
+      “{{ quote }}”
     </p>
     <input
       ref="nameEl"
