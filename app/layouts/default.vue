@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { hub } from '../../hub.config.mjs'
+
+// Manager-annotation review layer (dev preview only). Client-only: it is
+// pure DOM overlay and must never run during prerender. The flag is the
+// permanent kill switch — see hub.config.mjs.
+const annotationsEnabled = hub.annotations.enabled
+</script>
+
 <template>
   <div class="flex min-h-screen flex-col bg-elevated/50">
     <a
@@ -8,6 +17,10 @@
     </a>
 
     <AppHeader />
+
+    <ClientOnly v-if="annotationsEnabled">
+      <AnnotationLayer />
+    </ClientOnly>
 
     <main
       id="main-content"
