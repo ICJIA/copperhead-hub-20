@@ -51,15 +51,25 @@ onMounted(() => {
 })
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape') { e.stopPropagation(); emit('cancel'); return }
+  if (e.key === 'Escape') {
+    e.stopPropagation()
+    emit('cancel')
+    return
+  }
   if (e.key !== 'Tab') return
   // Minimal focus trap over the popover's focusable controls.
   const focusables = Array.from(rootEl.value?.querySelectorAll<HTMLElement>('input, textarea, button:not([disabled])') ?? [])
   if (focusables.length === 0) return
   const first = focusables[0]!
   const last = focusables[focusables.length - 1]!
-  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
-  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault()
+    last.focus()
+  }
+  else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault()
+    first.focus()
+  }
 }
 
 function save() {
