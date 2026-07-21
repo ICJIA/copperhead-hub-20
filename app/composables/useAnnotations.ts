@@ -63,7 +63,7 @@ export function useAnnotations(pagePath: MaybeRefOrGetter<string>) {
       return created
     }
     catch (e) {
-      fail('Couldn\'t save the comment')
+      fail('Couldn’t save the comment')
       throw e
     }
   }
@@ -75,7 +75,7 @@ export function useAnnotations(pagePath: MaybeRefOrGetter<string>) {
       }))
     }
     catch (e) {
-      fail('Couldn\'t save the reply')
+      fail('Couldn’t save the reply')
       throw e
     }
   }
@@ -85,7 +85,7 @@ export function useAnnotations(pagePath: MaybeRefOrGetter<string>) {
       replaceOne(await store.setResolved(id, resolved))
     }
     catch (e) {
-      fail(resolved ? 'Couldn\'t resolve the thread' : 'Couldn\'t reopen the thread')
+      fail(resolved ? 'Couldn’t resolve the thread' : 'Couldn’t reopen the thread')
       throw e
     }
   }
@@ -96,7 +96,7 @@ export function useAnnotations(pagePath: MaybeRefOrGetter<string>) {
       annotations.value = annotations.value.filter(a => a.id !== id)
     }
     catch (e) {
-      fail('Couldn\'t delete the thread')
+      fail('Couldn’t delete the thread')
       throw e
     }
   }
