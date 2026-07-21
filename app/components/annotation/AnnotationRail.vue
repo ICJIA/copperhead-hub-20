@@ -222,8 +222,8 @@ onMounted(() => {
           <UButton
             data-test="ann-resolve"
             size="xs"
-            :variant="t.annotation.resolved ? 'outline' : 'soft'"
-            :color="t.annotation.resolved ? 'neutral' : 'success'"
+            :variant="t.annotation.resolved ? 'outline' : 'solid'"
+            color="neutral"
             :icon="t.annotation.resolved ? 'i-lucide-rotate-ccw' : 'i-lucide-check'"
             :label="t.annotation.resolved ? 'Reopen' : 'Resolve'"
             @click="emit('resolve', t.annotation.id, !t.annotation.resolved)"
