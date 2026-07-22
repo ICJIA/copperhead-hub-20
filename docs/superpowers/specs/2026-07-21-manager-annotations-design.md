@@ -260,6 +260,13 @@ highlight at `lg`+ while the mark is on screen; the active thread's line is
 bolder. Clicking a card selects it — the page scrolls its highlight into view
 and its line goes active — so which comment maps to which highlight is clear.
 
+**Card text** — listing cards use a "stretched link" overlay (`after:inset-0`)
+that makes the whole card clickable; while armed, that overlay and link/image
+dragging are disabled and content-link clicks are suppressed (capture phase),
+so card titles and excerpts become selectable and annotatable. Painted marks
+sit above the overlay (`z-index`), so clicking a highlight opens its thread,
+not the card link.
+
 ### Palette (the requested "different color")
 
 | Name | Mark background | Underline (2px bottom border) |

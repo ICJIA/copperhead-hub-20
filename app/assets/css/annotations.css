@@ -14,6 +14,10 @@ mark.ann {
   cursor: pointer;
   color: #111827;
   border-bottom: 2px solid transparent;
+  /* Sit above card "stretched link" ::after overlays so clicking a highlight
+     opens its thread instead of following the card link. */
+  position: relative;
+  z-index: 1;
 }
 mark.ann--orange { background-color: #fed7aa; border-bottom-color: #f97316; }
 mark.ann--violet { background-color: #ddd6fe; border-bottom-color: #8b5cf6; }
@@ -29,6 +33,15 @@ body.ann-arming--orange main ::selection { background-color: #fed7aa; color: #11
 body.ann-arming--violet main ::selection { background-color: #ddd6fe; color: #111827; }
 body.ann-arming--teal   main ::selection { background-color: #99f6e4; color: #111827; }
 body.ann-arming--lime   main ::selection { background-color: #d9f99d; color: #111827; }
+
+/* Card "stretched link" overlays (NuxtLink `after:absolute after:inset-0`) and
+   content links otherwise swallow the pointer, so the text under them can't be
+   selected. While armed, disable the overlay and link/image dragging so the
+   card title and excerpt become selectable; the layer's capture-phase click
+   handler blocks the navigation those links would trigger. */
+body.ann-arming #main-content a::after { pointer-events: none; }
+body.ann-arming #main-content a { -webkit-user-drag: none; }
+body.ann-arming #main-content img { -webkit-user-drag: none; }
 
 mark.ann:focus-visible {
   outline: 2px solid #1d4ed8;

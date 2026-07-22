@@ -238,10 +238,23 @@ function onDocumentKeydown(e: KeyboardEvent) {
   tryOpenComposerFromSelection()
 }
 
-/** Click activation on painted marks (document-level delegation). */
+/** Capture-phase click delegation. A painted highlight opens its thread and
+ *  never navigates (even under a card's stretched link). While the highlighter
+ *  is armed, content links don't navigate either, so managers can drag-select
+ *  and annotate card text (see the `ann-arming` rules in annotations.css). */
 function onDocumentClick(e: MouseEvent) {
-  const mark = (e.target as HTMLElement).closest?.('mark[data-ann-id]') as HTMLElement | null
-  if (mark?.dataset.annId) openThread(mark.dataset.annId)
+  const t = e.target instanceof Element ? e.target : null
+  const mark = t?.closest?.('mark[data-ann-id]') as HTMLElement | null
+  if (mark?.dataset.annId) {
+    e.preventDefault()
+    e.stopPropagation()
+    openThread(mark.dataset.annId)
+    return
+  }
+  if (armed.value && t?.closest?.('a[href]') && annotationContainer()?.contains(t)) {
+    e.preventDefault()
+    e.stopPropagation()
+  }
 }
 
 /** Armed-highlighter mouse selection flow → composer. */
@@ -424,7 +437,7 @@ onMounted(async () => {
   drawerMql.addEventListener('change', syncWide)
   teleportReady.value = true
   document.addEventListener('keydown', onDocumentKeydown)
-  document.addEventListener('click', onDocumentClick)
+  document.addEventListener('click', onDocumentClick, true)
   document.addEventListener('mouseup', onMouseUp)
   window.addEventListener('scroll', scheduleLeader, { passive: true })
   window.addEventListener('resize', scheduleLeader)
@@ -442,7 +455,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', onDocumentKeydown)
-  document.removeEventListener('click', onDocumentClick)
+  document.removeEventListener('click', onDocumentClick, true)
   document.removeEventListener('mouseup', onMouseUp)
   window.removeEventListener('scroll', scheduleLeader)
   window.removeEventListener('resize', scheduleLeader)

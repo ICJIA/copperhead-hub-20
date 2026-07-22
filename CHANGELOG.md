@@ -4,6 +4,18 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.28.2] - 2026-07-22
+
+### Fixed
+
+- **Card text is now annotatable.** Listing cards (articles, datasets, …) use a
+  "stretched link" overlay that makes the whole card clickable but swallowed the
+  pointer, so their title/excerpt couldn't be selected. While the **Highlight**
+  tool is armed, the overlay and link/image dragging are disabled so card text is
+  selectable, and content-link navigation is suppressed; painted highlights sit
+  above the overlay, so clicking one opens its comment instead of following the
+  card link. Normal browsing (tool not armed) is unchanged.
+
 ## [0.28.1] - 2026-07-22
 
 Annotation leader-line refinements.
