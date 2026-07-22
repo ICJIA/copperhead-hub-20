@@ -103,13 +103,16 @@ test.describe('manager annotations', () => {
     await expect(card).toContainText('Second thought: ship it')
   })
 
-  test('clean view hides all review chrome and the pill restores it', async ({ page }) => {
+  test('clean view hides all review chrome and the header toggle restores it', async ({ page }) => {
+    // The header pencil toggle is always available (even before clean view).
+    const reviewToggle = page.locator('[data-test="ann-review-toggle"]')
+    await expect(reviewToggle).toBeVisible()
     await page.locator('[data-test="ann-clean-toggle"]').click()
     await expect(page.locator('[data-test="ann-arm"]')).toHaveCount(0)
     await expect(page.locator('mark.ann')).toHaveCount(0)
-    const pill = page.locator('[data-test="ann-clean-exit"]')
-    await expect(pill).toBeVisible()
-    await pill.click()
+    // It stays available in clean view and restores the review chrome.
+    await expect(reviewToggle).toBeVisible()
+    await reviewToggle.click()
     await expect(page.locator('[data-test="ann-arm"]')).toBeVisible()
   })
 })

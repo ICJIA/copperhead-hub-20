@@ -4,6 +4,29 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.28.0] - 2026-07-22
+
+Annotation review UX — comment-to-highlight linking and an always-available review toggle — plus the real nav logo.
+
+### Added
+
+- **Comment ↔ highlight linking.** Each highlight and its comment card now share a
+  document-order number badge, and selecting a thread draws a leader line from the
+  card to the highlight (from `lg` up), so it is clear which comment maps to which
+  highlight.
+- **Persistent review toggle.** A pencil toggle in the header (next to the
+  color-mode toggle) turns the whole review overlay on and off, so **Clean view**
+  is never a dead end. It is teleported from the annotation layer, so it stays out
+  of the build when the kill switch is off.
+- The real ICJIA logo image in the top navigation (previously a text placeholder;
+  now matches the footer).
+
+### Changed
+
+- Clean view is now driven by the header pencil toggle instead of a floating exit
+  pill (which sat behind the bottom status bar and was easy to miss). The pill is
+  removed.
+
 ## [0.27.0] - 2026-07-22
 
 Manager review annotations for the private preview — with a build-time kill switch that removes them for go-live.

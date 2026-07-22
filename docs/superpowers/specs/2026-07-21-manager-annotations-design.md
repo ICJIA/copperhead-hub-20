@@ -250,7 +250,13 @@ longer apply" affordance). Orphaned threads show the studio's
 **Marks** — real `<mark class="ann ann--{color}" data-ann-id tabindex="0"
 role="button">` elements (studio paint module): click/Enter opens the rail
 scrolled to that thread and sets it active (`ann--active` ring). Resolved
-marks: 55 % opacity + dotted underline. Filter hides marks accordingly.
+marks: a neutral fixed-light tint + dotted underline (de-emphasized, but the
+site text under them stays ≥ 14:1 in both modes). Filter hides marks accordingly.
+
+**Comment ↔ highlight link** — each painted highlight and its rail card carry
+the same document-order number badge, and selecting a thread draws a leader
+line (a fixed SVG behind the drawer) from the card to the highlight, at `lg`+
+with the mark on screen, so which comment maps to which highlight is clear.
 
 ### Palette (the requested "different color")
 
@@ -312,10 +318,13 @@ mounted on every page.
 
 ## 9. Deviations from copperhead-studio (all deliberate)
 
-- **D1 — Clean-view exit control:** the studio keeps the collapsed toggle in
-  the bar row; here the bar itself is page chrome, so clean view unmounts
-  the bar and leaves a small floating exit pill instead. Rationale: "see
-  the website as it actually looks" requires zero layout shift.
+- **D1 — Clean-view toggle:** the studio keeps the collapsed toggle in the bar
+  row; here the bar itself is page chrome, so a persistent pencil toggle is
+  teleported into the site header (next to the color-mode toggle) to turn the
+  whole review overlay on and off. Rationale: "see the website as it actually
+  looks" requires zero layout shift, and the control must stay reachable in
+  clean view — an early floating exit pill sat behind the status bar and was
+  easy to miss.
 - **D2 — Rail is a drawer** (studio adds a Word-style aligned desktop aside).
   The aligned mode assumes the rail shares the content's scroll flow inside a
   preview column; on full-width pages a drawer is the coherent equivalent.

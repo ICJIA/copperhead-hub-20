@@ -47,6 +47,52 @@ mark.ann.ann--resolved {
   border-bottom-style: dotted;
 }
 
+/* Document-order number badges tie each highlight to its rail card: the same
+   number sits on the first segment of the mark and on the card header. Blue
+   matches the active-thread ring and the leader line. The mark carries an
+   aria-label, so the generated ::before content is not read twice. */
+mark.ann[data-ann-num]::before {
+  content: attr(data-ann-num);
+  display: inline-block;
+  min-width: 1.15em;
+  margin-right: 0.15em;
+  padding: 0 0.3em;
+  border-radius: 999px;
+  background: #1d4ed8;
+  color: #fff;
+  font-size: 0.65em;
+  font-weight: 700;
+  line-height: 1.5;
+  vertical-align: super;
+  text-align: center;
+}
+.ann-card-num {
+  display: inline-flex;
+  height: 1.4em;
+  min-width: 1.4em;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.35em;
+  border-radius: 999px;
+  background: #1d4ed8;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Leader line from the active highlight to its comment card: a fixed,
+   full-viewport, click-through SVG sitting just below the drawer (z-60), so
+   the line runs from the mark and tucks behind the drawer at the card. */
+.ann-leader-line {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 55;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   mark.ann { transition: box-shadow 120ms ease-in-out; }
 }
@@ -67,7 +113,7 @@ mark.ann.ann--resolved {
 
 /* Print: review chrome never prints; tints and underlines are stripped. */
 @media print {
-  .ann-bar-row, .ann-rail-drawer, .ann-composer, .ann-clean-pill { display: none !important; }
+  .ann-bar-row, .ann-rail-drawer, .ann-composer, .ann-leader-line { display: none !important; }
   body.ann-drawer-open { padding-right: 0 !important; }
   mark.ann {
     background: none !important;
@@ -77,4 +123,5 @@ mark.ann.ann--resolved {
     text-decoration: none !important;
     padding: 0;
   }
+  mark.ann[data-ann-num]::before { display: none !important; }
 }

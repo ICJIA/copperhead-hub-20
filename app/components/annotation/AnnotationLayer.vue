@@ -30,6 +30,8 @@ const filter = ref<'open' | 'resolved' | 'all'>('open')
 const cleanView = ref(false)
 /** Comments start hidden; the drawer opens on demand (studio decision). */
 const railOpen = ref(false)
+/** True once mounted, so the header-teleported review toggle has its target. */
+const teleportReady = ref(false)
 const activeId = ref<string | null>(null)
 const savedName = ref('')
 /** Pending composer state: anchor captured, waiting for name + body. */
@@ -39,6 +41,13 @@ const composer = ref<{ anchor: AnnotationAnchor, position: { x: number, y: numbe
 const composerReturnFocus = ref<Element | null>(null)
 /** id → resolved start offset (null = orphan). Drives rail order + orphan flags. */
 const resolvedStarts = ref<Record<string, number | null>>({})
+/** id → document-order number (1-based, over the visible painted set). The same
+ *  number badges the highlight and its rail card, so it's clear which is which. */
+const annNumbers = ref<Record<string, number>>({})
+/** Leader line (viewport px) from the active highlight to its rail card; null
+ *  hides it. Drawn only at lg+ with the mark on screen (see updateLeader). */
+const leader = ref<{ x1: number, y1: number, x2: number, y2: number } | null>(null)
+let leaderRaf = 0
 
 const layerEl = ref<HTMLElement | null>(null)
 const drawerEl = ref<HTMLElement | null>(null)
@@ -69,8 +78,8 @@ function setColor(c: AnnotationColor) {
 /** UButton types native `onClick` as `(e: MouseEvent) => void | Promise<void>`,
  *  so a bare `@click="ref = value"` assignment (whose expression evaluates to
  *  the assigned value, not void) fails typecheck — named handlers instead. */
-function exitCleanView() {
-  cleanView.value = false
+function toggleCleanView() {
+  cleanView.value = !cleanView.value
 }
 function closeDrawer() {
   railOpen.value = false
@@ -96,19 +105,73 @@ function repaint() {
     resolvedStarts.value = {}
     return
   }
+  // Pass 1: resolve every anchor to a text span (null = orphan).
   const starts: Record<string, number | null> = {}
+  const spans = new Map<string, { start: number, end: number }>()
   for (const a of ann.annotations.value) {
     const span = resolveAnchor(container, a.anchor)
     starts[a.id] = span ? span.start : null
-    if (!span || !visibleUnderFilter(a.resolved)) continue
-    const marks = paintOffsets(container, span.start, span.end, a.id, a.color)
-    for (const m of marks) {
-      if (a.resolved) m.classList.add('ann--resolved')
-      if (a.id === activeId.value) m.classList.add('ann--active')
-      m.setAttribute('aria-label', `Comment by ${a.authorName}: ${a.anchor.exact.slice(0, 60)}`)
-    }
+    if (span) spans.set(a.id, span)
   }
   resolvedStarts.value = starts
+  // Number the painted (positioned + visible) set by document order, so the
+  // badges run 1..N top-to-bottom and match the rail cards.
+  const numbers: Record<string, number> = {}
+  ann.annotations.value
+    .filter(a => spans.has(a.id) && visibleUnderFilter(a.resolved))
+    .sort((a, b) => spans.get(a.id)!.start - spans.get(b.id)!.start)
+    .forEach((a, i) => { numbers[a.id] = i + 1 })
+  annNumbers.value = numbers
+  // Pass 2: paint the visible set; badge the first segment of each.
+  for (const a of ann.annotations.value) {
+    const span = spans.get(a.id)
+    if (!span || !visibleUnderFilter(a.resolved)) continue
+    const marks = paintOffsets(container, span.start, span.end, a.id, a.color)
+    marks.forEach((m, idx) => {
+      if (a.resolved) m.classList.add('ann--resolved')
+      if (a.id === activeId.value) m.classList.add('ann--active')
+      m.setAttribute('aria-label', `Comment ${numbers[a.id] ?? ''} by ${a.authorName}: ${a.anchor.exact.slice(0, 60)}`)
+      if (idx === 0 && numbers[a.id]) m.dataset.annNum = String(numbers[a.id])
+    })
+  }
+  scheduleLeader()
+}
+
+/** Recompute the leader line from the active highlight to its rail card.
+ *  Shown only at lg+ (drawer reserves space) with the drawer open and the
+ *  mark on screen; the line ends at the drawer edge (it sits behind it). */
+function updateLeader() {
+  const id = activeId.value
+  if (!id || !wide.value || cleanView.value || !railOpen.value) {
+    leader.value = null
+    return
+  }
+  const container = annotationContainer()
+  const mark = container?.querySelector<HTMLElement>(`mark[data-ann-id="${CSS.escape(id)}"]`)
+  const card = drawerEl.value?.querySelector<HTMLElement>(`[data-card-id="${CSS.escape(id)}"]`)
+  if (!mark || !card) {
+    leader.value = null
+    return
+  }
+  const m = mark.getBoundingClientRect()
+  if (m.bottom < 0 || m.top > window.innerHeight) {
+    leader.value = null // mark scrolled off screen
+    return
+  }
+  const c = card.getBoundingClientRect()
+  leader.value = {
+    x2: m.right,
+    y2: m.top + m.height / 2,
+    x1: c.left,
+    y1: c.top + Math.min(20, c.height / 2),
+  }
+}
+function scheduleLeader() {
+  if (leaderRaf) return
+  leaderRaf = requestAnimationFrame(() => {
+    leaderRaf = 0
+    updateLeader()
+  })
 }
 
 /** Open a thread from its highlight: activate, open the drawer, let it scroll. */
@@ -325,6 +388,11 @@ function syncArmingClasses() {
 watch([armed, color, cleanView], syncArmingClasses)
 
 watch(filter, () => repaint())
+// Re-aim (or hide) the leader line when the active thread, drawer, clean view,
+// or breakpoint changes — after the DOM settles.
+watch([activeId, railOpen, cleanView, wide], () => {
+  nextTick(scheduleLeader)
+})
 watch(cleanView, (clean) => {
   if (clean) armed.value = false // no capture surface in the plain read
   repaint()
@@ -346,9 +414,12 @@ onMounted(async () => {
   drawerMql = window.matchMedia('(min-width: 1024px)')
   syncWide()
   drawerMql.addEventListener('change', syncWide)
+  teleportReady.value = true
   document.addEventListener('keydown', onDocumentKeydown)
   document.addEventListener('click', onDocumentClick)
   document.addEventListener('mouseup', onMouseUp)
+  window.addEventListener('scroll', scheduleLeader, { passive: true })
+  window.addEventListener('resize', scheduleLeader)
   // Self-healing repaint: page transitions and client-side pagination change
   // the container's text without a route-path change we can watch reliably.
   contentPoll = setInterval(() => {
@@ -365,6 +436,9 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', onDocumentKeydown)
   document.removeEventListener('click', onDocumentClick)
   document.removeEventListener('mouseup', onMouseUp)
+  window.removeEventListener('scroll', scheduleLeader)
+  window.removeEventListener('resize', scheduleLeader)
+  if (leaderRaf) cancelAnimationFrame(leaderRaf)
   if (contentPoll) clearInterval(contentPoll)
   const container = annotationContainer()
   if (container) clearAnnotations(container)
@@ -401,18 +475,29 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <!-- Clean view: the page as the public sees it; one floating pill to exit. -->
-    <UButton
-      v-else
-      class="ann-clean-pill fixed bottom-4 right-4 z-40 shadow-lg"
-      data-test="ann-clean-exit"
-      size="sm"
-      color="neutral"
-      variant="solid"
-      icon="i-lucide-eye"
-      label="Show review tools"
-      @click="exitCleanView"
-    />
+    <!-- Persistent review toggle, teleported into the site header next to the
+         color-mode toggle. Always available, so clean view is never a trap. -->
+    <Teleport
+      v-if="teleportReady"
+      to="#review-toggle-slot"
+    >
+      <button
+        type="button"
+        data-test="ann-review-toggle"
+        class="flex size-9 items-center justify-center rounded-md text-toned transition-colors hover:bg-elevated hover:text-primary"
+        :class="{ 'text-primary': !cleanView }"
+        :aria-pressed="String(!cleanView)"
+        :aria-label="cleanView ? 'Show review tools' : 'Hide review tools (clean view)'"
+        :title="cleanView ? 'Show review tools' : 'Hide review tools'"
+        @click="toggleCleanView"
+      >
+        <UIcon
+          :name="cleanView ? 'i-lucide-pencil-off' : 'i-lucide-pencil'"
+          class="size-4.5"
+          aria-hidden="true"
+        />
+      </button>
+    </Teleport>
 
     <!-- The comments rail: a right-edge slide-over drawer at every width
          (spec D2). A labelled modal dialog: focus hops in on open, Tab wraps,
@@ -442,6 +527,7 @@ onBeforeUnmount(() => {
         :threads="threads"
         :filter="filter"
         :active-id="activeId"
+        :numbers="annNumbers"
         :saved-name="savedName"
         :load-failed="ann.loadFailed.value"
         @reply="onReply"
@@ -450,6 +536,27 @@ onBeforeUnmount(() => {
         @jump="jumpToMark"
       />
     </div>
+
+    <!-- Leader line from the active highlight to its comment card (lg+ only). -->
+    <svg
+      v-if="leader"
+      class="ann-leader-line"
+      aria-hidden="true"
+    >
+      <path
+        :d="`M ${leader.x2} ${leader.y2} C ${leader.x2 + 48} ${leader.y2}, ${leader.x1 - 48} ${leader.y1}, ${leader.x1} ${leader.y1}`"
+        fill="none"
+        stroke="#1d4ed8"
+        stroke-width="2"
+        stroke-dasharray="5 4"
+      />
+      <circle
+        :cx="leader.x2"
+        :cy="leader.y2"
+        r="3.5"
+        fill="#1d4ed8"
+      />
+    </svg>
 
     <AnnotationComposer
       v-if="composer"

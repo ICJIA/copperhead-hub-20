@@ -15,6 +15,8 @@ const props = defineProps<{
   threads: RailThread[]
   filter: RailFilter
   activeId: string | null
+  /** id → document-order number, matching the badge on each highlight. */
+  numbers: Record<string, number>
   /** Remembered reviewer name; when blank each card shows a name input for replies. */
   savedName: string
   /** True when the initial Supabase list failed — shows the inline notice. */
@@ -114,6 +116,11 @@ onMounted(() => {
       :class="t.annotation.id === activeId ? 'border-primary' : 'border-default'"
     >
       <header class="mb-1 flex items-center gap-2">
+        <span
+          v-if="numbers[t.annotation.id]"
+          class="ann-card-num"
+          aria-hidden="true"
+        >{{ numbers[t.annotation.id] }}</span>
         <span
           class="h-3 w-3 shrink-0 rounded-full"
           :class="`ann-dot--${t.annotation.color}`"

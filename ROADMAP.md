@@ -5,10 +5,13 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-22 · Current version: v0.27.0_
+_Last updated: 2026-07-22 · Current version: v0.28.0_
 
 ## Done (recent)
 
+- **Annotation review UX** (v0.28.0) — comment-to-highlight number badges plus a leader line on
+  select, a persistent header pencil toggle for the review overlay (Clean view is never a dead end),
+  and the real ICJIA logo in the top nav.
 - **Manager annotations (dev preview)** (v0.27.0) — select-text highlights with public comment
   threads on every page of the private preview: name-required comments, replies, resolve/reopen,
   delete-with-confirm, a right-side drawer that reserves space (pushes content left, never overlaps),

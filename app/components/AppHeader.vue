@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const route = useRoute()
 
+// Public assets live at the app baseURL (/researchhub/), so build the logo
+// path from it rather than a root-absolute src that would 404 (same as footer).
+const logoSrc = `${useRuntimeConfig().app.baseURL}icjia-logo.png`
+
 // Breadcrumb trail for the navy band. "Home" is the main agency site;
 // everything under /researchhub/ is this app.
 const crumbs = computed(() => {
@@ -57,12 +61,15 @@ const changelogUrl = 'https://github.com/ICJIA/copperhead-hub-20/blob/main/CHANG
           href="https://icjia.illinois.gov/"
           class="flex items-center gap-3"
         >
-          <span
-            class="flex h-11 w-14 items-center justify-center rounded-sm bg-icjia-800 font-serif text-lg font-bold tracking-wide text-white"
+          <img
+            :src="logoSrc"
+            width="250"
+            height="175"
+            alt=""
             aria-hidden="true"
+            class="h-11 w-auto rounded-sm"
+            decoding="async"
           >
-            ICJIA
-          </span>
           <span class="hidden text-xs leading-tight font-semibold tracking-wide text-highlighted uppercase sm:block">
             Illinois Criminal Justice<br>Information Authority
           </span>
@@ -168,6 +175,12 @@ const changelogUrl = 'https://github.com/ICJIA/copperhead-hub-20/blob/main/CHANG
               class="cursor-pointer transition-colors hover:bg-accented"
             />
           </a>
+          <!-- The manager-annotation review toggle teleports into this slot
+               when the feature is enabled; empty (kill-switch safe) otherwise. -->
+          <div
+            id="review-toggle-slot"
+            class="flex items-center"
+          />
           <ColorModeToggle />
         </div>
       </nav>

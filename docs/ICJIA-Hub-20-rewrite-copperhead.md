@@ -16,6 +16,7 @@ date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks
 
 | Version | Date | What shipped |
 |---|---|---|
+| **v0.28.0** | 2026-07-22 | Review-annotation polish: each highlight and its comment now share a number, and clicking a comment draws a line to its highlight, so it is clear which is which. A pencil button in the header (next to the light/dark toggle) shows or hides the review tools, so the clean preview is never a dead end. The top navigation now shows the real ICJIA logo. |
 | **v0.27.0** | 2026-07-22 | Manager review annotations on the private preview: turn on **Highlight**, select text on any page, and leave a comment thread (name or initials required) that everyone reviewing the preview can see, reply to, resolve, or remove. Comments persist in a database across sessions and devices, and a **Clean view** shows the site exactly as the public will see it; the comments drawer pushes the page aside rather than covering it. The whole tool is removed by a permanent kill switch at go-live. |
 | **v0.26.0** | 2026-07-16 | The project roadmap now renders inside the app at `/roadmap` (from the repository's `ROADMAP.md`), so managers can read done / next / deferred in the app alongside this spec and the status bar. |
 | **v0.25.1** | 2026-07-16 | Accessibility fix — the header's build-version chip now exposes a screen-reader label that matches its visible text (WCAG 2.5.3 Label in Name, Level A); the chip appears on every page. |
