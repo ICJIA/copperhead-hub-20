@@ -17,6 +17,7 @@ import { captureAnchor, resolveAnchor, textContentOf } from '~/lib/annotations/a
 import { paintOffsets, clearAnnotations } from '~/lib/annotations/paint'
 import { normalizePagePath } from '~/lib/annotations/page-path'
 import { annotationPrefs } from '~/lib/annotations/prefs'
+import { annotationsToJson, annotationsToMarkdown, annotationsToDocx, parseAnnotationsImport, downloadBlob, downloadText } from '~/lib/annotations/export'
 
 const route = useRoute()
 const toast = useToast()
@@ -55,6 +56,7 @@ const LEADER_STROKE: Record<AnnotationColor, string> = {
 
 const layerEl = ref<HTMLElement | null>(null)
 const drawerEl = ref<HTMLElement | null>(null)
+const importInput = ref<HTMLInputElement | null>(null)
 
 function annotationContainer(): Element | null {
   return document.getElementById('main-content')
@@ -387,6 +389,57 @@ async function onRemove(id: string) {
   await say('Thread deleted')
 }
 
+/** Export every annotation (all pages) as JSON, Markdown, or Word. The docx
+ *  builder lazy-loads the `docx` library, so it only ships on a Word export. */
+async function exportAs(format: 'json' | 'md' | 'docx') {
+  let all: PageAnnotation[]
+  try {
+    all = await ann.listAll()
+  }
+  catch {
+    toast.add({ title: 'Couldn’t load annotations to export', color: 'error' })
+    return
+  }
+  if (all.length === 0) {
+    toast.add({ title: 'No annotations to export yet', color: 'warning' })
+    return
+  }
+  const stamp = new Date().toISOString()
+  const name = `copperhead-annotations-${stamp.slice(0, 10)}`
+  try {
+    if (format === 'json') downloadText(annotationsToJson(all, stamp), `${name}.json`, 'application/json')
+    else if (format === 'md') downloadText(annotationsToMarkdown(all, stamp), `${name}.md`, 'text/markdown')
+    else downloadBlob(await annotationsToDocx(all, stamp), `${name}.docx`)
+    await say(`Exported ${all.length} annotations`)
+  }
+  catch {
+    toast.add({ title: 'Export failed', color: 'error' })
+  }
+}
+
+function triggerImport() {
+  importInput.value?.click()
+}
+
+/** Import a JSON export: upsert by id, then reload + repaint the current page. */
+async function onImportFile(e: Event) {
+  const input = e.target as HTMLInputElement
+  const file = input.files?.[0]
+  input.value = '' // let the same file be re-picked
+  if (!file) return
+  try {
+    const items = parseAnnotationsImport(await file.text())
+    const n = await ann.importAnnotations(items)
+    await nextTick()
+    repaint()
+    toast.add({ title: `Imported ${n} annotation${n === 1 ? '' : 's'}`, color: 'success' })
+    await say(`Imported ${n} annotations`)
+  }
+  catch {
+    toast.add({ title: 'Import failed', description: 'Choose a JSON file exported from this tool.', color: 'error' })
+  }
+}
+
 /** Rail → highlight: scroll the mark into view and flash it active. */
 function jumpToMark(id: string) {
   activeId.value = id
@@ -533,7 +586,48 @@ onBeforeUnmount(() => {
       class="ann-rail-drawer fixed inset-y-0 right-0 z-[60] w-80 max-w-full overflow-y-auto border-l border-default bg-default p-3 shadow-xl"
       @keydown="onDrawerKeydown"
     >
-      <div class="mb-2 flex justify-end">
+      <div class="mb-2 flex flex-wrap items-center gap-1 border-b border-default pb-2">
+        <span class="mr-0.5 text-xs font-medium text-muted">Export</span>
+        <UButton
+          data-test="ann-export-docx"
+          size="xs"
+          variant="soft"
+          color="neutral"
+          label="Word"
+          @click="exportAs('docx')"
+        />
+        <UButton
+          data-test="ann-export-md"
+          size="xs"
+          variant="soft"
+          color="neutral"
+          label="MD"
+          @click="exportAs('md')"
+        />
+        <UButton
+          data-test="ann-export-json"
+          size="xs"
+          variant="soft"
+          color="neutral"
+          label="JSON"
+          @click="exportAs('json')"
+        />
+        <UButton
+          data-test="ann-import"
+          size="xs"
+          variant="ghost"
+          color="neutral"
+          icon="i-lucide-upload"
+          label="Import"
+          @click="triggerImport"
+        />
+        <input
+          ref="importInput"
+          type="file"
+          accept="application/json,.json"
+          class="hidden"
+          @change="onImportFile"
+        >
         <UButton
           data-test="ann-drawer-close"
           size="xs"
@@ -541,6 +635,7 @@ onBeforeUnmount(() => {
           color="neutral"
           icon="i-lucide-x"
           aria-label="Close comments"
+          class="ml-auto"
           @click="closeDrawer"
         />
       </div>

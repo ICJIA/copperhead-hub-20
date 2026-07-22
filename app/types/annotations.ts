@@ -42,6 +42,10 @@ export interface AnnotationStore {
   addComment(id: string, c: AnnotationComment): Promise<PageAnnotation>
   setResolved(id: string, resolved: boolean): Promise<PageAnnotation>
   remove(id: string): Promise<void>
+  /** Every annotation across all pages, document order — for export. */
+  listAll(): Promise<PageAnnotation[]>
+  /** Upsert annotations by id (for import); returns how many were written. */
+  importMany(annotations: PageAnnotation[]): Promise<number>
 }
 
 /** A rail entry: an annotation plus its resolution state in the CURRENT render.

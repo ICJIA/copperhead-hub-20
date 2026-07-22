@@ -5,10 +5,13 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-22 · Current version: v0.28.2_
+_Last updated: 2026-07-22 · Current version: v0.29.0_
 
 ## Done (recent)
 
+- **Annotation export/import** (v0.29.0) — export all comments+highlights as Word/Markdown/JSON to
+  preserve a review; import a JSON export back (upsert by id). Card text made annotatable (v0.28.2);
+  per-card leader lines + click-to-select (v0.28.1).
 - **Annotation review UX** (v0.28.0) — comment-to-highlight number badges plus a leader line on
   select, a persistent header pencil toggle for the review overlay (Clean view is never a dead end),
   and the real ICJIA logo in the top nav.

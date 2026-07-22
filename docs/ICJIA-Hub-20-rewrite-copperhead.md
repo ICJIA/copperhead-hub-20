@@ -16,6 +16,7 @@ date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks
 
 | Version | Date | What shipped |
 |---|---|---|
+| **v0.29.0** | 2026-07-22 | Export and import review annotations: from the comments panel, download every comment (with its highlighted text) as a Word, Markdown, or JSON file to keep for the record, and import a JSON file back to restore a saved set. |
 | **v0.28.2** | 2026-07-22 | Card text is now highlightable: the "Latest Articles"-style cards were fully clickable, which blocked selecting their text; with the review Highlight tool on, their titles and excerpts can be selected and commented on (normal clicking still opens the article when the tool is off). |
 | **v0.28.1** | 2026-07-22 | Every comment now shows its own connecting line to its highlight (not just the selected one), and clicking a comment card jumps to its highlight and makes that line active. |
 | **v0.28.0** | 2026-07-22 | Review-annotation polish: each highlight and its comment now share a number, and clicking a comment draws a line to its highlight, so it is clear which is which. A pencil button in the header (next to the light/dark toggle) shows or hides the review tools, so the clean preview is never a dead end. The top navigation now shows the real ICJIA logo. |

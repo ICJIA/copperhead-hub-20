@@ -112,6 +112,38 @@ describe('createSupabaseAnnotationStore', () => {
       query: { id: 'eq.a1' },
     })
   })
+  it('listAll() GETs every row in created order (no page filter)', async () => {
+    const fetcher = vi.fn().mockResolvedValue([ROW])
+    const store = createSupabaseAnnotationStore({ ...OPTS, fetcher })
+    const out = await store.listAll()
+    expect(fetcher).toHaveBeenCalledWith(ENDPOINT, {
+      headers: { apikey: 'sb_publishable_test' },
+      query: { select: '*', order: 'created_at.asc' },
+    })
+    expect(out).toHaveLength(1)
+    expect(out[0]!.id).toBe('a1')
+  })
+  it('importMany() upserts full rows by id and returns the count', async () => {
+    const fetcher = vi.fn().mockResolvedValue(undefined)
+    const store = createSupabaseAnnotationStore({ ...OPTS, fetcher })
+    const n = await store.importMany([annotationFromRow(ROW)])
+    expect(n).toBe(1)
+    expect(fetcher).toHaveBeenCalledWith(ENDPOINT, {
+      method: 'POST',
+      headers: { apikey: 'sb_publishable_test', Prefer: 'resolution=merge-duplicates,return=minimal' },
+      body: [{
+        id: 'a1', page_path: '/articles/foo', exact: 'quick brown', prefix: 'The ', suffix: ' fox',
+        offset_hint: 4, color: 'teal', resolved: false, author_name: 'CS',
+        comments: annotationFromRow(ROW).comments, created_at: '2026-07-21T00:00:00Z',
+      }],
+    })
+  })
+  it('importMany() writes nothing for an empty list', async () => {
+    const fetcher = vi.fn()
+    const store = createSupabaseAnnotationStore({ ...OPTS, fetcher })
+    expect(await store.importMany([])).toBe(0)
+    expect(fetcher).not.toHaveBeenCalled()
+  })
   it('propagates network errors', async () => {
     const fetcher = vi.fn().mockRejectedValue(new Error('offline'))
     const store = createSupabaseAnnotationStore({ ...OPTS, fetcher })

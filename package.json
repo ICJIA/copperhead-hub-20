@@ -1,6 +1,6 @@
 {
   "name": "copperhead-hub-20",
-  "version": "0.28.2",
+  "version": "0.29.0",
   "private": true,
   "type": "module",
   "description": "Copperhead — ICJIA Research Hub 2.0 public frontend (Nuxt 4, Nuxt UI 4, static generation)",
@@ -27,6 +27,7 @@
   "dependencies": {
     "@nuxt/image": "2.0.0",
     "@nuxt/ui": "^4.9.0",
+    "docx": "^9.7.1",
     "isomorphic-dompurify": "3.18.0",
     "marked": "18.0.6",
     "marked-footnote": "1.4.0",

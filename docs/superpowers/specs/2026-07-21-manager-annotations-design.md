@@ -356,8 +356,10 @@ mounted on every page.
 ## 10. Out of scope (YAGNI)
 
 Realtime cross-viewer sync; editing or deleting individual replies; nested
-threads; auth of any kind; orphan re-attachment UI; export/reporting;
-annotation of PDF canvas text in `/reader`.
+threads; auth of any kind; orphan re-attachment UI; annotation of PDF canvas
+text in `/reader`. (Export to Word/Markdown/JSON and JSON import were added in
+v0.29.0 — `app/lib/annotations/export.ts` plus the store's `listAll` /
+`importMany`.)
 
 ## 11. Docs & release (standing rule: keep docs current)
 

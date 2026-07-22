@@ -4,6 +4,18 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.29.0] - 2026-07-22
+
+### Added
+
+- **Export & import annotations.** From the comments drawer, export every annotation
+  (across all pages) as **Word (.docx)**, **Markdown**, or **JSON** — to download and
+  preserve the review for future reference. **Import** reads a JSON export back (upsert
+  by id), so a saved review can be restored. Word and Markdown are one-way,
+  human-readable snapshots; JSON round-trips. The Word generator (`docx`) is lazy-loaded
+  only when a Word export is requested, so it ships with nothing when the kill switch is
+  off.
+
 ## [0.28.2] - 2026-07-22
 
 ### Fixed

@@ -76,6 +76,11 @@ export function annotationToRow(a: NewPageAnnotation): Omit<AnnotationRow, 'id' 
   }
 }
 
+/** Full row (id + created_at kept) for import upserts. */
+export function annotationToFullRow(a: PageAnnotation): AnnotationRow {
+  return { ...annotationToRow(a), id: a.id, created_at: a.createdAt }
+}
+
 export function createSupabaseAnnotationStore(opts: {
   url: string
   key: string
@@ -133,6 +138,25 @@ export function createSupabaseAnnotationStore(opts: {
 
     async remove(id) {
       await fetcher(endpoint, { method: 'DELETE', headers: read, query: { id: `eq.${id}` } })
+    },
+
+    async listAll() {
+      const rows = await fetcher(endpoint, {
+        headers: read,
+        query: { select: '*', order: 'created_at.asc' },
+      }) as AnnotationRow[]
+      return rows.map(annotationFromRow)
+    },
+
+    async importMany(annotations) {
+      if (annotations.length === 0) return 0
+      // Upsert on the id primary key — re-importing restores the exact rows.
+      await fetcher(endpoint, {
+        method: 'POST',
+        headers: { apikey: opts.key, Prefer: 'resolution=merge-duplicates,return=minimal' },
+        body: annotations.map(annotationToFullRow),
+      })
+      return annotations.length
     },
   }
 }

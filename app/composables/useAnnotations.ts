@@ -105,5 +105,17 @@ export function useAnnotations(pagePath: MaybeRefOrGetter<string>) {
     }
   }
 
-  return { annotations, loading, loadFailed, load, createAnnotation, reply, setResolved, removeAnnotation }
+  /** All annotations across every page — for export. */
+  async function listAll(): Promise<PageAnnotation[]> {
+    return store.listAll()
+  }
+
+  /** Upsert imported annotations, then refresh the current page's view. */
+  async function importAnnotations(items: PageAnnotation[]): Promise<number> {
+    const n = await store.importMany(items)
+    await load()
+    return n
+  }
+
+  return { annotations, loading, loadFailed, load, createAnnotation, reply, setResolved, removeAnnotation, listAll, importAnnotations }
 }
