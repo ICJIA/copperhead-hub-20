@@ -4,6 +4,19 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.28.1] - 2026-07-22
+
+Annotation leader-line refinements.
+
+### Changed
+
+- **Every comment card draws its own leader line** to its highlight (each in the
+  highlight's color), not just the selected one — so all comment-to-highlight
+  links are visible at once; the selected thread's line is bolder.
+- **Clicking anywhere on a comment card** (not only its quote) now selects it: the
+  page scrolls its highlight into view and its leader line goes active. The card's
+  own controls (reply, resolve, delete) still do only that.
+
 ## [0.28.0] - 2026-07-22
 
 Annotation review UX — comment-to-highlight linking and an always-available review toggle — plus the real nav logo.

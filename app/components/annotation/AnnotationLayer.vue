@@ -44,10 +44,14 @@ const resolvedStarts = ref<Record<string, number | null>>({})
 /** id → document-order number (1-based, over the visible painted set). The same
  *  number badges the highlight and its rail card, so it's clear which is which. */
 const annNumbers = ref<Record<string, number>>({})
-/** Leader line (viewport px) from the active highlight to its rail card; null
- *  hides it. Drawn only at lg+ with the mark on screen (see updateLeader). */
-const leader = ref<{ x1: number, y1: number, x2: number, y2: number } | null>(null)
+/** One leader line per rendered card → its highlight (viewport px). Drawn at
+ *  lg+ with the mark on screen (see updateLeaders); the active one is bolder. */
+const leaders = ref<Array<{ id: string, x1: number, y1: number, x2: number, y2: number, stroke: string, active: boolean }>>([])
 let leaderRaf = 0
+/** Per-palette line color — matches each highlight's underline. */
+const LEADER_STROKE: Record<AnnotationColor, string> = {
+  orange: '#f97316', violet: '#8b5cf6', teal: '#14b8a6', lime: '#84cc16',
+}
 
 const layerEl = ref<HTMLElement | null>(null)
 const drawerEl = ref<HTMLElement | null>(null)
@@ -137,40 +141,44 @@ function repaint() {
   scheduleLeader()
 }
 
-/** Recompute the leader line from the active highlight to its rail card.
- *  Shown only at lg+ (drawer reserves space) with the drawer open and the
- *  mark on screen; the line ends at the drawer edge (it sits behind it). */
-function updateLeader() {
-  const id = activeId.value
-  if (!id || !wide.value || cleanView.value || !railOpen.value) {
-    leader.value = null
-    return
-  }
+/** Recompute a leader line for every rendered card → its highlight. Shown only
+ *  at lg+ (drawer reserves space) with the drawer open and the mark on screen;
+ *  each line ends at the drawer edge (it sits behind the drawer). */
+function updateLeaders() {
+  const drawer = drawerEl.value
   const container = annotationContainer()
-  const mark = container?.querySelector<HTMLElement>(`mark[data-ann-id="${CSS.escape(id)}"]`)
-  const card = drawerEl.value?.querySelector<HTMLElement>(`[data-card-id="${CSS.escape(id)}"]`)
-  if (!mark || !card) {
-    leader.value = null
+  if (!wide.value || cleanView.value || !railOpen.value || !drawer || !container) {
+    leaders.value = []
     return
   }
-  const m = mark.getBoundingClientRect()
-  if (m.bottom < 0 || m.top > window.innerHeight) {
-    leader.value = null // mark scrolled off screen
-    return
+  const vh = window.innerHeight
+  const out: typeof leaders.value = []
+  for (const card of drawer.querySelectorAll<HTMLElement>('[data-card-id]')) {
+    const id = card.dataset.cardId
+    if (!id) continue
+    const mark = container.querySelector<HTMLElement>(`mark[data-ann-id="${CSS.escape(id)}"]`)
+    if (!mark) continue // orphaned or filtered out — no highlight to point at
+    const m = mark.getBoundingClientRect()
+    if (m.bottom < 0 || m.top > vh) continue // highlight scrolled off screen
+    const c = card.getBoundingClientRect()
+    const color = ann.annotations.value.find(a => a.id === id)?.color ?? 'orange'
+    out.push({
+      id,
+      x2: m.right,
+      y2: m.top + m.height / 2,
+      x1: c.left,
+      y1: c.top + Math.min(20, c.height / 2),
+      stroke: LEADER_STROKE[color],
+      active: id === activeId.value,
+    })
   }
-  const c = card.getBoundingClientRect()
-  leader.value = {
-    x2: m.right,
-    y2: m.top + m.height / 2,
-    x1: c.left,
-    y1: c.top + Math.min(20, c.height / 2),
-  }
+  leaders.value = out
 }
 function scheduleLeader() {
   if (leaderRaf) return
   leaderRaf = requestAnimationFrame(() => {
     leaderRaf = 0
-    updateLeader()
+    updateLeaders()
   })
 }
 
@@ -537,25 +545,31 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <!-- Leader line from the active highlight to its comment card (lg+ only). -->
+    <!-- One leader line per card → its highlight (lg+ only); active is bolder. -->
     <svg
-      v-if="leader"
+      v-if="leaders.length"
       class="ann-leader-line"
       aria-hidden="true"
     >
-      <path
-        :d="`M ${leader.x2} ${leader.y2} C ${leader.x2 + 48} ${leader.y2}, ${leader.x1 - 48} ${leader.y1}, ${leader.x1} ${leader.y1}`"
-        fill="none"
-        stroke="#1d4ed8"
-        stroke-width="2"
-        stroke-dasharray="5 4"
-      />
-      <circle
-        :cx="leader.x2"
-        :cy="leader.y2"
-        r="3.5"
-        fill="#1d4ed8"
-      />
+      <g
+        v-for="l in leaders"
+        :key="l.id"
+        :opacity="l.active ? 1 : 0.7"
+      >
+        <path
+          :d="`M ${l.x2} ${l.y2} C ${l.x2 + 48} ${l.y2}, ${l.x1 - 48} ${l.y1}, ${l.x1} ${l.y1}`"
+          fill="none"
+          :stroke="l.stroke"
+          :stroke-width="l.active ? 2.5 : 1.5"
+          stroke-dasharray="5 4"
+        />
+        <circle
+          :cx="l.x2"
+          :cy="l.y2"
+          :r="l.active ? 4 : 3"
+          :fill="l.stroke"
+        />
+      </g>
     </svg>
 
     <AnnotationComposer

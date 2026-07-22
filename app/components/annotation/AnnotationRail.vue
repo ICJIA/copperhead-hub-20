@@ -73,6 +73,13 @@ function updateDraft(id: string, value: string) {
   drafts.value = { ...drafts.value, [id]: value }
 }
 
+/** Click anywhere on a card (except its own controls) → select it: the layer
+ *  scrolls its highlight into view and switches the active leader line to it. */
+function onCardClick(e: MouseEvent, id: string) {
+  if ((e.target as HTMLElement).closest('button, input, textarea, a')) return
+  emit('jump', id)
+}
+
 async function scrollToActive(id: string | null) {
   if (!id) return
   await nextTick()
@@ -112,8 +119,9 @@ onMounted(() => {
       :key="t.annotation.id"
       :data-card-id="t.annotation.id"
       data-test="ann-card"
-      class="mb-3 rounded-lg border bg-default p-3"
+      class="mb-3 cursor-pointer rounded-lg border bg-default p-3"
       :class="t.annotation.id === activeId ? 'border-primary' : 'border-default'"
+      @click="onCardClick($event, t.annotation.id)"
     >
       <header class="mb-1 flex items-center gap-2">
         <span

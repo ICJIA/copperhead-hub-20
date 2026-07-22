@@ -254,9 +254,11 @@ marks: a neutral fixed-light tint + dotted underline (de-emphasized, but the
 site text under them stays ≥ 14:1 in both modes). Filter hides marks accordingly.
 
 **Comment ↔ highlight link** — each painted highlight and its rail card carry
-the same document-order number badge, and selecting a thread draws a leader
-line (a fixed SVG behind the drawer) from the card to the highlight, at `lg`+
-with the mark on screen, so which comment maps to which highlight is clear.
+the same document-order number badge, and every rendered card draws a leader
+line (a fixed SVG behind the drawer, in the highlight's colour) to its
+highlight at `lg`+ while the mark is on screen; the active thread's line is
+bolder. Clicking a card selects it — the page scrolls its highlight into view
+and its line goes active — so which comment maps to which highlight is clear.
 
 ### Palette (the requested "different color")
 

@@ -5,7 +5,7 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-22 · Current version: v0.28.0_
+_Last updated: 2026-07-22 · Current version: v0.28.1_
 
 ## Done (recent)
 
