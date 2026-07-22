@@ -46,9 +46,24 @@ mark.ann.ann--resolved {
   mark.ann { transition: box-shadow 120ms ease-in-out; }
 }
 
+/* Comments drawer reserves layout space instead of overlapping the page:
+   the layer sets `ann-drawer-open` on <body> while the drawer is showing,
+   and the content column is inset by the drawer's width so nothing hides
+   beneath it. Only from `lg` up — below that a 20rem push would crush the
+   content, so the drawer stays an overlay (and is near-full-width there
+   anyway). The drawer itself is `position: fixed`, anchored to the viewport
+   edge, so it fills exactly the reserved gutter. */
+@media (min-width: 1024px) {
+  body.ann-drawer-open { padding-right: 20rem; }
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  body { transition: padding-right 200ms ease; }
+}
+
 /* Print: review chrome never prints; tints and underlines are stripped. */
 @media print {
   .ann-bar-row, .ann-rail-drawer, .ann-composer, .ann-clean-pill { display: none !important; }
+  body.ann-drawer-open { padding-right: 0 !important; }
   mark.ann {
     background: none !important;
     border-bottom: none !important;

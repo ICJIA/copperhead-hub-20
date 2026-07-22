@@ -191,6 +191,9 @@ function cancelComposer() {
 const drawerReturnFocus = ref<Element | null>(null)
 const drawerShowing = computed(() => railOpen.value && !cleanView.value)
 watch(drawerShowing, async (open) => {
+  // Reserve page space for the drawer (CSS pushes content left from `lg` up)
+  // so the open drawer never hides the text being reviewed.
+  document.body.classList.toggle('ann-drawer-open', open)
   if (open) {
     drawerReturnFocus.value = document.activeElement
     await nextTick() // the drawer is v-if — it exists one tick after the flag flips
@@ -356,6 +359,7 @@ onBeforeUnmount(() => {
   armed.value = false
   cleanView.value = false
   syncArmingClasses()
+  document.body.classList.remove('ann-drawer-open')
 })
 </script>
 

@@ -44,8 +44,9 @@ test.describe('manager annotations', () => {
   })
 
   test('select text → composer (name + comment required) → mark + card; reply works', async ({ page }) => {
-    // Arming opens the drawer too (studio behavior). The drawer overlays the
-    // right edge only, so selecting text in main is unaffected.
+    // Arming opens the drawer too (studio behavior). From `lg` up the drawer
+    // reserves page space (content shifts left) rather than overlaying, so
+    // selecting text in main is unaffected.
     await page.locator('[data-test="ann-arm"]').click()
     await expect(page.locator('[data-test="ann-drawer"]')).toBeVisible()
 
