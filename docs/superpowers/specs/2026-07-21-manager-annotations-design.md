@@ -279,12 +279,16 @@ as the studio — plus the color CHECK constraint above.
 ## 7. Accessibility
 
 Port the studio's patterns intact: APG toolbar roving tabindex; marks
-focusable with `role="button"`; composer and drawer focus-trapped with Esc;
-polite `aria-live` announcements for add/reply/resolve/delete; drawer is
-`role="dialog" aria-modal="true"`; color is never the only signal (dots +
-names); reduced-motion respected (site-wide rule already disables
-transitions). The existing Playwright + axe suite must stay green with the
-bar mounted on every page.
+focusable with `role="button"`; the composer is focus-trapped with Esc;
+polite `aria-live` announcements for add/reply/resolve/delete; color is never
+the only signal (dots + names); reduced-motion respected (site-wide rule
+already disables transitions). The drawer is `role="dialog"`: modal
+(`aria-modal="true"` + Tab trap) below `lg` where it overlays near-full-width,
+and non-modal (`aria-modal="false"`, no trap) from `lg` up where it reserves
+space — so keyboard and AT users can reach the visible content the reserve is
+meant to keep readable; Esc-to-close and return-focus are retained at both
+widths. The existing Playwright + axe suite must stay green with the bar
+mounted on every page.
 
 ## 8. Testing
 
@@ -317,7 +321,8 @@ bar mounted on every page.
   preview column; on full-width pages a drawer is the coherent equivalent.
   From `lg` up the drawer reserves layout space (content shifts left) rather
   than overlaying, so it never hides the text under review; below `lg` it
-  overlays. Dialog/focus semantics unchanged.
+  overlays. Modal/focus-trap semantics track the breakpoint (non-modal at `lg`+
+  so the reserved content stays reachable; modal overlay below) — see §7.
 - **D3 — Name capture** replaces signed-in attribution; email/role dropped.
 - **D4 — Anyone can delete** (studio gates by role/creator). Confirm step
   retained.

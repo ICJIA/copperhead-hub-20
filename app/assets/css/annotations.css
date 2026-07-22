@@ -38,8 +38,13 @@ mark.ann.ann--active {
   box-shadow: 0 0 0 2px #1d4ed8;
 }
 mark.ann.ann--resolved {
-  opacity: 0.55;
-  text-decoration: underline dotted;
+  /* Resolved = inactive. A neutral fixed-light tint (not opacity) keeps the
+     forced-dark ink at >= 14:1 in BOTH modes — the old opacity: 0.55 dimmed
+     the site's own text under the mark to ~3:1 in dark mode. The dotted
+     underline carries the state as a non-color cue. */
+  background-color: #e5e7eb;
+  border-bottom-color: #9ca3af;
+  border-bottom-style: dotted;
 }
 
 @media (prefers-reduced-motion: no-preference) {

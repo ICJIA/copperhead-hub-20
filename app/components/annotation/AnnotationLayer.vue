@@ -190,6 +190,14 @@ function cancelComposer() {
 // ---- Drawer dialog semantics (studio port; the drawer IS the rail here) ----
 const drawerReturnFocus = ref<Element | null>(null)
 const drawerShowing = computed(() => railOpen.value && !cleanView.value)
+/** `lg` breakpoint. At/above it the drawer reserves page space and is
+ *  NON-modal — the visible content stays reachable by keyboard and AT; below
+ *  it the drawer overlays (near full-width) and is modal with a Tab trap. */
+const wide = ref(true)
+let drawerMql: MediaQueryList | undefined
+function syncWide() {
+  wide.value = drawerMql?.matches ?? true
+}
 watch(drawerShowing, async (open) => {
   // Reserve page space for the drawer (CSS pushes content left from `lg` up)
   // so the open drawer never hides the text being reviewed.
@@ -212,6 +220,7 @@ function onDrawerKeydown(e: KeyboardEvent) {
     return
   }
   if (e.key !== 'Tab') return
+  if (wide.value) return // non-modal at lg+: let Tab reach the visible page content
   const focusables = Array.from(drawerEl.value?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input, textarea, select') ?? [])
   if (focusables.length === 0) return
   const first = focusables[0]!
@@ -334,6 +343,9 @@ let contentPoll: ReturnType<typeof setInterval> | undefined
 onMounted(async () => {
   color.value = annotationPrefs.getColor() ?? 'orange'
   savedName.value = annotationPrefs.getName()
+  drawerMql = window.matchMedia('(min-width: 1024px)')
+  syncWide()
+  drawerMql.addEventListener('change', syncWide)
   document.addEventListener('keydown', onDocumentKeydown)
   document.addEventListener('click', onDocumentClick)
   document.addEventListener('mouseup', onMouseUp)
@@ -360,6 +372,7 @@ onBeforeUnmount(() => {
   cleanView.value = false
   syncArmingClasses()
   document.body.classList.remove('ann-drawer-open')
+  drawerMql?.removeEventListener('change', syncWide)
 })
 </script>
 
@@ -409,7 +422,7 @@ onBeforeUnmount(() => {
       ref="drawerEl"
       data-test="ann-drawer"
       role="dialog"
-      aria-modal="true"
+      :aria-modal="wide ? 'false' : 'true'"
       aria-label="Review comments"
       class="ann-rail-drawer fixed inset-y-0 right-0 z-[60] w-80 max-w-full overflow-y-auto border-l border-default bg-default p-3 shadow-xl"
       @keydown="onDrawerKeydown"

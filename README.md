@@ -82,14 +82,18 @@ build-time kill switch removes it entirely at go-live.
   `copperhead_annotations`. The committed key is a *publishable* key (safe in
   client code; Row Level Security is the boundary) — no environment variable is
   required. Optionally point it at another project per environment with
-  `NUXT_PUBLIC_SUPABASE_URL` / `NUXT_PUBLIC_SUPABASE_KEY` (see `.env.example`).
+  `NUXT_PUBLIC_SUPABASE_URL` / `NUXT_PUBLIC_SUPABASE_KEY` (see `.env.example`) —
+  a different origin must also be added to `netlify.toml`'s `connect-src`, or
+  the browser's CSP blocks the connection.
 - **Spec:** [`docs/superpowers/specs/2026-07-21-manager-annotations-design.md`](docs/superpowers/specs/2026-07-21-manager-annotations-design.md).
 
 ### Turning annotations off for go-live (permanent)
 
 1. In `hub.config.mjs`, set `const ANNOTATIONS_ENABLED = false`.
 2. In `netlify.toml`, remove `https://efgevsdftkrancswojcz.supabase.co` from the
-   `connect-src` directive.
+   `connect-src` directive, and remove any `NUXT_PUBLIC_SUPABASE_*` variables from
+   the Netlify build environment (a stray one would re-bake the URL into the
+   payload even with the switch off — the grep in step 3 catches it).
 3. Rebuild and deploy. The layer, its CSS, and every Supabase reference are
    tree-shaken out of the bundle. Verify the strip:
 
