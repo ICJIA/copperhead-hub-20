@@ -5,10 +5,16 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-16 · Current version: v0.26.0_
+_Last updated: 2026-07-22 · Current version: v0.27.0_
 
 ## Done (recent)
 
+- **Manager annotations (dev preview)** (v0.27.0) — select-text highlights with public comment
+  threads on every page of the private preview: name-required comments, replies, resolve/reopen,
+  delete-with-confirm, a right-side drawer that reserves space (pushes content left, never overlaps),
+  and Clean view. Stored in Supabase across sessions/devices. A permanent `ANNOTATIONS_ENABLED` kill
+  switch tree-shakes the whole feature — and its Supabase credentials — out of the build at go-live
+  (grep-verified). Spec: `docs/superpowers/specs/2026-07-21-manager-annotations-design.md`.
 - **In-app roadmap page** (v0.26.0) — this roadmap now renders inside the app at `/roadmap`, from this
   same `ROADMAP.md`, so managers can read it alongside the in-app spec and the status bar. Linked from
   the bottom status bar.

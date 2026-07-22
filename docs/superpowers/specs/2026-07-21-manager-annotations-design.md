@@ -232,9 +232,11 @@ Save disabled until both are non-blank. Focus-trapped; Esc cancels;
 saving clears the selection, paints, focuses the new mark, and announces
 "Comment added" via a polite live region.
 
-**Rail** — right-side slide-over drawer at **all** viewport widths
-(studio's < lg drawer: `fixed inset-y-0 right-0 w-80`, dialog semantics,
-focus trap, Esc closes). Cards stack in document order — sorted by each
+**Rail** — right-side slide-over drawer (`fixed inset-y-0 right-0 w-80`,
+dialog semantics, focus trap, Esc closes). From `lg` up it reserves page
+space — the content column is inset by the drawer's width so the open drawer
+never hides the text under review; below `lg` it overlays (a full-width push
+would crush the content). Cards stack in document order — sorted by each
 thread's resolved start offset, orphans last (the studio's aligned-mode
 collision layout is not ported; see D2). Card: color dot · author name ·
 timestamp · quote snippet (button — click scrolls to and flashes the
@@ -294,9 +296,11 @@ bar mounted on every page.
 - **E2E/a11y (Playwright):** existing axe suite green; one smoke: bar
   renders, arm → programmatic selection → composer opens → save posts
   (Supabase mocked via route interception).
-- **Build:** `pnpm generate` succeeds; with `enabled: false` the output
-  contains no `supabase.co` and no annotation chrome (assertion in the
-  kill-switch test or a script grep).
+- **Build:** `pnpm generate` succeeds; with the `ANNOTATIONS_ENABLED` kill
+  switch off, the layer is tree-shaken (build-time-conditional async import)
+  and the `supabase` config resolves to `null`, so the output carries no
+  `supabase.co`, no publishable key, and no annotation chrome — grep-verified
+  against `.output/public` (README runbook).
 - **Manual:** verify highlight/comment/reply/resolve/delete round-trip on
   the dev server with viewcap screenshots (background Chrome-MCP tabs
   break rendering — use viewcap per project memory), then on a Netlify
@@ -308,17 +312,23 @@ bar mounted on every page.
   the bar row; here the bar itself is page chrome, so clean view unmounts
   the bar and leaves a small floating exit pill instead. Rationale: "see
   the website as it actually looks" requires zero layout shift.
-- **D2 — Rail is a drawer at all widths** (studio adds a Word-style aligned
-  desktop aside). The aligned mode assumes the rail shares the content's
-  scroll flow inside a preview column; on full-width pages an overlay
-  drawer is the coherent equivalent.
+- **D2 — Rail is a drawer** (studio adds a Word-style aligned desktop aside).
+  The aligned mode assumes the rail shares the content's scroll flow inside a
+  preview column; on full-width pages a drawer is the coherent equivalent.
+  From `lg` up the drawer reserves layout space (content shifts left) rather
+  than overlaying, so it never hides the text under review; below `lg` it
+  overlays. Dialog/focus semantics unchanged.
 - **D3 — Name capture** replaces signed-in attribution; email/role dropped.
 - **D4 — Anyone can delete** (studio gates by role/creator). Confirm step
   retained.
 - **D5 — Storage** is Supabase PostgREST instead of Strapi admin API;
   same 5-method store seam, same last-write-wins trade-off.
 - **D6 — Keying** by `pagePath` instead of `(contentType, documentId)`.
-- **D7 — Kill switch** is net-new (the studio ships everywhere by design).
+- **D7 — Kill switch** is net-new (the studio ships everywhere by design):
+  `ANNOTATIONS_ENABLED` in hub.config.mjs. Off = the layer tree-shakes out and
+  the Supabase config becomes `null`, so a disabled build carries no
+  annotation code or credentials (grep-verified). URL/key are also overridable
+  per environment via `NUXT_PUBLIC_SUPABASE_URL` / `_KEY`.
 
 ## 10. Out of scope (YAGNI)
 

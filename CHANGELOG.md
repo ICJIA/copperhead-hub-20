@@ -4,6 +4,39 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.27.0] - 2026-07-22
+
+Manager review annotations for the private preview — with a build-time kill switch that removes them for go-live.
+
+### Added
+
+- **Manager annotations (dev preview).** Arm **Highlight** in the review bar, select text on any
+  page, and leave a comment thread — a name or initials is required. Threads are visible to every
+  viewer of the preview, support replies, resolve/reopen, and delete-with-confirm, and persist across
+  sessions and devices in Supabase. Includes a sticky review toolbar (roving-tabindex), a right-side
+  comments drawer, **Clean view** with a floating exit pill, and an orange/violet/teal/lime highlight
+  palette with colored underlines (dark-mode-safe ink).
+- **Optional Supabase environment overrides.** `NUXT_PUBLIC_SUPABASE_URL` / `NUXT_PUBLIC_SUPABASE_KEY`
+  point the tool at a different Supabase project without code changes (documented in `.env.example`);
+  the committed publishable defaults mean no environment variable is required to build or deploy.
+- Unit suites for anchoring, painting, composer clamping, rail ordering, prefs, and the Supabase
+  store; Playwright smoke + axe coverage for the annotation chrome (WCAG 2.1 A/AA, light + dark).
+
+### Changed
+
+- **The comments drawer reserves layout space instead of overlapping.** From `lg` up, opening the
+  drawer shifts the page content left by the drawer's width, so the open drawer never hides the text
+  under review; below `lg` it overlays (a full-width push would crush the content).
+- `netlify.toml` CSP `connect-src` gains the Supabase origin (removed at go-live per the README runbook).
+
+### Notes
+
+- **Permanent go-live kill switch.** Setting `ANNOTATIONS_ENABLED = false` in `hub.config.mjs`
+  tree-shakes the annotation layer out of the build (a build-time-conditional async import) and
+  resolves the Supabase config to `null`, so a disabled build contains no annotation code and no
+  Supabase URL/key — verified by grepping `.output/public` (0 hits). The committed key is a
+  *publishable* key, safe by design; Row Level Security is the security boundary. Runbook in the README.
+
 ## [0.26.0] - 2026-07-16
 
 The roadmap now renders inside the app, alongside the spec and status.
