@@ -260,6 +260,11 @@ function onDocumentClick(e: MouseEvent) {
     return
   }
   if (armed.value && t?.closest?.('a[href]') && annotationContainer()?.contains(t)) {
+    // Card navigation CTAs (Read more / Learn more / View center) opt out of the
+    // selection block so the site stays navigable while the highlighter is armed;
+    // every other link click is suppressed so its text can be selected.
+    const link = t?.closest?.('a[href]') as HTMLElement | null
+    if (link?.hasAttribute('data-ann-nav')) return
     e.preventDefault()
     e.stopPropagation()
   }

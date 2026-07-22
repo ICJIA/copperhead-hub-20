@@ -4,6 +4,21 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.31.0] - 2026-07-22
+
+### Changed
+
+- **Card "Read more" links now name what they open — and stay clickable in review
+  mode.** Every listing call-to-action — "Read More" on articles, datasets, and apps;
+  "Learn More" on projects; the centers expand toggle; and "View center" on the
+  homepage — is now a real, keyboard-focusable link reading "Read more about
+  {title}". A short title prefix shows on screen (truncated on a word boundary, with a
+  CSS ellipsis); the full title is the link's accessible name, so screen readers and
+  voice control get the whole title (WCAG 2.4.4 Link Purpose), while the visible prefix
+  keeps WCAG 2.5.3 Label-in-Name green. Each CTA is exempt from the annotation
+  text-selection block, so the site stays fully navigable while the highlighter is
+  armed — the surrounding card text remains selectable and annotatable.
+
 ## [0.30.0] - 2026-07-22
 
 ### Changed

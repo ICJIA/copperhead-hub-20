@@ -19,6 +19,11 @@ const list = computed(() =>
   projects.value?.length ? projects.value : PLACEHOLDER_PROJECTS,
 )
 
+// "Learn more about {title}" per card, keyed by list position.
+const learnMore = computed(() =>
+  list.value.map(project => readMoreLabel(project.title, 'Learn more about')),
+)
+
 // Landing copy: authors own it via a pages entry slugged `projects`
 // (fallback preserves the copy from the retired projecthomes type).
 const { data: copy } = await usePageCopy('projects', {
@@ -99,15 +104,23 @@ const HEADER_PALETTE = ['bg-icjia-800', 'bg-red-900', 'bg-emerald-900']
                 {{ bullet }}
               </li>
             </ul>
-            <!-- Visual affordance only — the card's stretched link carries
-                 the accessible name (Figma: white outline Learn More). -->
-            <div
-              class="mt-auto self-end pt-5"
-              aria-hidden="true"
-            >
-              <span class="inline-flex items-center rounded-md border border-white/60 bg-white/5 px-3.5 py-1.5 text-sm font-semibold">
-                Learn More
-              </span>
+            <!-- Real, always-clickable CTA (Figma: white outline Learn More).
+                 data-ann-nav keeps it navigable while the highlighter is armed;
+                 the stretched title link still carries the whole-card click. -->
+            <div class="mt-auto self-end pt-5">
+              <NuxtLink
+                :to="`/projects/${project.slug}`"
+                :aria-label="learnMore[index]?.full"
+                data-ann-nav
+                class="read-more-link inline-flex items-center gap-1 rounded-md border border-white/60 bg-white/5 px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-white/15 focus-visible:bg-white/15 focus:outline-none"
+              >
+                <span :class="{ 'read-more-link__text--clip': learnMore[index]?.truncated }">{{ learnMore[index]?.visible }}</span>
+                <UIcon
+                  name="i-lucide-arrow-right"
+                  class="size-4"
+                  aria-hidden="true"
+                />
+              </NuxtLink>
             </div>
           </article>
         </li>

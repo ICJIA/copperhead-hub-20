@@ -209,3 +209,22 @@
     animation: none;
   }
 }
+
+/* ── Card "Read more / Learn more" CTAs ─────────────────────────────────
+   The CTA reflects the card's title. Its visible text is a word-boundary
+   prefix of the title; the full title lives in the link's aria-label. This
+   ellipsis marks the visual truncation as generated content, so it never
+   enters the accessible-name comparison — WCAG 2.5.3 (Label in Name) still
+   sees only the prefix, which the aria-label contains. */
+.read-more-link__text--clip::after {
+  content: '\2026';
+}
+
+/* Lift the CTA above the card's "stretched link" (::after inset-0) overlay so
+   it is a real, directly clickable target — its own hover/focus, its own href
+   — and so it keeps working while the annotation highlighter is armed (the
+   layer exempts [data-ann-nav] links from the text-selection click block). */
+.read-more-link {
+  position: relative;
+  z-index: 1;
+}

@@ -43,6 +43,7 @@ const items = computed(() =>
           <NuxtLink
             v-if="centers[index]"
             :to="`/centers#center-${centers[index].documentId}`"
+            data-ann-nav
             class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
           >
             View center<span class="sr-only">: {{ centers[index].title }}</span>

@@ -21,6 +21,11 @@ const list = computed(() =>
   centers.value?.length ? centers.value : PLACEHOLDER_CENTERS,
 )
 
+// "Read more about {title}" for each expand toggle, keyed by documentId.
+const readMoreLabels = computed(() =>
+  Object.fromEntries(list.value.map(center => [center.documentId, readMoreLabel(center.title)])),
+)
+
 // Figma (646:1704) shows short, uniform cards. Centers have no detail
 // pages, so instead of a View link the full description expands in place.
 const expandedIds = ref<Set<string>>(new Set())
@@ -105,11 +110,19 @@ const { data: copy } = await usePageCopy('centers', {
                   color="primary"
                   variant="outline"
                   size="sm"
-                  :label="expandedIds.has(center.documentId) ? 'Show Less' : 'Read More'"
+                  :aria-label="expandedIds.has(center.documentId)
+                    ? `Show less about ${center.title}`
+                    : readMoreLabels[center.documentId]?.full"
                   :aria-expanded="expandedIds.has(center.documentId)"
                   :aria-controls="`center-description-${center.documentId}`"
                   @click="toggleExpanded(center.documentId)"
-                />
+                >
+                  <span v-if="expandedIds.has(center.documentId)">Show Less</span>
+                  <span
+                    v-else
+                    :class="{ 'read-more-link__text--clip': readMoreLabels[center.documentId]?.truncated }"
+                  >{{ readMoreLabels[center.documentId]?.visible }}</span>
+                </UButton>
               </div>
             </div>
           </article>

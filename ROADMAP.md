@@ -5,10 +5,14 @@ substantive change: shipped work moves to **Done**, and **Next** / **Deferred** 
 with each planning discussion. For the version-by-version history see [CHANGELOG.md](./CHANGELOG.md);
 for the full spec see the [design/spec doc](./docs/ICJIA-Hub-20-rewrite-copperhead.md).
 
-_Last updated: 2026-07-22 · Current version: v0.30.0_
+_Last updated: 2026-07-22 · Current version: v0.31.0_
 
 ## Done (recent)
 
+- **Descriptive, always-clickable card links** (v0.31.0) — every card "Read more" / "Learn
+  more" call-to-action now names what it opens ("Read more about {title}", with the full
+  title as the accessible name) and stays clickable while the annotation highlighter is
+  armed, so the site is fully usable in review mode (surrounding text stays annotatable).
 - **Annotation export/import** (v0.29.0) — export all comments+highlights as Word/Markdown/JSON to
   preserve a review; import a JSON export back (upsert by id). Card text made annotatable (v0.28.2);
   per-card leader lines + click-to-select (v0.28.1).

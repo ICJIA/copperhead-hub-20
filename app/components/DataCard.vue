@@ -24,6 +24,10 @@ const img = computed(() => {
     alt: props.image.alternativeText,
   }
 })
+
+// "Read more about {title}" — reflects the dataset/app so the CTA is
+// meaningful on its own (full title in the aria-label, a short prefix shown).
+const readMore = computed(() => readMoreLabel(props.title))
 </script>
 
 <template>
@@ -78,11 +82,23 @@ const img = computed(() => {
       <p class="line-clamp-3 text-sm text-muted">
         {{ description }}
       </p>
-      <div
-        class="mt-auto pt-1 text-sm font-semibold text-primary"
-        aria-hidden="true"
-      >
-        Read More
+      <!-- Real, always-clickable CTA (was decorative text; the whole card is
+           still the stretched title link). data-ann-nav keeps it navigable
+           while the annotation highlighter is armed. -->
+      <div class="mt-auto pt-1">
+        <NuxtLink
+          :to="to"
+          :aria-label="readMore.full"
+          data-ann-nav
+          class="read-more-link inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline focus-visible:underline focus:outline-none"
+        >
+          <span :class="{ 'read-more-link__text--clip': readMore.truncated }">{{ readMore.visible }}</span>
+          <UIcon
+            name="i-lucide-arrow-right"
+            class="size-4"
+            aria-hidden="true"
+          />
+        </NuxtLink>
       </div>
     </div>
   </article>

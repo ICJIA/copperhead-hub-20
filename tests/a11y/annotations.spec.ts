@@ -116,4 +116,17 @@ test.describe('manager annotations', () => {
     await reviewToggle.click()
     await expect(page.locator('[data-test="ann-arm"]')).toBeVisible()
   })
+
+  test('card CTAs stay clickable while the highlighter is armed', async ({ page }) => {
+    // beforeEach turned review on, which arms the highlighter — the state that
+    // suppresses content-link navigation so text can be selected. A card CTA
+    // opts out via data-ann-nav, so the site stays navigable in review mode.
+    await expect(page.locator('[data-test="ann-arm"]')).toBeVisible()
+    const cta = page.locator('#main-content a[data-ann-nav][href*="/articles/"]').first()
+    await expect(cta).toBeVisible()
+    const href = await cta.getAttribute('href')
+    expect(href).toBeTruthy()
+    await cta.click()
+    await page.waitForURL(`**${href}`)
+  })
 })
