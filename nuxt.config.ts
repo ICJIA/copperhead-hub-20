@@ -52,6 +52,13 @@ export default defineNuxtConfig({
       // Surfaced in the build badge (AppHeader). Sourced from package.json
       // so the chip and the release tag never drift.
       version: pkg.version,
+      // Supabase-backed manager annotations (dev preview). The committed
+      // publishable defaults live in hub.config.mjs; override per environment
+      // with NUXT_PUBLIC_SUPABASE_URL / NUXT_PUBLIC_SUPABASE_KEY (Netlify env
+      // UI — see .env.example). Emptied when the kill switch is off so the
+      // disabled build ships no Supabase origin (README go-live runbook).
+      supabaseUrl: hub.annotations.supabase?.url ?? '',
+      supabaseKey: hub.annotations.supabase?.publishableKey ?? '',
     },
   },
 
@@ -68,6 +75,15 @@ export default defineNuxtConfig({
       routes: ['/', '/articles', '/datasets', '/apps', '/centers', '/projects', '/publications', '/hub-staff', '/search', '/reader', '/spec', '/roadmap'],
       // A registered page that fails to render must fail the build.
       failOnError: true,
+    },
+  },
+
+  // Build-time kill-switch constant. Vite replaces the identifier textually,
+  // so a disabled build dead-code-eliminates the annotation layer's async
+  // import in app/layouts/default.vue — no annotation code enters the bundle.
+  vite: {
+    define: {
+      __ANN_ENABLED__: JSON.stringify(hub.annotations.enabled),
     },
   },
 

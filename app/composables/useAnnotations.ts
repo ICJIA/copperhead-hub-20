@@ -10,10 +10,14 @@ import { createSupabaseAnnotationStore } from '~/lib/annotations/store-supabase'
 
 export function useAnnotations(pagePath: MaybeRefOrGetter<string>) {
   const toast = useToast()
+  // URL + publishable key come from runtime config so they can be overridden
+  // per environment (NUXT_PUBLIC_SUPABASE_URL / NUXT_PUBLIC_SUPABASE_KEY); the
+  // table is a fixed code constant. Defaults for all three are in hub.config.mjs.
+  const { supabaseUrl, supabaseKey } = useRuntimeConfig().public
   const store = createSupabaseAnnotationStore({
-    url: hub.annotations.supabase.url,
-    key: hub.annotations.supabase.publishableKey,
-    table: hub.annotations.supabase.table,
+    url: supabaseUrl,
+    key: supabaseKey,
+    table: hub.annotations.supabase?.table ?? 'copperhead_annotations',
   })
 
   const annotations = ref<PageAnnotation[]>([])

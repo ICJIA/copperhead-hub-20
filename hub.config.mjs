@@ -9,6 +9,17 @@
  * and mirrors two values by hand — keep it in sync when changing baseURL.
  */
 
+/**
+ * Manager-annotation KILL SWITCH. Flip to `false` before go-live: the
+ * annotation layer, its CSS, and every Supabase reference are then dropped
+ * from the build. The layer is a build-time-conditional import (tree-shaken
+ * via the `__ANN_ENABLED__` Vite constant in nuxt.config.ts), and the
+ * `supabase` block below becomes `null` so its URL/key literals fall out of
+ * the shared config chunk. Verified by the grep proof in the README runbook.
+ * Also remove the Supabase origin from netlify.toml connect-src.
+ */
+const ANNOTATIONS_ENABLED = true
+
 export const hub = {
   site: {
     /** Public product name (the codename never appears on the site). */
@@ -73,20 +84,25 @@ export const hub = {
   annotations: {
     /**
      * Manager review annotations (spec: docs/superpowers/specs/
-     * 2026-07-21-manager-annotations-design.md). KILL SWITCH: set
-     * `enabled: false` before go-live — the layer, its CSS, and every
-     * Supabase reference drop out of the build. Also remove the Supabase
-     * origin from netlify.toml connect-src (runbook in README).
+     * 2026-07-21-manager-annotations-design.md). Toggle with the
+     * ANNOTATIONS_ENABLED kill switch at the top of this file.
      */
-    enabled: true,
-    supabase: {
-      /** Project "holdem-simulator" (efgevsdftkrancswojcz), us-east-1. */
-      url: 'https://efgevsdftkrancswojcz.supabase.co',
-      /** Publishable key — safe to commit by design (it ships in the client
-       *  bundle regardless); the RLS policies are the security boundary. */
-      publishableKey: 'sb_publishable_xYEjTCTxp-UaYGsFQMay6g_HA7BM9cn',
-      table: 'copperhead_annotations',
-    },
+    enabled: ANNOTATIONS_ENABLED,
+    /**
+     * `null` when the kill switch is off, so the URL/key literals tree-shake
+     * out of the client bundle. The publishable key is safe to commit by
+     * design (it ships in the client bundle while enabled); RLS is the
+     * security boundary. Overridable per environment via
+     * NUXT_PUBLIC_SUPABASE_URL / NUXT_PUBLIC_SUPABASE_KEY (see .env.example).
+     */
+    supabase: ANNOTATIONS_ENABLED
+      ? {
+          // Project "holdem-simulator" (efgevsdftkrancswojcz), us-east-1.
+          url: 'https://efgevsdftkrancswojcz.supabase.co',
+          publishableKey: 'sb_publishable_xYEjTCTxp-UaYGsFQMay6g_HA7BM9cn',
+          table: 'copperhead_annotations',
+        }
+      : null,
   },
 }
 
