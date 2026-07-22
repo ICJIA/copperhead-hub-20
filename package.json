@@ -26,19 +26,19 @@
   },
   "dependencies": {
     "@nuxt/image": "2.0.0",
-    "@nuxt/ui": "^4.9.0",
+    "@nuxt/ui": "^4.10.0",
     "docx": "^9.7.1",
-    "isomorphic-dompurify": "3.18.0",
-    "marked": "18.0.6",
+    "isomorphic-dompurify": "3.19.0",
+    "marked": "18.0.7",
     "marked-footnote": "1.4.0",
-    "nuxt": "~4.4.8",
+    "nuxt": "~4.5.0",
     "pdfjs-dist": "6.1.200",
-    "tailwindcss": "^4.3.2"
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
     "@icjia/pdf-search-index": "1.4.1",
-    "@iconify-json/lucide": "^1.2.116",
+    "@iconify-json/lucide": "^1.2.118",
     "@lhci/cli": "^0.15.1",
     "@nuxt/eslint": "^1.16.0",
     "@playwright/test": "^1.61.1",
