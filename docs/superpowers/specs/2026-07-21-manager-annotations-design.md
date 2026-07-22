@@ -333,7 +333,10 @@ mounted on every page.
   whole review overlay on and off. Rationale: "see the website as it actually
   looks" requires zero layout shift, and the control must stay reachable in
   clean view — an early floating exit pill sat behind the status bar and was
-  easy to miss.
+  easy to miss. The preview loads IN clean view (annotations off; pencil
+  crossed, with a tooltip); turning review on from the pencil arms the
+  highlighter, opens the drawer, and paints existing annotations so the manager
+  can work immediately. Saving a new highlight re-arms + reopens the drawer too.
 - **D2 — Rail is a drawer** (studio adds a Word-style aligned desktop aside).
   The aligned mode assumes the rail shares the content's scroll flow inside a
   preview column; on full-width pages a drawer is the coherent equivalent.

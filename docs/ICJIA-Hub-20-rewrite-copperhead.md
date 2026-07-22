@@ -16,6 +16,7 @@ date: "July 11, 2026 · continuously updated — last revised 2026-07-16 (tracks
 
 | Version | Date | What shipped |
 |---|---|---|
+| **v0.30.0** | 2026-07-22 | Annotations now start turned off — the preview loads exactly as the public will see it, and you click the (crossed-out) pencil in the header to turn the review tools on, which shows any existing comments and lets you start highlighting. Adding a comment keeps the tools on. |
 | **v0.29.0** | 2026-07-22 | Export and import review annotations: from the comments panel, download every comment (with its highlighted text) as a Word, Markdown, or JSON file to keep for the record, and import a JSON file back to restore a saved set. |
 | **v0.28.2** | 2026-07-22 | Card text is now highlightable: the "Latest Articles"-style cards were fully clickable, which blocked selecting their text; with the review Highlight tool on, their titles and excerpts can be selected and commented on (normal clicking still opens the article when the tool is off). |
 | **v0.28.1** | 2026-07-22 | Every comment now shows its own connecting line to its highlight (not just the selected one), and clicking a comment card jumps to its highlight and makes that line active. |

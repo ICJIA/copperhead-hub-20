@@ -27,8 +27,9 @@ const armed = ref(false)
 const color = ref<AnnotationColor>('orange')
 const filter = ref<'open' | 'resolved' | 'all'>('open')
 /** Clean view: the site exactly as the public will see it — nothing painted,
- *  no bar, no rail; only the floating exit pill remains. Overlay-only. */
-const cleanView = ref(false)
+ *  no bar, no rail. Starts ON so the preview loads clean; the header pencil
+ *  toggle turns review mode on. */
+const cleanView = ref(true)
 /** Comments start hidden; the drawer opens on demand (studio decision). */
 const railOpen = ref(false)
 /** True once mounted, so the header-teleported review toggle has its target. */
@@ -85,7 +86,12 @@ function setColor(c: AnnotationColor) {
  *  so a bare `@click="ref = value"` assignment (whose expression evaluates to
  *  the assigned value, not void) fails typecheck — named handlers instead. */
 function toggleCleanView() {
+  const turningReviewOn = cleanView.value
   cleanView.value = !cleanView.value
+  // Turning review on from the header pencil: arm the highlighter and open the
+  // drawer, so existing annotations (marks + comments) show right away and the
+  // manager can start highlighting immediately.
+  if (turningReviewOn) setArmed(true)
 }
 function closeDrawer() {
   railOpen.value = false
@@ -342,6 +348,9 @@ async function saveComposer(body: string, name: string) {
   }
   composer.value = null
   window.getSelection()?.removeAllRanges()
+  // A new highlight keeps review mode fully on: stay armed and (re)open the
+  // drawer, so the new thread shows and the manager can add another right away.
+  setArmed(true)
   await nextTick()
   activeId.value = created.id
   if (filter.value === 'resolved') filter.value = 'open' // the new thread must be visible
@@ -555,22 +564,26 @@ onBeforeUnmount(() => {
       v-if="teleportReady"
       to="#review-toggle-slot"
     >
-      <button
-        type="button"
-        data-test="ann-review-toggle"
-        class="flex size-9 items-center justify-center rounded-md text-toned transition-colors hover:bg-elevated hover:text-primary"
-        :class="{ 'text-primary': !cleanView }"
-        :aria-pressed="String(!cleanView)"
-        :aria-label="cleanView ? 'Show review tools' : 'Hide review tools (clean view)'"
-        :title="cleanView ? 'Show review tools' : 'Hide review tools'"
-        @click="toggleCleanView"
+      <UTooltip
+        :text="cleanView ? 'Click the pencil to turn on review annotations' : 'Hide review annotations (clean view)'"
+        :content="{ side: 'bottom' }"
       >
-        <UIcon
-          :name="cleanView ? 'i-lucide-pencil-off' : 'i-lucide-pencil'"
-          class="size-4.5"
-          aria-hidden="true"
-        />
-      </button>
+        <button
+          type="button"
+          data-test="ann-review-toggle"
+          class="flex size-9 items-center justify-center rounded-md text-toned transition-colors hover:bg-elevated hover:text-primary"
+          :class="{ 'text-primary': !cleanView }"
+          :aria-pressed="String(!cleanView)"
+          :aria-label="cleanView ? 'Turn on review annotations' : 'Hide review annotations (clean view)'"
+          @click="toggleCleanView"
+        >
+          <UIcon
+            :name="cleanView ? 'i-lucide-pencil-off' : 'i-lucide-pencil'"
+            class="size-4.5"
+            aria-hidden="true"
+          />
+        </button>
+      </UTooltip>
     </Teleport>
 
     <!-- The comments rail: a right-edge slide-over drawer at every width

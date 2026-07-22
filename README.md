@@ -1,9 +1,9 @@
 # Copperhead — ICJIA Research Hub 2.0 (public frontend)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/build-v0.29.0-1b365d.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/build-v0.30.0-1b365d.svg)](CHANGELOG.md)
 
-> **Current build: v0.29.0 · updated 2026-07-22.** Living docs, always current:
+> **Current build: v0.30.0 · updated 2026-07-22.** Living docs, always current:
 > [CHANGELOG](CHANGELOG.md) (what shipped, per version) · [ROADMAP](ROADMAP.md) (next / deferred / done) ·
 > the full [spec & status doc](docs/ICJIA-Hub-20-rewrite-copperhead.md). The running preview also
 > surfaces these from its bottom status bar, and renders the spec in-app at `/researchhub/spec`.
@@ -30,7 +30,7 @@
 |---|---|---|
 | **Strapi 5 content database** | stores all Hub content (migrated from Strapi 3 via [`hub-migration-tools`](https://github.com/ICJIA/hub-migration-tools)) | ✅ Complete — full parity verified, March 2026 |
 | **Hub Studio 2.0** ([`hub-studio-2026`](https://github.com/ICJIA/hub-studio-2026)) | internal tool where R&A staff write, preview, and publish | ✅ Built and working in development; pre-launch |
-| **Copperhead** (this repository) | the public Research Hub website | 🚧 Working first draft (v0.29.0) — this repo |
+| **Copperhead** (this repository) | the public Research Hub website | 🚧 Working first draft (v0.30.0) — this repo |
 
 ## What's in this repository today
 
@@ -73,7 +73,10 @@ comment threads in a right-side drawer. It is **not** part of the public site �
 build-time kill switch removes it entirely at go-live.
 
 - **Use it:** arm **Highlight** in the review bar (under the header), select text,
-  and add a comment — a name or initials is required. Threads are public to every
+  and add a comment — a name or initials is required. **Annotations start off:**
+  the preview loads clean and you click the crossed-out **pencil** in the header
+  (next to the light/dark toggle) to turn review on — that arms highlighting,
+  opens the comments drawer, and shows existing annotations. Threads are public to every
   viewer of the preview, support replies, resolve/reopen, and delete-with-confirm,
   and persist across sessions and devices in Supabase. **Clean view** shows the
   site exactly as the public will see it. From `lg` up the drawer reserves page

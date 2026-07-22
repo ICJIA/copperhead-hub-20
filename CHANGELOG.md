@@ -4,6 +4,18 @@ All notable changes to Project Copperhead (ICJIA Research Hub 2.0 public fronten
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.30.0] - 2026-07-22
+
+### Changed
+
+- **Annotations now start off.** The preview loads clean — the header pencil is
+  crossed out, with a tooltip: "Click the pencil to turn on review annotations."
+  Clicking the pencil turns review mode on: it arms the highlighter, opens the
+  comments drawer, and paints any existing annotations, so a manager can start
+  highlighting and see prior comments immediately.
+- Adding a new highlight keeps review mode fully on (armed + drawer open), so the
+  new thread shows and another can be added right away.
+
 ## [0.29.0] - 2026-07-22
 
 ### Added

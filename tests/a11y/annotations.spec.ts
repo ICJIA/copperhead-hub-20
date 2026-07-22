@@ -33,6 +33,8 @@ test.describe('manager annotations', () => {
       }
     })
     await page.goto(hub.site.baseURL)
+    // Annotations start off (clean view); turn them on for the review-chrome tests.
+    await page.locator('[data-test="ann-review-toggle"]').click()
   })
 
   test('toolbar renders on every page and is axe-clean', async ({ page }) => {
@@ -44,10 +46,9 @@ test.describe('manager annotations', () => {
   })
 
   test('select text → composer (name + comment required) → mark + card; reply works', async ({ page }) => {
-    // Arming opens the drawer too (studio behavior). From `lg` up the drawer
-    // reserves page space (content shifts left) rather than overlaying, so
-    // selecting text in main is unaffected.
-    await page.locator('[data-test="ann-arm"]').click()
+    // beforeEach already turned review on via the header pencil, which arms the
+    // highlighter and opens the drawer (from `lg` up it reserves page space
+    // rather than overlaying, so selecting text in main is unaffected).
     await expect(page.locator('[data-test="ann-drawer"]')).toBeVisible()
 
     // Keyboard-create path: select the first substantial text node in main,
